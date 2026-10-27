@@ -286,9 +286,10 @@
           </div>
 
           <div class="upcoming-hero-actions-container">
-            <button type="button" class="upcoming-primary-checkin-btn" onclick="openBookingCheckinQr()" aria-label="Show check-in QR code">
+            <!-- (2026-07-13) Button renamed to Show QR; was Check-in QR & Pass -->
+            <button type="button" class="upcoming-primary-checkin-btn" onclick="openBookingCheckinQr()" aria-label="Show QR receipt and pass">
               <i data-lucide="qr-code" class="w-4 h-4"></i>
-              <span>Check-in QR & Pass</span>
+              <span>Show QR</span>
             </button>
             <div class="upcoming-secondary-actions-grid">
               <button type="button" class="upcoming-sub-action-btn" onclick="openVenueDirections('${upcomingBooking.venueId}')" aria-label="Directions to venue">
@@ -671,9 +672,10 @@
               <span class="next-avail-tag"><i data-lucide="clock"></i> Next: ${meta.nextAvailable}</span>
               <span class="court-features-text">${c.features}</span>
             </div>
-            <div class="court-rate-row">
-              <div class="court-price-box">
-                <small class="court-price-label">Starting at</small>
+            <!-- (2026-07-13) Price sitting above Book Now button; was side-by-side -->
+            <div class="court-pricing-action-block">
+              <div class="court-pricing-stacked">
+                <span class="court-price-label">STARTING AT</span>
                 <b class="court-price-val">${c.rate}</b>
               </div>
               <button type="button" class="court-book-btn" onclick="focusVenueCourt('${c.owner}', ${c.court})">

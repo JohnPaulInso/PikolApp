@@ -1488,25 +1488,100 @@
   </div>
 </div>
 
-<!-- QR Check-in Modal -->
+<!-- (2026-07-13) Payment receipt modal with QR; was basic QR checkin -->
 <div class="modal-backdrop" id="bookingQrCheckinModal" onclick="if(event.target===this)closeBookingCheckinQr()">
-  <div class="modal max-w-sm">
-    <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-      <b class="text-sm font-extrabold text-slate-800">Front Desk Check-in</b>
-      <button type="button" class="w-8 h-8 rounded-full bg-slate-100 text-slate-600 grid place-items-center" onclick="closeBookingCheckinQr()">
+  <div class="modal max-w-sm payment-receipt-modal">
+    <div class="flex items-center justify-between pb-2.5 border-b border-slate-100">
+      <div class="flex items-center gap-2">
+        <i data-lucide="receipt" class="w-4 h-4 text-emerald-800"></i>
+        <b class="text-sm font-black text-slate-800">Payment Receipt & Pass</b>
+      </div>
+      <button type="button" class="w-8 h-8 rounded-full bg-slate-100 text-slate-600 grid place-items-center" onclick="closeBookingCheckinQr()" aria-label="Close receipt">
         <i data-lucide="x" class="w-4 h-4"></i>
       </button>
     </div>
-    <div class="qr-checkin-body">
-      <div class="qr-checkin-frame">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&format=png&data=PIKOL-CHECKIN-BK-8902-KAPENARRA" alt="Checkin QR code" class="qr-code-img">
+    
+    <div class="receipt-scrollable-body">
+      <!-- Status & Amount -->
+      <div class="receipt-status-section">
+        <div class="receipt-paid-pill">
+          <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+          <span>PAYMENT SUCCESSFUL</span>
+        </div>
+        <div class="receipt-amount-display">
+          <span class="currency-symbol">₱</span>350<span class="cents-text">.00</span>
+        </div>
+        <span class="receipt-channel-tag">Paid via GCash e-Wallet</span>
       </div>
-      <div class="qr-booking-meta">
-        <b>Kapenarra Courtside · Court 1</b>
-        <span>Today, Oct 27 · 4:00 PM – 5:00 PM</span>
-        <small>PASSCODE: BK-8902 · VERIFIED</small>
+
+      <!-- Transaction Meta -->
+      <div class="receipt-meta-grid">
+        <div class="receipt-meta-row">
+          <span class="receipt-meta-label">Transaction Ref</span>
+          <b class="receipt-meta-val font-mono">TXN-8902-GCASH</b>
+        </div>
+        <div class="receipt-meta-row">
+          <span class="receipt-meta-label">Date & Time</span>
+          <b class="receipt-meta-val">Oct 27, 2026 · 1:42 PM</b>
+        </div>
+        <div class="receipt-meta-row">
+          <span class="receipt-meta-label">Venue</span>
+          <b class="receipt-meta-val">Kapenarra Courtside</b>
+        </div>
+        <div class="receipt-meta-row">
+          <span class="receipt-meta-label">Court Reserved</span>
+          <b class="receipt-meta-val">Court 1 (Indoor)</b>
+        </div>
+        <div class="receipt-meta-row">
+          <span class="receipt-meta-label">Playing Slot</span>
+          <b class="receipt-meta-val text-emerald-800">Today · 4:00 PM – 5:00 PM</b>
+        </div>
+        <div class="receipt-meta-row">
+          <span class="receipt-meta-label">Booked By</span>
+          <b class="receipt-meta-val">Alex Rivera</b>
+        </div>
       </div>
-      <p class="text-[11px] text-slate-500">Hold your screen near the courtside scanner or show to the manager.</p>
+
+      <!-- Perforated Line -->
+      <div class="receipt-perforated-divider">
+        <span class="notch notch-left"></span>
+        <div class="dash-line"></div>
+        <span class="notch notch-right"></span>
+      </div>
+
+      <!-- Itemized Table -->
+      <div class="receipt-breakdown-box">
+        <div class="receipt-item-row">
+          <span>Court Rental (1 hour)</span>
+          <span>₱350.00</span>
+        </div>
+        <div class="receipt-item-row text-slate-500">
+          <span>Platform Convenience Fee</span>
+          <span class="text-emerald-700 font-bold">FREE</span>
+        </div>
+        <div class="receipt-total-row">
+          <b>Total Amount Paid</b>
+          <b class="text-emerald-900">₱350.00</b>
+        </div>
+      </div>
+
+      <!-- QR Check-in Code -->
+      <div class="receipt-qr-section">
+        <div class="receipt-qr-frame">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&format=png&data=PIKOL-TXN-8902-GCASH-KAPENARRA-C1" alt="Passcode QR" class="receipt-qr-img">
+        </div>
+        <div class="receipt-passcode-wrap">
+          <span class="receipt-passcode-label">ENTRY PASSCODE</span>
+          <b class="receipt-passcode-code">BK-8902</b>
+        </div>
+        <p class="receipt-scan-hint">Scan at courtside scanner or show this receipt to the venue manager.</p>
+      </div>
+    </div>
+
+    <div class="pt-2">
+      <button type="button" class="receipt-done-btn" onclick="closeBookingCheckinQr()">
+        Done & Close
+      </button>
     </div>
   </div>
 </div>
@@ -1530,8 +1605,9 @@
         <b class="text-sm text-slate-900 block font-extrabold">Kapenarra Courtside · Court 1</b>
         <span class="text-xs text-slate-600 block mt-0.5">Today, Oct 27 · 4:00 PM – 5:00 PM</span>
         <div class="flex gap-2 mt-3">
+          <!-- (2026-07-13) Rename button to Show QR; was Check-in QR -->
           <button type="button" class="px-3 py-1.5 rounded-lg bg-emerald-700 text-white text-xs font-bold" onclick="closeMyBookingsSheet(); openBookingCheckinQr()">
-            Check-in QR
+            Show QR
           </button>
           <button type="button" class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 text-xs font-bold" onclick="openVenueDirections('kapenarra')">
             Directions
