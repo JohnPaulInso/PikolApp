@@ -1,0 +1,6 @@
+{
+  "appId": "com.pikol.app",
+  "appName": "PIKOL",
+  "webDir": "www",
+  "bundledWebRuntime": false
+}

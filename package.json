@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "scripts": {
     "start": "npx -y live-server --port=5588",
-    "dev": "npx -y live-server --port=5588"
+    "dev": "npx -y live-server --port=5588",
+    "build": "node build.js"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/cli": "^8.5.3",
+    "@capacitor/core": "^8.5.3"
   }
 }

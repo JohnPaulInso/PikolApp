@@ -1,4 +1,4 @@
-# (2026-07-13) Git ignore rules; was untracked repository
+# (2026-07-13) Ignore node_modules, build artifacts & Android SDK; was basic
 .DS_Store
 Thumbs.db
 .vscode/
@@ -6,3 +6,16 @@ Thumbs.db
 scratch/
 *.tmp
 *.bak
+
+# Node & Web build
+node_modules/
+www/
+
+# Android build outputs & local sdk configuration
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/**/.cxx/
+*.apk
+*.aab
