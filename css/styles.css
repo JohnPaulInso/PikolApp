@@ -835,22 +835,28 @@ body.tab-book .page-header-row { display: none !important; }
 .book-quick-chip:active { transform: scale(0.95); }
 .book-quick-chip.active { background: #005204; color: #ffffff; border-color: #005204; box-shadow: 0 3px 8px rgba(0,82,4,0.22); }
 
-/* 4. Upcoming Hero Card */
-.upcoming-hero-card { width: 100%; border-radius: 22px; padding: 18px; color: #ffffff; background-size: cover; background-position: center; box-shadow: 0 12px 32px rgba(6,37,25,0.22); position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 14px; border: 1px solid rgba(255,255,255,0.14); }
-.upcoming-hero-badge-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.upcoming-status-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 900; letter-spacing: 0.08em; padding: 4px 10px; border-radius: 999px; background: rgba(16,185,129,0.24); border: 1px solid rgba(110,231,183,0.4); color: #a7f3d0; text-transform: uppercase; }
-.pulse-live-dot { width: 6px; height: 6px; border-radius: 50%; background: #34d399; box-shadow: 0 0 0 3px rgba(52,211,153,0.3); animation: pulseDot 1.6s infinite; }
-.upcoming-countdown-tag { font-size: 11px; font-weight: 850; color: #bef264; background: rgba(0,0,0,0.32); padding: 3.5px 9px; border-radius: 8px; backdrop-filter: blur(4px); }
-.upcoming-hero-details h2 { font-size: clamp(20px, 4vw, 24px); font-weight: 950; font-family: 'Barlow Semi Condensed', Inter, sans-serif; font-style: italic; letter-spacing: -0.01em; margin: 0 0 3px; color: #ffffff; }
-.upcoming-meta-line { font-size: 12px; color: #d1fae5; font-weight: 600; display: flex; align-items: center; flex-wrap: wrap; margin: 0; }
-.upcoming-meta-line svg { width: 13px; height: 13px; margin-right: 4px; display: inline-block; vertical-align: middle; }
-.upcoming-court-pill { background: rgba(255,255,255,0.18); border-radius: 6px; padding: 1.5px 7px; font-weight: 800; font-size: 10.5px; color: #ffffff; }
-.upcoming-hero-actions { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 8px; }
-.upcoming-action-btn { min-height: 42px; border-radius: 12px; font-size: 11px; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid rgba(255,255,255,0.22); background: rgba(255,255,255,0.12); color: #ffffff; backdrop-filter: blur(8px); cursor: pointer; transition: all 0.14s ease; text-decoration: none; }
-.upcoming-action-btn:active { transform: scale(0.96); background: rgba(255,255,255,0.22); }
-.upcoming-action-btn.primary-checkin { background: #bef264; color: #064e3b; border-color: #bef264; font-weight: 900; box-shadow: 0 3px 10px rgba(190,242,100,0.35); }
-.upcoming-action-btn.primary-checkin:active { background: #a3e635; }
-.upcoming-action-btn svg { width: 14px; height: 14px; }
+// (2026-07-13) Refined upcoming hero card & open play styles; was uneven layout
+.upcoming-hero-card { width: 100%; border-radius: 24px; padding: 18px; color: #ffffff; background-size: cover; background-position: center; box-shadow: 0 16px 36px -6px rgba(6,37,25,0.36); position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 14px; border: 1px solid rgba(190,242,100,0.24); }
+.upcoming-hero-topbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.upcoming-status-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 900; letter-spacing: 0.08em; padding: 4.5px 11px; border-radius: 999px; background: rgba(190,242,100,0.16); border: 1px solid rgba(190,242,100,0.35); color: #bef264; text-transform: uppercase; }
+.pulse-live-dot { width: 6px; height: 6px; border-radius: 50%; background: #34d399; box-shadow: 0 0 0 3px rgba(52,211,153,0.35); animation: pulseDot 1.6s infinite; }
+.upcoming-countdown-tag { font-size: 11px; font-weight: 850; color: #ffffff; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.16); padding: 4px 10px; border-radius: 999px; backdrop-filter: blur(8px); display: inline-flex; align-items: center; gap: 5px; }
+.upcoming-hero-body-row { display: flex; align-items: center; gap: 12px; }
+.upcoming-venue-logo { width: 48px; height: 48px; border-radius: 14px; object-fit: cover; border: 2px solid rgba(255,255,255,0.3); box-shadow: 0 4px 14px rgba(0,0,0,0.35); flex-shrink: 0; background: #ffffff; }
+.upcoming-hero-info { min-width: 0; flex: 1; }
+.upcoming-venue-name { font-size: 21px; font-weight: 950; font-family: 'Barlow Semi Condensed', Inter, sans-serif; font-style: italic; letter-spacing: -0.01em; margin: 0 0 2px; color: #ffffff; line-height: 1.15; }
+.upcoming-location-sub { font-size: 11.5px; color: #a7f3d0; font-weight: 600; margin: 0; display: flex; align-items: center; gap: 4px; }
+.upcoming-schedule-strip { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; background: rgba(0,0,0,0.32); padding: 9px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); font-size: 11px; font-weight: 750; color: #e2e8f0; }
+.upcoming-schedule-item { display: inline-flex; align-items: center; gap: 5px; }
+.upcoming-schedule-item svg { width: 13px; height: 13px; color: #bef264; }
+.upcoming-schedule-court { margin-left: auto; background: #bef264; color: #072419; font-weight: 950; font-size: 10.5px; padding: 2.5px 8.5px; border-radius: 6px; }
+.upcoming-hero-actions-container { display: flex; flex-direction: column; gap: 7px; width: 100%; }
+.upcoming-primary-checkin-btn { width: 100%; min-height: 46px; border-radius: 14px; background: #bef264; color: #072419; font-size: 13px; font-weight: 950; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 14px rgba(190,242,100,0.35); transition: all 0.14s ease; }
+.upcoming-primary-checkin-btn:active { transform: scale(0.98); background: #a3e635; }
+.upcoming-secondary-actions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; width: 100%; }
+.upcoming-sub-action-btn { min-height: 38px; border-radius: 11px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: #ffffff; font-size: 11px; font-weight: 750; display: flex; align-items: center; justify-content: center; gap: 5px; cursor: pointer; backdrop-filter: blur(8px); transition: all 0.14s ease; text-decoration: none; }
+.upcoming-sub-action-btn:active { transform: scale(0.96); background: rgba(255,255,255,0.22); }
+.upcoming-sub-action-btn svg { width: 13px; height: 13px; }
 
 .upcoming-empty-card { width: 100%; border-radius: 20px; padding: 20px; background: #ffffff; border: 1.5px dashed #cbd5e1; display: flex; align-items: center; gap: 14px; box-shadow: 0 4px 14px rgba(15,23,42,0.03); }
 .upcoming-empty-icon { width: 44px; height: 44px; border-radius: 14px; background: #f0fdf4; color: #047857; display: grid; place-items: center; flex-shrink: 0; }
@@ -903,25 +909,31 @@ body.tab-book .page-header-row { display: none !important; }
 .metric-num { font-size: 16px; font-weight: 950; color: #072419; font-family: 'Barlow Semi Condensed', Inter, sans-serif; }
 .metric-label { font-size: 9.5px; font-weight: 650; color: #64748b; }
 
-/* 8. Open Games Near You */
-.open-games-scroller { display: flex; gap: 10px; overflow-x: auto; padding: 2px 0 6px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+/* 8. Open Play Near You */
+.open-games-scroller { display: flex; gap: 12px; overflow-x: auto; padding: 2px 0 8px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
 .open-games-scroller::-webkit-scrollbar { display: none; }
-.open-game-chip-card { flex-shrink: 0; width: 230px; padding: 13px 14px; border-radius: 18px; background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 4px 14px rgba(15,23,42,0.04); display: flex; flex-direction: column; gap: 7px; }
-.open-game-card-top { display: flex; align-items: center; justify-content: space-between; }
-.open-game-level-tag { font-size: 9.5px; font-weight: 850; padding: 2.5px 7px; border-radius: 6px; text-transform: uppercase; }
-.open-game-level-tag.level-advanced { background: #f5f3ff; color: #6d28d9; border: 1px solid #ddd6fe; }
-.open-game-level-tag.level-beginner { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
-.open-game-level-tag.level-intermediate { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
-.open-game-level-tag.level-alllevels { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
-.open-game-spots-badge { font-size: 9.5px; font-weight: 750; color: #475569; }
-.open-game-spots-badge.is-low { color: #b45309; font-weight: 900; }
-.open-game-venue-name { font-size: 13.5px; font-weight: 900; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.open-game-time-line { font-size: 11px; font-weight: 600; color: #64748b; display: flex; align-items: center; gap: 4px; }
-.open-game-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; padding-top: 8px; border-top: 1px solid #f1f5f9; }
-.open-game-price { font-size: 13px; font-weight: 950; color: #005204; }
-.open-game-join-btn { min-height: 32px; padding: 0 11px; border-radius: 9px; background: #005204; color: #ffffff; font-size: 10.5px; font-weight: 850; border: none; cursor: pointer; transition: all 0.12s; }
-.open-game-join-btn:active { transform: scale(0.95); }
-.open-game-join-btn.is-joined { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+.open-play-compact-card { flex-shrink: 0; width: 260px; border-radius: 18px; background: #ffffff; border: 1px solid #e2e8f0; overflow: hidden; box-shadow: 0 4px 16px rgba(15,23,42,0.05); display: flex; flex-direction: column; }
+.open-play-compact-thumb { height: 110px; width: 100%; background-size: cover; background-position: center; position: relative; padding: 9px; display: flex; justify-content: space-between; align-items: flex-start; }
+.open-play-logo-badge { width: 34px; height: 34px; border-radius: 10px; object-fit: cover; border: 2px solid #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.25); background: #ffffff; }
+.open-play-save-btn { width: 30px; height: 30px; border-radius: 50%; background: rgba(15,23,42,0.65); backdrop-filter: blur(4px); border: none; color: #ffffff; display: grid; place-items: center; cursor: pointer; }
+.open-play-save-btn svg { width: 13px; height: 13px; }
+.open-play-tag-pill { position: absolute; bottom: 8px; left: 9px; padding: 3px 8px; border-radius: 6px; background: rgba(6,78,59,0.9); color: #ffffff; font-size: 8.5px; font-weight: 850; letter-spacing: 0.02em; }
+.open-play-compact-body { padding: 11px 13px 13px; display: flex; flex-direction: column; gap: 5px; flex: 1; }
+.open-play-compact-title { font-size: 13px; font-weight: 900; color: #0f172a; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.open-play-compact-loc { font-size: 10px; color: #64748b; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+.open-play-compact-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
+.open-play-time-tag { font-size: 10px; font-weight: 750; color: #047857; background: #ecfdf5; border: 1px solid #a7f3d0; padding: 2px 6.5px; border-radius: 6px; display: inline-flex; align-items: center; gap: 3.5px; }
+.open-play-level-tag { font-size: 9.5px; font-weight: 850; padding: 2px 6.5px; border-radius: 6px; text-transform: uppercase; border: 1px solid transparent; }
+.open-play-level-tag.level-beginner { background: #ecfdf5; color: #047857; border-color: #a7f3d0; }
+.open-play-level-tag.level-intermediate { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; }
+.open-play-level-tag.level-advanced { background: #f5f3ff; color: #6d28d9; border-color: #ddd6fe; }
+.open-play-level-tag.level-alllevels { background: #f0fdf4; color: #15803d; border-color: #bbf7d0; }
+.open-play-compact-footer { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 6px; padding-top: 8px; border-top: 1px solid #f1f5f9; }
+.open-play-compact-price { font-size: 13px; font-weight: 950; color: #064e3b; display: block; }
+.open-play-compact-spots { font-size: 9.5px; font-weight: 600; color: #64748b; display: block; }
+.open-play-compact-join { min-height: 34px; padding: 0 13px; border-radius: 9px; background: #005204; color: #ffffff; font-size: 10.5px; font-weight: 850; border: none; cursor: pointer; transition: all 0.12s; }
+.open-play-compact-join:active { transform: scale(0.95); }
+.open-play-compact-join.is-joined { background: #ecfdf5; color: #047857; border: 1px solid #86efac; }
 
 /* 9. Promos Banner */
 .promos-scroller { display: flex; gap: 10px; overflow-x: auto; padding: 2px 0 6px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
@@ -937,18 +949,22 @@ body.tab-book .page-header-row { display: none !important; }
 .promo-copy-btn:active { transform: scale(0.95); }
 .loyalty-points-badge { font-size: 11px; font-weight: 900; color: #854d0e; background: #fef08a; padding: 3px 9px; border-radius: 8px; border: 1px solid #facc15; }
 
+// (2026-07-13) Support favorite court card styling; was venue-only chip
 /* 10. Favorites */
 .favorites-scroller { display: flex; gap: 10px; overflow-x: auto; padding: 2px 0 6px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
 .favorites-scroller::-webkit-scrollbar { display: none; }
-.favorite-venue-chip { flex-shrink: 0; width: 170px; border-radius: 16px; background: #ffffff; border: 1px solid #e2e8f0; overflow: hidden; box-shadow: 0 3px 12px rgba(15,23,42,0.04); cursor: pointer; transition: all 0.15s ease; }
-.favorite-venue-chip:active { transform: scale(0.97); }
-.favorite-thumb { height: 86px; background-size: cover; background-position: center; position: relative; padding: 6px; }
+.favorite-venue-chip, .favorite-court-chip { flex-shrink: 0; width: 180px; border-radius: 18px; background: #ffffff; border: 1px solid #e2e8f0; overflow: hidden; box-shadow: 0 4px 14px rgba(15,23,42,0.05); cursor: pointer; transition: all 0.15s ease; display: flex; flex-direction: column; }
+.favorite-venue-chip:active, .favorite-court-chip:active { transform: scale(0.97); }
+.favorite-thumb, .favorite-court-thumb { height: 92px; background-size: cover; background-position: center; position: relative; padding: 8px; display: flex; justify-content: space-between; align-items: flex-start; }
 .fav-heart-btn { width: 30px; height: 30px; border-radius: 50%; background: rgba(15,23,42,0.65); backdrop-filter: blur(4px); border: none; display: grid; place-items: center; cursor: pointer; position: absolute; top: 6px; right: 6px; }
 .fav-heart-btn svg { width: 14px; height: 14px; }
-.favorite-info { padding: 9px 10px 11px; display: flex; flex-direction: column; gap: 3px; }
-.favorite-name { font-size: 12px; font-weight: 850; color: #0f172a; }
-.favorite-meta { font-size: 10px; color: #64748b; font-weight: 650; }
-.favorite-rebook-cta { margin-top: 5px; width: 100%; min-height: 28px; border-radius: 8px; background: #f0fdf4; color: #005204; border: 1px solid #bbf7d0; font-size: 10px; font-weight: 850; cursor: pointer; }
+.favorite-court-logo { width: 28px; height: 28px; border-radius: 8px; object-fit: cover; border: 1.5px solid #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.25); background: #ffffff; }
+.favorite-info, .favorite-court-info { padding: 10px 11px 12px; display: flex; flex-direction: column; gap: 3px; flex: 1; }
+.favorite-name, .favorite-court-name { font-size: 12.5px; font-weight: 900; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.favorite-meta, .favorite-court-meta { font-size: 10px; color: #64748b; font-weight: 650; }
+.favorite-court-price { font-size: 11px; font-weight: 850; color: #064e3b; }
+.favorite-rebook-cta, .favorite-court-rebook-btn { margin-top: 6px; width: 100%; min-height: 32px; border-radius: 9px; background: #005204; color: #ffffff; font-size: 10.5px; font-weight: 850; cursor: pointer; border: none; display: inline-flex; align-items: center; justify-content: center; gap: 4px; box-shadow: 0 2px 6px rgba(0,82,4,0.18); transition: transform 0.12s; }
+.favorite-rebook-cta:active, .favorite-court-rebook-btn:active { transform: scale(0.95); }
 
 /* 11. Upgraded Venues Near You */
 .venue-controls-wrap { display: flex; align-items: center; gap: 7px; }

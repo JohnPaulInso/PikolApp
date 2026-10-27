@@ -12,6 +12,23 @@
     }
   })());
 
+  const defaultFavoriteCourts = [
+    { ownerId: 'kapenarra', court: 1, name: 'Kapenarra Courtside', location: 'Kapenarra · Bogo City', price: 650, logo: 'venues/kapenarra%20logo.jpg', image: 'venues/kapenarra.jpg' },
+    { ownerId: 'servicebox', court: 2, name: 'Service Box Courts', location: 'Service Box · Bogo City', price: 600, logo: 'venues/service-box-logo.jpg', image: 'venues/service-box.jpg' }
+  ];
+  let favoriteCourts = (() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('pikol_favorite_courts'));
+      return Array.isArray(saved) && saved.length > 0 ? saved : defaultFavoriteCourts;
+    } catch (_) {
+      return defaultFavoriteCourts;
+    }
+  })();
+
+  function isCourtFavorited(ownerId, courtNum) {
+    return favoriteCourts.some(fc => fc.ownerId === ownerId && Number(fc.court) === Number(courtNum));
+  }
+
   let activeRadius = 40;
   let activeLocationName = 'Bogo City';
   let isLocationEnabled = true;
@@ -236,37 +253,54 @@
     if (upcomingBooking) {
       const v = (typeof venueById === 'function') ? venueById(upcomingBooking.venueId) : null;
       const venueImg = v?.image || 'venues/kapenarra.jpg';
+      const venueLogo = v?.logo || 'venues/kapenarra%20logo.jpg';
       container.innerHTML = `
-        <div class="upcoming-hero-card" style="background-image:linear-gradient(135deg, rgba(6,37,25,0.94) 0%, rgba(15,61,30,0.88) 100%), url('${venueImg}')">
-          <div class="upcoming-hero-badge-row">
+        <div class="upcoming-hero-card" style="background-image:linear-gradient(145deg, rgba(5,35,22,0.92) 0%, rgba(10,50,30,0.88) 55%, rgba(2,20,12,0.96) 100%), url('${venueImg}')">
+          <div class="upcoming-hero-topbar">
             <span class="upcoming-status-badge">
               <span class="pulse-live-dot"></span> UPCOMING BOOKING
             </span>
-            <span class="upcoming-countdown-tag">${upcomingBooking.startsIn}</span>
+            <span class="upcoming-countdown-tag"><i data-lucide="clock" class="w-3 h-3 inline"></i> ${upcomingBooking.startsIn}</span>
           </div>
-          <div class="upcoming-hero-details">
-            <h2 class="upcoming-venue-name">${upcomingBooking.venueName}</h2>
-            <p class="upcoming-meta-line">
-              <i data-lucide="calendar"></i> ${upcomingBooking.dateLabel}
-              <span class="mx-1.5">·</span>
-              <i data-lucide="clock"></i> ${upcomingBooking.timeLabel}
-              <span class="mx-1.5">·</span>
-              <span class="upcoming-court-pill">${upcomingBooking.courtName}</span>
-            </p>
+
+          <div class="upcoming-hero-body-row">
+            <img src="${venueLogo}" alt="${upcomingBooking.venueName} logo" class="upcoming-venue-logo">
+            <div class="upcoming-hero-info">
+              <h2 class="upcoming-venue-name">${upcomingBooking.venueName}</h2>
+              <p class="upcoming-location-sub"><i data-lucide="map-pin" class="w-3 h-3 text-emerald-400"></i> ${upcomingBooking.location || 'Kapenarra · Bogo City'}</p>
+            </div>
           </div>
-          <div class="upcoming-hero-actions">
-            <button type="button" class="upcoming-action-btn primary-checkin" onclick="openBookingCheckinQr()" aria-label="Show check-in QR code">
-              <i data-lucide="qr-code"></i> Check-in QR
+
+          <div class="upcoming-schedule-strip">
+            <div class="upcoming-schedule-item">
+              <i data-lucide="calendar"></i>
+              <span>${upcomingBooking.dateLabel}</span>
+            </div>
+            <div class="upcoming-schedule-item">
+              <i data-lucide="clock"></i>
+              <span>${upcomingBooking.timeLabel}</span>
+            </div>
+            <div class="upcoming-schedule-court">
+              ${upcomingBooking.courtName}
+            </div>
+          </div>
+
+          <div class="upcoming-hero-actions-container">
+            <button type="button" class="upcoming-primary-checkin-btn" onclick="openBookingCheckinQr()" aria-label="Show check-in QR code">
+              <i data-lucide="qr-code" class="w-4 h-4"></i>
+              <span>Check-in QR & Pass</span>
             </button>
-            <button type="button" class="upcoming-action-btn" onclick="openVenueDirections('${upcomingBooking.venueId}')" aria-label="Directions to venue">
-              <i data-lucide="navigation"></i> Directions
-            </button>
-            <button type="button" class="upcoming-action-btn" onclick="rescheduleUpcomingBooking()" aria-label="Reschedule booking">
-              <i data-lucide="calendar-sync"></i> Reschedule
-            </button>
-            <button type="button" class="upcoming-action-btn" onclick="shareBookingInvite()" aria-label="Share or invite players">
-              <i data-lucide="share-2"></i> Invite
-            </button>
+            <div class="upcoming-secondary-actions-grid">
+              <button type="button" class="upcoming-sub-action-btn" onclick="openVenueDirections('${upcomingBooking.venueId}')" aria-label="Directions to venue">
+                <i data-lucide="navigation"></i> <span>Directions</span>
+              </button>
+              <button type="button" class="upcoming-sub-action-btn" onclick="rescheduleUpcomingBooking()" aria-label="Reschedule booking">
+                <i data-lucide="calendar-sync"></i> <span>Reschedule</span>
+              </button>
+              <button type="button" class="upcoming-sub-action-btn" onclick="shareBookingInvite()" aria-label="Share or invite players">
+                <i data-lucide="share-2"></i> <span>Invite</span>
+              </button>
+            </div>
           </div>
         </div>
       `;
@@ -328,31 +362,12 @@
     if (window.icons) icons();
   }
 
-  // Render Section 6: Today's Availability / Book Tonight
+  // Render Section 6: Today's Availability / Book Tonight (Hidden per request)
   function renderTodayAvailability() {
     const container = document.getElementById('bookTodayAvailabilitySection');
     if (!container) return;
-    container.innerHTML = `
-      <div class="book-section-header">
-        <div>
-          <span class="book-section-kicker">COURT TIME READY</span>
-          <h3 class="book-section-title">Today's Availability</h3>
-        </div>
-        <span class="book-peak-pricing-pill">
-          <i data-lucide="tag"></i> Off-peak ₱250 · Peak ₱350
-        </span>
-      </div>
-      <div class="today-slots-scroller" role="region" aria-label="Today court availability hours">
-        ${todayAvailabilityHours.map(s => `
-          <button type="button" class="today-slot-chip ${s.urgent ? 'is-urgent' : ''}" onclick="quickSelectHourSlot('${s.hour}')" aria-label="${s.hour}, ${s.courtsLeft} courts left">
-            <b class="today-slot-hour">${s.hour}</b>
-            <span class="today-slot-count">${s.courtsLeft} court${s.courtsLeft === 1 ? '' : 's'} left</span>
-            ${s.urgent ? '<span class="today-slot-urgency">⚡ Only 1 left!</span>' : `<span class="today-slot-rate">${s.offPeak ? 'Off-peak' : 'Peak'}</span>`}
-          </button>
-        `).join('')}
-      </div>
-    `;
-    if (window.icons) icons();
+    container.style.display = 'none';
+    container.innerHTML = '';
   }
 
   // Render Section 7: Your Stats Strip
@@ -395,40 +410,56 @@
     `;
   }
 
-  // Render Section 8: Open Games Near You
+  // Render Section 8: Open Play Near You
   function renderOpenGamesCarousel() {
     const container = document.getElementById('bookOpenGamesSection');
     if (!container) return;
-    const events = (typeof openPlayEvents !== 'undefined' && Array.isArray(openPlayEvents)) ? openPlayEvents.slice(0, 4) : [];
+    const events = (typeof openPlayEvents !== 'undefined' && Array.isArray(openPlayEvents)) ? openPlayEvents.slice(0, 5) : [];
     container.innerHTML = `
       <div class="book-section-header">
         <div>
-          <span class="book-section-kicker">NEED PLAYERS</span>
-          <h3 class="book-section-title">Open Games Near You</h3>
+          <span class="book-section-kicker">COMMUNITY SESSIONS</span>
+          <h3 class="book-section-title">Open Play Near You</h3>
         </div>
         <button type="button" class="book-see-all-btn" onclick="navigateToTab('feed')">
           See all <i data-lucide="arrow-right"></i>
         </button>
       </div>
-      <div class="open-games-scroller" role="region" aria-label="Open pickleball games">
-        ${events.map(ev => {
+      <div class="open-games-scroller" role="region" aria-label="Open pickleball play">
+        ${events.map((ev, idx) => {
+          const owner = (typeof venueById === 'function') ? venueById(ev.owner || 'kapenarra') : { name: ev.venue, logo: 'venues/kapenarra%20logo.jpg', image: 'venues/kapenarra.jpg' };
+          const courtImg = owner?.image || 'venues/kapenarra.jpg';
+          const courtLogo = owner?.logo || 'venues/kapenarra%20logo.jpg';
+          const courtNumber = (idx % (owner?.courts || 2)) + 1;
           const joined = (typeof joinedOpenPlays !== 'undefined') && joinedOpenPlays.has(ev.id);
           const spotsLeft = ev.spots - (joined ? 1 : 0);
           return `
-            <article class="open-game-chip-card">
-              <div class="open-game-card-top">
-                <span class="open-game-level-tag level-${ev.level.toLowerCase().replace(/[^a-z]/g, '')}">${ev.level}</span>
-                <span class="open-game-spots-badge ${spotsLeft <= 1 ? 'is-low' : ''}">${spotsLeft} / ${ev.total} spots left</span>
-              </div>
-              <b class="open-game-venue-name">${ev.venue}</b>
-              <div class="open-game-time-line">
-                <i data-lucide="clock" class="w-3.5 h-3.5 text-emerald-700"></i> ${ev.time}
-              </div>
-              <div class="open-game-footer">
-                <span class="open-game-price">${ev.price}</span>
-                <button type="button" class="open-game-join-btn ${joined ? 'is-joined' : ''}" onclick="toggleJoinDashboardGame('${ev.id}')">
-                  ${joined ? 'Joined ✓' : 'Join Game'}
+            <article class="open-play-compact-card">
+              <div class="open-play-compact-thumb" style="background-image:linear-gradient(180deg,transparent 35%,rgba(2,24,16,.85)),url('${courtImg}')">
+                <img src="${courtLogo}" alt="${owner.name} logo" class="open-play-logo-badge">
+                <button type="button" class="open-play-save-btn" aria-label="Save session" onclick="event.stopPropagation(); toggleSaveOpenPlay('${ev.id}', this)">
+                  <i data-lucide="bookmark"></i>
                 </button>
+                <span class="open-play-tag-pill">${ev.type || 'Open play'}</span>
+              </div>
+              <div class="open-play-compact-body">
+                <b class="open-play-compact-title">${ev.venue}</b>
+                <span class="open-play-compact-loc">
+                  <i data-lucide="map-pin" class="w-3 h-3 text-emerald-600"></i> ${ev.location} · Court ${courtNumber}
+                </span>
+                <div class="open-play-compact-meta">
+                  <span class="open-play-time-tag"><i data-lucide="clock-3" class="w-3 h-3"></i> ${ev.time}</span>
+                  <span class="open-play-level-tag level-${ev.level.toLowerCase().replace(/[^a-z]/g, '')}">${ev.level}</span>
+                </div>
+                <div class="open-play-compact-footer">
+                  <div>
+                    <b class="open-play-compact-price">${ev.price}</b>
+                    <small class="open-play-compact-spots">${spotsLeft} spots left · ${ev.total} max</small>
+                  </div>
+                  <button type="button" class="open-play-compact-join ${joined ? 'is-joined' : ''}" onclick="toggleJoinDashboardGame('${ev.id}')">
+                    ${joined ? 'Joined ✓' : 'Join play'}
+                  </button>
+                </div>
               </div>
             </article>
           `;
@@ -473,12 +504,12 @@
     if (window.icons) icons();
   }
 
-  // Render Section 10: Favorites / Recently Booked Venues
+  // Render Section 10: Favorites / Recently Booked Courts
   function renderFavoritesSection() {
     const container = document.getElementById('bookFavoritesSection');
     if (!container) return;
-    const favList = Array.from(favoriteVenues);
-    if (!favList.length) {
+    const courtList = favoriteCourts;
+    if (!courtList.length) {
       container.style.display = 'none';
       return;
     }
@@ -486,27 +517,31 @@
     container.innerHTML = `
       <div class="book-section-header">
         <div>
-          <span class="book-section-kicker">FAVORITE COURTS</span>
-          <h3 class="book-section-title">Book Again</h3>
+          <span class="book-section-kicker">SAVED COURTS</span>
+          <h3 class="book-section-title">Favorite Courts · Book Again</h3>
         </div>
       </div>
       <div class="favorites-scroller" role="region" aria-label="Favorite courts">
-        ${favList.map(ownerId => {
-          const v = (typeof venueById === 'function') ? venueById(ownerId) : null;
-          if (!v) return '';
-          const meta = venueDistancesAndRatings[ownerId] || { distKm: 2.0, rating: 4.8 };
+        ${courtList.map(fc => {
+          const v = (typeof venueById === 'function') ? venueById(fc.ownerId) : null;
+          const venueImg = fc.image || v?.image || 'venues/kapenarra.jpg';
+          const venueLogo = fc.logo || v?.logo || 'venues/kapenarra%20logo.jpg';
           return `
-            <div class="favorite-venue-chip" onclick="focusVenueCourt('${v.id}', 1)" role="button" tabindex="0">
-              <div class="favorite-thumb" style="background-image:url('${v.image}')">
-                <button type="button" class="fav-heart-btn is-favorited" onclick="event.stopPropagation(); toggleFavoriteVenue('${v.id}')" aria-label="Remove from favorites">
+            <div class="favorite-court-chip" onclick="openVenueBooking('${fc.ownerId}', ${fc.court})" role="button" tabindex="0">
+              <div class="favorite-court-thumb" style="background-image:linear-gradient(180deg,transparent 30%,rgba(6,37,25,0.7)),url('${venueImg}')">
+                <img src="${venueLogo}" alt="${fc.name} logo" class="favorite-court-logo">
+                <button type="button" class="fav-heart-btn is-favorited" onclick="event.stopPropagation(); toggleFavoriteCourt('${fc.ownerId}', ${fc.court})" aria-label="Remove from favorite courts">
                   <i data-lucide="heart" class="fill-rose-500 text-rose-500"></i>
                 </button>
               </div>
-              <div class="favorite-info">
-                <b class="favorite-name truncate">${v.name}</b>
-                <span class="favorite-meta">★ ${meta.rating} · ${meta.distKm}km</span>
-                <button type="button" class="favorite-rebook-cta" onclick="event.stopPropagation(); focusVenueCourt('${v.id}', 1)">
-                  Reserve Court
+              <div class="favorite-court-info">
+                <b class="favorite-court-name truncate">${fc.name} · Court ${fc.court}</b>
+                <div class="favorite-court-meta">
+                  <span>${fc.location}</span>
+                  <span class="favorite-court-price">₱${fc.price}/hr</span>
+                </div>
+                <button type="button" class="favorite-court-rebook-btn" onclick="event.stopPropagation(); openVenueBooking('${fc.ownerId}', ${fc.court})">
+                  <i data-lucide="repeat"></i> Book Again
                 </button>
               </div>
             </div>
@@ -604,7 +639,7 @@
       const owner = (typeof venueById === 'function') ? venueById(c.owner) : null;
       if (!owner) return '';
       const meta = venueDistancesAndRatings[c.owner] || { distKm: 2.1, rating: 4.8, reviews: 32, openNow: true, nextAvailable: '4:00 PM', priceVal: 300 };
-      const isFav = favoriteVenues.has(c.owner);
+      const isFav = isCourtFavorited(c.owner, c.court) || favoriteVenues.has(c.owner);
 
       return `
         <article class="court-card venue-listing upgraded-court-card" onclick="focusVenueCourt('${c.owner}', ${c.court})" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ')focusVenueCourt('${c.owner}', ${c.court})">
@@ -616,7 +651,7 @@
                 <span class="open-status-dot"></span> ${meta.openNow ? 'OPEN' : 'CLOSED'}
               </span>
             </div>
-            <button type="button" class="court-fav-btn ${isFav ? 'is-favorited' : ''}" onclick="event.stopPropagation(); toggleFavoriteVenue('${c.owner}')" aria-label="${isFav ? 'Remove from favorites' : 'Add to favorites'}">
+            <button type="button" class="court-fav-btn ${isFav ? 'is-favorited' : ''}" onclick="event.stopPropagation(); toggleFavoriteCourt('${c.owner}', ${c.court})" aria-label="${isFav ? 'Remove from favorites' : 'Add to favorites'}">
               <i data-lucide="heart" class="${isFav ? 'fill-rose-500 text-rose-500' : 'text-white'}"></i>
             </button>
           </div>
@@ -812,6 +847,36 @@
       if (typeof notify === 'function') notify('Saved to favorite courts');
     }
     try {
+      localStorage.setItem('pikol_favorites', JSON.stringify(Array.from(favoriteVenues)));
+    } catch (_) {}
+    renderFavoritesSection();
+    renderUpgradedVenueCatalog();
+  };
+
+  window.toggleFavoriteCourt = function(ownerId, courtNum) {
+    const v = (typeof venueById === 'function') ? venueById(ownerId) : null;
+    const vName = v ? v.name : 'Court';
+    const cNum = Number(courtNum) || 1;
+    const idx = favoriteCourts.findIndex(fc => fc.ownerId === ownerId && Number(fc.court) === cNum);
+    if (idx >= 0) {
+      favoriteCourts.splice(idx, 1);
+      favoriteVenues.delete(ownerId);
+      if (typeof notify === 'function') notify(`Removed ${vName} Court ${cNum} from favorites`);
+    } else {
+      favoriteCourts.push({
+        ownerId: ownerId,
+        court: cNum,
+        name: vName,
+        location: v?.location || 'Bogo City',
+        price: cNum % 2 ? 650 : 750,
+        logo: v?.logo || 'venues/kapenarra%20logo.jpg',
+        image: v?.image || 'venues/kapenarra.jpg'
+      });
+      favoriteVenues.add(ownerId);
+      if (typeof notify === 'function') notify(`Favorited ${vName} Court ${cNum} ❤️`);
+    }
+    try {
+      localStorage.setItem('pikol_favorite_courts', JSON.stringify(favoriteCourts));
       localStorage.setItem('pikol_favorites', JSON.stringify(Array.from(favoriteVenues)));
     } catch (_) {}
     renderFavoritesSection();
