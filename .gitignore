@@ -1,0 +1,8 @@
+# (2026-07-13) Git ignore rules; was untracked repository
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+scratch/
+*.tmp
+*.bak

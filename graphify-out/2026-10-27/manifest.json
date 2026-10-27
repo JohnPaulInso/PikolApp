@@ -1,0 +1,44 @@
+{
+  ".vscode/settings.json": {
+    "mtime": 1792899195.823028,
+    "seen": 1792902199.0012193,
+    "ast_hash": "76ae3fab2b930716de6afb2be731fd9d",
+    "semantic_hash": "76ae3fab2b930716de6afb2be731fd9d"
+  },
+  "package.json": {
+    "mtime": 1792856553.2631156,
+    "seen": 1792902199.0012245,
+    "ast_hash": "7b6e11182298f66cd2454972b5fe784a",
+    "semantic_hash": "7b6e11182298f66cd2454972b5fe784a"
+  },
+  "index.html": {
+    "mtime": 1792900448.2528348,
+    "seen": 1792902199.0012267,
+    "ast_hash": "0709e1b3670b9e81d95999d73bdc5dae",
+    "semantic_hash": "0709e1b3670b9e81d95999d73bdc5dae"
+  },
+  "skill.md": {
+    "mtime": 1792855382.268542,
+    "seen": 1792902199.0012279,
+    "ast_hash": "f45da529ff4ec73b8ed3d5b670b7c958",
+    "semantic_hash": "f45da529ff4ec73b8ed3d5b670b7c958"
+  },
+  "assets/pikol-brand-banner.png": {
+    "mtime": 1792857222.0055332,
+    "seen": 1792902199.001229,
+    "ast_hash": "f5122a7a4aa8e9d943033b350561375d",
+    "semantic_hash": "f5122a7a4aa8e9d943033b350561375d"
+  },
+  "assets/pikol-logo.png": {
+    "mtime": 1792857179.106691,
+    "seen": 1792902199.0012298,
+    "ast_hash": "c7421c86695db127de59e9af6cbd7e0b",
+    "semantic_hash": "c7421c86695db127de59e9af6cbd7e0b"
+  },
+  "assets/pikol-splash.png": {
+    "mtime": 1792857200.0554254,
+    "seen": 1792902199.001231,
+    "ast_hash": "2c73c4b25938475591b3850e9a40a812",
+    "semantic_hash": "2c73c4b25938475591b3850e9a40a812"
+  }
+}

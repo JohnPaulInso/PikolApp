@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- (2026-07-13) Rebrand to PIKOL & athletic font; was Pikol App -->
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#0B4537"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="default"><link rel="icon" href="assets/pikol-logo.png"><title>PIKOL — Courtside Pickleball</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:ital,wght@1,800;1,900&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script><script src="https://unpkg.com/lucide@latest"></script><script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<!-- (2026-07-13) Set Plus Jakarta Sans in Tailwind; was Inter -->
+<script>window.tailwind=window.tailwind||{};tailwind.config={theme:{extend:{fontFamily:{sans:['"Plus Jakarta Sans"','Inter','ui-sans-serif','system-ui']},colors:{court:'#059669'}},}};</script>
+<!-- (2026-07-13) Modular stylesheet link; was inline style block -->
+<link rel="stylesheet" href="css/styles.css"></head>
+<!-- (2026-07-13) Rebrand login to PIKOL & athletic mark; was Pikol App -->
+<body class="auth-required"><div class="login-screen" id="loginScreen" role="dialog" aria-modal="true" aria-labelledby="loginHeading"><div class="login-layout"><section class="login-visual"><div class="login-visual-shade"></div><div class="login-brand"><span class="login-mark"><img src="assets/pikol-logo.png" alt="PIKOL Logo" class="w-9 h-9 object-cover rounded-xl shadow-md"></span><span><span class="pikol-brand-font text-2xl tracking-wider">PIKOL</span><small class="block text-[10px] font-bold tracking-widest text-emerald-300 not-italic">COURTSIDE PICKLEBALL</small></span></div><div class="login-visual-copy"><span class="login-eyebrow">A BETTER WAY TO PLAY</span><h1>Make every<br>rally count.</h1><p>Find a court, bring your crew, and keep the moments worth sharing.</p><div class="login-pills"><span><i data-lucide="map-pin"></i> Bogo City, Cebu</span><span><i data-lucide="activity"></i> Play · Track · Share</span></div></div><div class="login-visual-foot"><span>COURTSIDE COMMUNITY</span><span>DEMO EXPERIENCE</span></div></section><section class="login-panel"><div class="login-mobile-brand"><span class="login-mark"><img src="assets/pikol-logo.png" alt="PIKOL Logo" class="w-8 h-8 object-cover rounded-xl shadow"></span><span><span class="pikol-brand-font text-xl">PIKOL</span><small class="block text-[10px] font-bold tracking-widest text-emerald-700 not-italic">COURTSIDE PICKLEBALL</small></span></div><div class="login-kicker"><i data-lucide="sparkles"></i> YOUR COURTSIDE HOME</div><h2 id="loginHeading">Welcome back</h2><p class="login-subtitle">Sign in to book courts, score matches, and follow your community.</p><div class="login-role-switch" role="tablist" aria-label="Choose demo account type"><button type="button" id="loginPlayerTab" class="selected" role="tab" aria-selected="true" onclick="setLoginRole('player')"><i data-lucide="user-round"></i> Player</button><button type="button" id="loginAdminTab" role="tab" aria-selected="false" onclick="setLoginRole('admin')"><i data-lucide="shield-check"></i> Admin</button></div><form id="loginForm" onsubmit="handleLogin(event)"><label class="login-field">Email address<div><i data-lucide="mail"></i><input id="loginEmail" type="email" autocomplete="username" required></div></label><label class="login-field">Password<div><i data-lucide="lock-keyhole"></i><input id="loginPassword" type="password" autocomplete="current-password" required><button class="show-password" type="button" onclick="toggleLoginPassword()" aria-label="Show or hide password"><i data-lucide="eye"></i></button></div></label><div class="login-message" id="loginMessage" aria-live="polite"></div><button class="login-submit" type="submit"><span id="loginButtonText">Sign in as player</span><i data-lucide="arrow-right"></i></button></form><div class="login-divider"><span>OR TRY A SAMPLE ACCOUNT</span></div><!-- (2026-07-13) Multi-venue demo login selection; was single admin card -->
+<div class="demo-login-cards">
+  <button type="button" onclick="quickDemoLogin('player')"><span class="demo-login-icon player"><i data-lucide="user-round"></i></span><span><b>Player demo</b><small>alex@demo.com · play123</small></span><i data-lucide="chevron-right"></i></button>
+</div>
+<div class="mt-3">
+  <div class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-800 mb-1 flex items-center gap-1.5"><i data-lucide="building-2" class="w-3.5 h-3.5"></i> SELECT VENUE OWNER ACCOUNT</div>
+  <div class="login-venues-grid">
+    <button type="button" class="login-venue-card" onclick="quickDemoLogin('kapenarra')">
+      <img src="venues/kapenarra.jpg" alt="Kapenarra">
+      <div><b>Kapenarra Courtside</b><small>4 Courts · kapenarra@demo.com</small></div>
+    </button>
+    <button type="button" class="login-venue-card" onclick="quickDemoLogin('aminova')">
+      <img src="venues/aminova-logo.jpg" alt="Aminova">
+      <div><b>Aminova Pickle Club</b><small>4 Courts · aminova@demo.com</small></div>
+    </button>
+    <button type="button" class="login-venue-card" onclick="quickDemoLogin('laguerta')">
+      <img src="venues/la-guerta-logo.jpg" alt="La Guerta">
+      <div><b>La Guerta Sports Hub</b><small>3 Courts · laguerta@demo.com</small></div>
+    </button>
+    <button type="button" class="login-venue-card" onclick="quickDemoLogin('lima')">
+      <img src="venues/lima-logo.jpg" alt="Lima">
+      <div><b>Lima Badminton & Pickle</b><small>4 Courts · lima@demo.com</small></div>
+    </button>
+    <button type="button" class="login-venue-card" onclick="quickDemoLogin('servicebox')">
+      <img src="venues/servicebox-logo.jpg" alt="Service Box">
+      <div><b>Service Box Hub</b><small>3 Courts · servicebox@demo.com</small></div>
+    </button>
+    <button type="button" class="login-venue-card" onclick="quickDemoLogin('tambayanan')">
+      <img src="venues/tambayanan-logo.jpg" alt="Tambayanan">
+      <div><b>Tambayanan Court</b><small>2 Courts · tambayanan@demo.com</small></div>
+    </button>
+  </div>
+</div>
+<div class="demo-credentials mt-3"><i data-lucide="info"></i><span>All venue owner accounts use password: <b>admin123</b></span></div><p class="login-terms">Demo credentials stay on this device. No real account or payment is used.</p></section></div></div>
+<!-- (2026-07-13) Rebrand header & rail to PIKOL; was Pikol App -->
+<header class="safe-top sticky top-0 z-40 bg-white/90 backdrop-blur-xl border-b border-slate-200/80"><div class="max-w-7xl mx-auto h-[68px] px-4 sm:px-6 flex items-center justify-between"><div class="top-brand flex items-center gap-3"><div class="top-brand-mark w-10 h-10 rounded-2xl overflow-hidden grid place-items-center shadow-lg shadow-emerald-900/15"><img src="assets/pikol-logo.png" alt="PIKOL" class="w-full h-full object-cover"></div><div><div class="pikol-brand-font text-[22px] leading-5 text-slate-900 top-brand-text">PIKOL</div><small class="text-slate-500 text-xs font-semibold tracking-wider">COURTSIDE <span class="mx-1">·</span> BOGO CITY</small></div></div><div class="desktop-nav flex items-center gap-1" id="desktopTabs"></div><div class="flex items-center gap-2"><button class="standards-btn-link" onclick="showModal('pikolStandardsModal')" aria-label="Open PIKOL Design Standards"><i data-lucide="palette" class="w-3.5 h-3.5"></i><span class="hidden sm:inline">Standards</span></button><button class="w-10 h-10 rounded-xl border border-slate-200 grid place-items-center hover:bg-slate-50" aria-label="Notifications" onclick="notify('You’re all caught up')"><i data-lucide="bell" class="w-4 h-4"></i></button><div class="user-menu-wrap"><button id="userBadge" class="user-badge" type="button" onclick="toggleUserMenu()" aria-label="Open account menu" aria-expanded="false">AR</button><div class="user-popover" id="userPopover"><div class="user-popover-head"><span id="userPopoverAvatar" class="user-popover-avatar">AR</span><div><b id="userDisplayName">Alex Reyes</b><small id="userDisplayRole">PLAYER DEMO</small></div></div><p id="userDisplayEmail">alex@demo.com</p><button onclick="openLoginScreen(currentUser?.role==='admin'?'player':'admin')"><i data-lucide="repeat-2"></i> Switch demo account</button><button onclick="openLeaderboardMarket()"><i data-lucide="shopping-bag"></i> Community Marketplace</button><button class="user-logout" onclick="signOutDemo()"><i data-lucide="log-out"></i> Sign out</button></div></div></div></div></header>
+<aside class="desktop-rail" id="desktopRail" aria-label="Desktop navigation"><div class="rail-brand"><span class="rail-logo"><img src="assets/pikol-logo.png" alt="PIKOL" class="w-full h-full object-cover rounded-xl"></span><div><b class="pikol-brand-font text-xl text-white">PIKOL</b><small>Bogo Pickle Hub</small></div></div><div class="rail-workspace"><span class="rail-workspace-dot"></span><span><b>BOGO CITY</b><small>Sample workspace</small></span><i data-lucide="chevron-down"></i></div><div class="rail-section-label">WORKSPACE</div><nav class="rail-nav" id="desktopRailTabs" aria-label="Main workspace"></nav><button class="rail-link mt-2" onclick="showModal('pikolStandardsModal')"><span class="rail-link-icon"><i data-lucide="palette"></i></span><span>Design Standards</span></button><div class="rail-bottom"><div class="rail-status"><span class="rail-status-dot"></span><span><b>Demo mode</b><small>Sample data only</small></span></div><button class="rail-signout" onclick="signOutDemo()"><i data-lucide="log-out"></i> Sign out</button><small class="rail-version">PIKOL · MOBILE + DESKTOP</small></div></aside>
+<main class="mainpad max-w-7xl mx-auto px-4 sm:px-6 pt-7">
+<!-- (2026-07-13) Venues Near You title & location detect; was Book a court -->
+<section class="mb-4 sm:mb-6 flex flex-row items-center justify-between gap-3 page-header-row"><button class="booking-back-button court-header-back" onclick="closeCourtBooking()" aria-label="Back to courts"><i data-lucide="arrow-left"></i><span>All courts</span></button><div class="min-w-0 flex-1"><div class="flex items-center gap-1.5 text-[11px] sm:text-xs text-slate-500 mb-0.5"><button type="button" class="location-detect-pill" id="locationDetectBtn" onclick="detectUserLocation()" aria-label="Detect location"><i data-lucide="crosshair" class="w-3 h-3 text-emerald-700 shrink-0" id="locationDetectIcon"></i><span class="truncate" id="userLocationText">Bogo City, Cebu · within 40km range</span><span class="location-detect-badge">Detect</span></button></div><h1 class="text-xl sm:text-3xl font-extrabold tracking-tight truncate leading-tight" id="pageTitle">Venues Near You</h1><p class="text-slate-500 text-xs sm:text-sm truncate mt-0.5" id="pageSubtitle">6 local venues · Bogo City</p></div></section>
+<div class="mobile-nav fixed bottom-0 left-0 right-0 z-40 bg-black text-white safe-bottom px-2 pt-2 border-t border-white/10 justify-around" id="mobileTabs"></div>
+<!-- (2026-07-13) Symmetrical book sections & equal spacing; was rogue mt-6 -->
+<!-- (2026-07-13) Add square icon to open play & pasalo; was text-only lead -->
+<!-- (2026-07-13) Court search bar; was catalog heading only -->
+<!-- (2026-07-13) Add carousel bottom navigations; was cards without nav -->
+<section class="view active" id="view-book"><div class="courts-heading"><div><h3>Venues near you</h3><p id="courtCatalogCount">6 local venues · Bogo City</p></div><button onclick="notify('Showing all nearby courts')">See all <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></button></div><div class="court-search-box"><i data-lucide="search" class="court-search-icon"></i><input type="text" id="courtSearchInput" placeholder="Search courts or venues (e.g. Service Box, Aminova, Lighted)..." oninput="filterCourtCatalog(this.value)" autocomplete="off"><button type="button" id="clearCourtSearchBtn" class="court-search-clear" onclick="clearCourtSearch()" aria-label="Clear search" style="display:none"><i data-lucide="x"></i></button></div><div class="court-catalog" id="courtCatalog"></div><div class="book-divider"></div><section class="discovery-shelf" aria-label="Open Play sessions"><div class="discovery-heading"><div class="discovery-heading-lead"><div class="discovery-header-icon openplay-head-icon"><i data-lucide="users-round"></i></div><div><span class="discovery-kicker">PLAY WITH THE COMMUNITY</span><h3>Open Play</h3><p>Drop in, meet players, and get on court.</p></div></div><button onclick="setTab('feed')">All sessions <i data-lucide="arrow-right"></i></button></div><div class="discovery-scroller" id="openPlayCards"></div><div class="carousel-nav-bottom" id="openPlayCarouselNav"><button type="button" class="carousel-nav-btn" onclick="slideCarousel('openPlayCards',-1)" aria-label="Previous Open Play"><i data-lucide="chevron-left"></i></button><div class="carousel-dots" id="openPlayDots"></div><button type="button" class="carousel-nav-btn" onclick="slideCarousel('openPlayCards',1)" aria-label="Next Open Play"><i data-lucide="chevron-right"></i></button></div></section><div class="book-divider"></div><div class="discovery-heading"><div class="discovery-heading-lead"><div class="discovery-header-icon pasalo-head-icon"><i data-lucide="ticket-check"></i></div><div><span class="discovery-kicker pasalo-kicker">COMMUNITY COURT EXCHANGE</span><h3>Pasalo courts</h3><p>Take over a player’s unused court reservation.</p></div></div><div class="pasalo-heading-actions"><button class="pasalo-offer-cta" onclick="openPasaloForm()"><i data-lucide="plus"></i> Offer booking</button><button class="pasalo-offer-cta pasalo-browse-cta" onclick="setTab('feed')">Browse all <i data-lucide="arrow-right"></i></button></div></div><div class="discovery-scroller" id="pasaloCards"></div><div class="carousel-nav-bottom" id="pasaloCarouselNav"><button type="button" class="carousel-nav-btn" onclick="slideCarousel('pasaloCards',-1)" aria-label="Previous Pasalo"><i data-lucide="chevron-left"></i></button><div class="carousel-dots" id="pasaloDots"></div><button type="button" class="carousel-nav-btn" onclick="slideCarousel('pasaloCards',1)" aria-label="Next Pasalo"><i data-lucide="chevron-right"></i></button></div></section>
+<!-- (2026-07-13) Move booking slots to venue view; was on booking page -->
+<section class="view booking-detail-view" id="view-court" aria-label="Court booking details"><div class="booking-detail-shell"><div class="booking-route-top"><button class="booking-back-button" onclick="closeCourtBooking()" aria-label="Back to courts"><i data-lucide="arrow-left"></i><span>All courts</span></button><div class="booking-step-label"><span class="booking-step-dot"></span>COURT RESERVATION</div></div><div class="booking-page-title" id="bookingHeroCard"><div class="booking-hero-content"><div class="booking-hero-top"><img id="bookingPageVenueLogo" class="booking-page-venue-logo" src="venues/aminova-logo.jpg" alt="Venue logo"><div class="booking-hero-head"><span class="booking-page-kicker" id="bookingPageLocation">BOGO CITY · CEBU</span><h2 id="bookingPageVenue">Choose your court time</h2><p id="bookingPageSub">Select open court below</p></div></div><div class="booking-page-court" id="bookingPageCourt"><i data-lucide="map-pin"></i><span id="bookingPageCourtLabel">Court booking</span><span class="booking-open-hours">OPEN · 6 AM–8 AM NEXT DAY</span></div></div></div>
+<!-- (2026-07-13) Add subtle court photo gallery carousel; was title banner only -->
+<!-- (2026-07-13) Add venue community & remove date input; was date picker -->
+<div class="court-gallery-section" id="courtGallerySection"><div class="court-gallery-heading"><div class="court-gallery-heading-left"><i data-lucide="camera"></i><span>COURT PHOTO GALLERY</span></div><span class="court-gallery-count">Tap angle to preview</span></div><div class="court-gallery-strip" id="courtGalleryStrip"></div></div><div id="bookingPageContent" class="booking-page-content"><div class="booking-caption"><span class="booking-caption-dot"></span> Choose a date</div><div class="booking-venue-row" style="display:none"><label for="bookingVenue">Venue</label><select id="bookingVenue" onchange="setBookingVenue(this.value)"></select><span id="bookingCourtCount">6 courts</span></div><div class="date-strip" id="dateStrip" aria-label="Choose a booking date"><button class="date-page" id="datePrev" aria-label="Previous dates" onclick="shiftDates(-1)"><i data-lucide="chevron-left"></i></button><div class="date-visible" id="dateCards"></div><button class="date-page" id="dateNext" aria-label="More dates" onclick="shiftDates(1)"><i data-lucide="chevron-right"></i></button></div><div class="grid lg:grid-cols-[1fr_290px] gap-5" id="bookingWorkspace"><div id="availabilitySection" class="glass rounded-3xl overflow-hidden"><div class="p-4 sm:p-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3"><div><h2 class="font-bold">Available hours</h2><p class="text-xs text-slate-500 mt-1"><span id="scheduleDateLabel">FRI, 23 OCT · TODAY</span> <span class="mx-1">·</span> Local time</p></div><div class="flex gap-3 text-[11px] font-medium text-slate-500"><span class="flex items-center gap-1.5"><b class="w-2.5 h-2.5 rounded bg-white border border-slate-300"></b> Available</span><span class="flex items-center gap-1.5"><b class="w-2.5 h-2.5 rounded" style="background:#005204"></b> Selected</span><span class="flex items-center gap-1.5"><b class="w-2.5 h-2.5 rounded bg-amber-100 border border-amber-300"></b> In review</span></div></div><div class="table-wrap"><div class="grid-courts p-3 sm:p-4"><div id="scheduleHeader" class="schedule-header"></div><div id="schedule" class="space-y-2"></div></div></div><div class="p-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500"><span>One-hour slots · 6:00 AM through next-day 8:00 AM</span><span class="flex items-center gap-1"><i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i> Secure checkout</span></div></div><aside class="space-y-4"><div class="rounded-3xl bg-slate-900 text-white p-5 relative overflow-hidden"><div class="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-emerald-500/20 blur-2xl"></div><div class="relative"><div class="text-xs font-semibold text-emerald-300 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> <span id="bookingTodayHeading">PIKOL APP TODAY</span></div><div class="text-3xl font-extrabold mt-4"><b id="bookingTodayCount">6</b> <span class="text-base font-medium text-slate-400">courts</span></div><p id="bookingTodayDescription" class="text-sm text-slate-300 mt-1">Open play and friendly competition, all day.</p><div class="mt-5 pt-4 border-t border-white/10 flex justify-between text-xs"><span class="text-slate-400">Open hours</span><b id="bookingTodayHours">6:00 AM – next day 8:00 AM</b></div></div></div><div class="glass rounded-3xl p-5"><h3 class="font-bold">Booking notes</h3><div class="mt-4 space-y-4 text-sm"><div class="flex gap-3"><i data-lucide="clock-3" class="w-4 h-4 text-emerald-600 mt-0.5"></i><div><b class="text-slate-800">60-minute sessions</b><p class="text-xs text-slate-500 mt-0.5">Choose consecutive slots for longer play.</p></div></div><div class="flex gap-3"><i data-lucide="wallet" class="w-4 h-4 text-emerald-600 mt-0.5"></i><div><b class="text-slate-800">Split it with friends</b><p class="text-xs text-slate-500 mt-0.5">Add the court fee and split it among your players.</p></div></div><div class="flex gap-3"><i data-lucide="badge-check" class="w-4 h-4 text-emerald-600 mt-0.5"></i><div><b class="text-slate-800">Easy check-in</b><p class="text-xs text-slate-500 mt-0.5">Show your booking at the front desk.</p></div></div></div></div></aside></div><div class="venue-community-shelf mt-6 pt-5 border-t border-slate-100" id="venueCommunitySection"><div class="discovery-heading"><div class="discovery-heading-lead"><div class="discovery-header-icon openplay-head-icon"><i data-lucide="sparkles"></i></div><div><span class="discovery-kicker">VENUE SESSIONS & TRANSFERS</span><h3 id="venueCommunityHeading">Court Community</h3><p id="venueCommunitySub">Open plays & court transfers at this venue.</p></div></div></div><div class="venue-community-cards space-y-4" id="venueCommunityCards"></div></div></div><div class="booking-route-footnote"><i data-lucide="shield-check"></i>Demo booking flow · your selected slots are saved on this device.</div></div></section>
+<section class="view" id="view-feed"><div class="community-composer glass"><div class="composer-avatar">JM</div><button onclick="openCommunityComposer()">Share a match, moment, or invite your crew…</button><button class="composer-plus" aria-label="Create community post" onclick="openCommunityComposer()"><i data-lucide="plus" class="w-4 h-4"></i></button></div><!-- (2026-07-13) Add Pasalo courts to play feed; was open play only -->
+<!-- (2026-07-13) Square icon lead for feed headers; was text only lead -->
+<section class="community-discovery"><div class="community-disc-head"><div class="discovery-heading-lead"><div class="discovery-header-icon openplay-head-icon"><i data-lucide="users-round"></i></div><div><span>FIND YOUR PEOPLE</span><h2>Open Play Sessions</h2></div></div><button class="text-xs font-semibold text-emerald-700 flex items-center gap-1" onclick="openPasaloForm()"><i data-lucide="plus" class="w-3.5 h-3.5"></i> Offer Pasalo</button></div><div id="openPlayCommunity" class="community-openplay-list"></div></section>
+<section class="community-discovery mt-6"><div class="community-disc-head"><div class="discovery-heading-lead"><div class="discovery-header-icon pasalo-head-icon"><i data-lucide="ticket-check"></i></div><div><span>COMMUNITY COURT EXCHANGE</span><h2>Pasalo Courts</h2></div></div><button class="text-xs font-semibold text-emerald-700 flex items-center gap-1" onclick="openPasaloForm()"><i data-lucide="plus" class="w-3.5 h-3.5"></i> Offer booking</button></div><div id="pasaloCommunity" class="community-openplay-list"></div></section><div class="grid lg:grid-cols-[1fr_300px] gap-5"><div class="space-y-4" id="feedCards"></div><aside class="glass rounded-3xl p-5 h-fit"><div class="flex items-center gap-3"><div class="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-700 grid place-items-center"><i data-lucide="activity"></i></div><div><b>Play verified</b><p class="text-xs text-slate-500">Your games, your progress.</p></div></div><div class="grid grid-cols-2 gap-3 mt-5"><div class="rounded-2xl bg-slate-50 p-3"><p class="text-[11px] text-slate-500">Games this month</p><b class="text-xl">12</b></div><div class="rounded-2xl bg-slate-50 p-3"><p class="text-[11px] text-slate-500">Current DUPR</p><b class="text-xl">3.42</b></div></div><button class="w-full mt-4 rounded-xl bg-emerald-600 text-white py-3 text-sm font-bold" onclick="setTab('score')">Log a match</button></aside></div></section>
+<!-- (2026-07-13) Symmetrical un-crammed ref board layout; was cramped layout -->
+<section class="view" id="view-score">
+  <!-- (2026-07-13) Overlay priority inside view-score; was fixed body modal -->
+  <div class="modal-backdrop onboard-ref-overlay" id="gameOnboardingModal" onclick="backdropClose(event,'gameOnboardingModal')">
+    <div class="modal onboard-overlay-modal">
+      <div class="onboard-overlay-head">
+        <div>
+          <span class="onboard-kicker">COURT CUSTOMIZER</span>
+          <h2 class="onboard-title">Game <span id="onboardGameNumber">1</span> Setup</h2>
+          <p class="onboard-sub">Customize court surface, team colors, and player roster.</p>
+        </div>
+        <button class="onboard-close-btn" onclick="closeModal('gameOnboardingModal')" aria-label="Close setup"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+
+      <!-- Live Interactive Sample Court Preview -->
+      <div class="sample-court-card">
+        <div class="sample-court-meta">
+          <span class="sample-court-title"><i data-lucide="palette" class="w-3.5 h-3.5"></i> Live Court Preview</span>
+          <span class="sample-court-badge" id="sampleCourtColorName">Emerald Classic</span>
+        </div>
+        <div class="pickle-court sample-court" id="onboardSampleCourt">
+          <div class="court-side team-side-a">
+            <div class="player-dot p-bea" id="samplePlayerA2">Player 2</div>
+            <div class="player-dot p-ana is-serving" id="samplePlayerA1">Player 1</div>
+          </div>
+          <div class="kitchen-zone"><span>NVZ</span></div>
+          <div class="court-side team-side-b">
+            <div class="player-dot p-carlo" id="samplePlayerB1">Player 3</div>
+            <div class="player-dot p-dan" id="samplePlayerB2">Player 4</div>
+          </div>
+        </div>
+
+        <!-- 5 Subtle Court Colors -->
+        <div class="court-colors-wrap">
+          <div class="court-colors-label">SELECT COURT SURFACE (5 COLOR PALETTE)</div>
+          <div class="court-colors-grid" id="onboardCourtColorsGrid">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Team Rosters & Colors -->
+      <div class="onboard-teams-grid">
+        <!-- Team A -->
+        <div class="onboard-team-card" id="onboardCardA">
+          <div class="onboard-team-head">
+            <span id="onboardHeadA">TEAM 1</span>
+            <div class="flex items-center gap-1.5">
+              <span class="text-[9px] text-slate-400 font-bold">COLOR</span>
+              <input id="onboardColorA" type="color" value="#059669" class="w-5 h-5 rounded border-0 cursor-pointer p-0" onchange="updateOnboardColor('A', this.value)">
+            </div>
+          </div>
+          <div class="onboard-swatches">
+            <button type="button" class="onboard-swatch" style="background:#2563eb" onclick="updateOnboardColor('A','#2563eb')" title="Blue"></button>
+            <button type="button" class="onboard-swatch" style="background:#059669" onclick="updateOnboardColor('A','#059669')" title="Emerald"></button>
+            <button type="button" class="onboard-swatch" style="background:#7c3aed" onclick="updateOnboardColor('A','#7c3aed')" title="Purple"></button>
+            <button type="button" class="onboard-swatch" style="background:#0d9488" onclick="updateOnboardColor('A','#0d9488')" title="Teal"></button>
+          </div>
+          <label class="onboard-field-label">Team name
+            <input id="onboardTeamNameA" class="onboard-text-input" value="Team 1" placeholder="Team 1" oninput="updateSampleCourtPreview()">
+          </label>
+          <div class="onboard-players-row">
+            <label class="onboard-field-label">Player 1
+              <input id="onboardPlayerA1" class="onboard-text-input" value="Player 1" placeholder="Player 1" oninput="updateSampleCourtPreview()">
+            </label>
+            <label class="onboard-field-label">Player 2
+              <input id="onboardPlayerA2" class="onboard-text-input" value="Player 2" placeholder="Player 2" oninput="updateSampleCourtPreview()">
+            </label>
+          </div>
+        </div>
+
+        <!-- Team B -->
+        <div class="onboard-team-card" id="onboardCardB">
+          <div class="onboard-team-head">
+            <span id="onboardHeadB">TEAM 2</span>
+            <div class="flex items-center gap-1.5">
+              <span class="text-[9px] text-slate-400 font-bold">COLOR</span>
+              <input id="onboardColorB" type="color" value="#e11d48" class="w-5 h-5 rounded border-0 cursor-pointer p-0" onchange="updateOnboardColor('B', this.value)">
+            </div>
+          </div>
+          <div class="onboard-swatches">
+            <button type="button" class="onboard-swatch" style="background:#e11d48" onclick="updateOnboardColor('B','#e11d48')" title="Rose"></button>
+            <button type="button" class="onboard-swatch" style="background:#ea580c" onclick="updateOnboardColor('B','#ea580c')" title="Orange"></button>
+            <button type="button" class="onboard-swatch" style="background:#f43f5e" onclick="updateOnboardColor('B','#f43f5e')" title="Crimson"></button>
+            <button type="button" class="onboard-swatch" style="background:#d97706" onclick="updateOnboardColor('B','#d97706')" title="Amber"></button>
+          </div>
+          <label class="onboard-field-label">Team name
+            <input id="onboardTeamNameB" class="onboard-text-input" value="Team 2" placeholder="Team 2" oninput="updateSampleCourtPreview()">
+          </label>
+          <div class="onboard-players-row">
+            <label class="onboard-field-label">Player 3
+              <input id="onboardPlayerB1" class="onboard-text-input" value="Player 3" placeholder="Player 3" oninput="updateSampleCourtPreview()">
+            </label>
+            <label class="onboard-field-label">Player 4
+              <input id="onboardPlayerB2" class="onboard-text-input" value="Player 4" placeholder="Player 4" oninput="updateSampleCourtPreview()">
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Match Config (Target & First Serve) -->
+      <div class="onboard-config-row">
+        <div>
+          <label class="onboard-subhead" for="onboardTargetScore">Target Score</label>
+          <div class="onboard-pill-group">
+            <input id="onboardTargetScore" type="hidden" value="11">
+            <button type="button" class="onboard-preset-pill active" onclick="setOnboardTarget(11)">11 pts</button>
+            <button type="button" class="onboard-preset-pill" onclick="setOnboardTarget(15)">15 pts</button>
+            <button type="button" class="onboard-preset-pill" onclick="setOnboardTarget(21)">21 pts</button>
+          </div>
+        </div>
+        <div>
+          <span class="onboard-subhead">First Serve</span>
+          <div class="onboard-pill-group">
+            <button type="button" id="serveChoiceA" class="onboard-serve-btn active" onclick="setOnboardServeChoice('A')">Team 1</button>
+            <button type="button" id="serveChoiceB" class="onboard-serve-btn" onclick="setOnboardServeChoice('B')">Team 2</button>
+            <button type="button" id="serveChoicePlay" class="onboard-serve-btn" onclick="setOnboardServeChoice('play')">Play</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- (2026-07-13) Add button ID for overlay confirmation; was unlabeled -->
+      <button id="confirmOnboardingBtn" class="onboard-start-btn" onclick="confirmGameOnboarding()">
+        <i data-lucide="play" class="w-4 h-4"></i> <span id="onboardSubmitLabel">Start Scoring Match</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="ref-board rounded-[28px] overflow-hidden text-white" aria-live="polite">
+    <div class="ref-top">
+      <div class="ref-clean-bar">
+        <div class="ref-clean-clock">
+          <i data-lucide="timer"></i>
+          <span id="matchClock">0:00</span>
+          <span class="ref-court-chip" id="refLiveCourt">COURT 2</span>
+        </div>
+        <div class="ref-bar-actions">
+          <button type="button" class="ref-clean-btn" onclick="openGameOnboarding()">
+            <i data-lucide="palette"></i> Customize
+          </button>
+          <button type="button" id="scoreSoundToggle" class="ref-sound-btn" onclick="toggleScoreSound()" title="Toggle scoring audio" aria-pressed="true">
+            <i data-lucide="volume-2"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="ref-clean-games">
+        <span class="ref-game-indicator"><i data-lucide="flag"></i> <span id="gameTitle">GAME 1</span></span>
+        <div class="game-switcher" id="gameSwitcher"></div>
+        <button type="button" class="ref-new-match-btn" onclick="openGameOnboarding(true)">
+          <i data-lucide="plus"></i> New match
+        </button>
+      </div>
+
+      <div class="ref-team-settings">
+        <div class="ref-team-card team-card-a" id="teamCardA">
+          <div class="ref-team-card-top">
+            <div class="ref-team-card-title-wrap">
+              <span class="ref-team-swatch"></span>
+              <b class="ref-team-name-text" id="teamNameLabelA">TEAM 1</b>
+            </div>
+            <span class="ref-role-pill serving" id="teamRoleA">SERVING</span>
+          </div>
+          <div class="ref-team-card-bottom">
+            <span class="ref-so-chip">Server <b id="serveOrderA">1</b></span>
+            <button type="button" class="ref-stack-chip" onclick="toggleStack('A')" id="stackA">Stack</button>
+          </div>
+        </div>
+        <div class="ref-team-card team-card-b" id="teamCardB">
+          <div class="ref-team-card-top">
+            <div class="ref-team-card-title-wrap">
+              <span class="ref-team-swatch"></span>
+              <b class="ref-team-name-text" id="teamNameLabelB">TEAM 2</b>
+            </div>
+            <span class="ref-role-pill receiving" id="teamRoleB">RECEIVING</span>
+          </div>
+          <div class="ref-team-card-bottom">
+            <span class="ref-so-chip">Server <b id="serveOrderB">1</b></span>
+            <button type="button" class="ref-stack-chip" onclick="toggleStack('B')" id="stackB">Stack</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="ref-score-center">
+        <div class="ref-bigscore" aria-label="Score">
+          <span id="scoreA">0</span>
+          <span class="score-sep">–</span>
+          <span id="scoreB">0</span>
+          <span class="score-sep">–</span>
+          <span id="serverNumberScore">2</span>
+        </div>
+        <div class="ref-serving-line">
+          <span class="serve-pulse-dot"></span>
+          <b id="serverTeam">Team 1 serving</b>
+          <span id="serverNumberTextWrap">· Server <b id="serverNumberText">2</b></span>
+        </div>
+        <div>
+          <button type="button" class="edit-score-link" onclick="openScoreEditor()">
+            <i data-lucide="square-pen"></i> Edit score manually
+          </button>
+        </div>
+        <p class="ref-call" id="refCall" hidden>Game 1 ready.</p>
+      </div>
+
+      <div class="rally-buttons">
+        <button type="button" class="ref-team team-a" id="rallyBtnA" onclick="rallyWinner('A')">
+          <span class="rally-action-pill" id="rallyStateA">+1 POINT</span>
+          <b class="rally-team-title" id="rallyTeamNameA">Team 1</b>
+          <small class="rally-subtext" id="teamActionA">Scores point</small>
+        </button>
+        <button type="button" class="ref-team team-b" id="rallyBtnB" onclick="rallyWinner('B')">
+          <span class="rally-action-pill" id="rallyStateB">SIDE OUT</span>
+          <b class="rally-team-title" id="rallyTeamNameB">Team 2</b>
+          <small class="rally-subtext" id="teamActionB">Advances serve</small>
+        </button>
+      </div>
+    </div>
+
+    <div class="ref-lower">
+      <div class="ref-info">
+        <div class="ref-person">
+          <span class="ref-role server-role">SERVER</span>
+          <b id="serverName">Player 1</b>
+          <small id="courtPosition">(Right Court)</small>
+        </div>
+        <div class="ref-person">
+          <span class="ref-role receiver-role">RECEIVER</span>
+          <b id="receiverName">Player 3</b>
+          <small id="receiverPosition">(Right Court)</small>
+        </div>
+      </div>
+
+      <div class="pickle-court" id="pickleCourt" aria-label="Court positions">
+        <div class="court-side team-side-a">
+          <span class="court-label">L</span>
+          <span class="player-dot p-bea" id="playerBea">P2</span>
+          <span class="player-dot p-ana is-serving" id="playerAna">P1</span>
+          <span class="court-label bottom">R</span>
+        </div>
+        <div class="kitchen-zone">
+          <span>NVZ</span>
+        </div>
+        <div class="court-side team-side-b">
+          <span class="court-label right">R</span>
+          <span class="player-dot p-carlo" id="playerCarlo">P3</span>
+          <span class="player-dot p-dan" id="playerDan">P4</span>
+          <span class="court-label bottom right">L</span>
+        </div>
+      </div>
+
+      <div class="court-captions">
+        <b id="courtTeamNameA">Team 1</b>
+        <b id="courtTeamNameB">Team 2</b>
+      </div>
+
+      <div class="ref-undo-redo">
+        <button type="button" class="ref-undo-primary" onclick="undoPoint()">
+          <i data-lucide="undo-2"></i> <span>Undo</span>
+        </button>
+        <button type="button" class="ref-redo-primary" id="redoButton" onclick="redoPoint()" disabled>
+          <i data-lucide="redo-2"></i> <span>Redo</span>
+        </button>
+      </div>
+
+      <div class="ref-simple-actions">
+        <button type="button" onclick="openMatchLog()"><i data-lucide="notebook-pen"></i> Match log</button>
+        <button type="button" onclick="openGameOnboarding()"><i data-lucide="palette"></i> Court &amp; Colors</button>
+      </div>
+      <span hidden><span id="timeoutA"></span><span id="timeoutB"></span><span id="warningCount"></span><span id="undoDescription"></span><span id="redoDescription"></span><span id="voiceLog"></span></span>
+    </div>
+  </div>
+
+  <div class="match-story-actions mt-3">
+    <button type="button" class="match-story-launch match-story-primary big-green-story-btn" onclick="openMatchStory()" aria-label="Share this Game to your Instagram or Facebook Story">
+      <div class="story-social-icons-wrap">
+        <span class="story-social-badge">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+        </span>
+      </div>
+      <div class="story-btn-text">
+        <div class="story-badge-pill">STORY SCORECARD</div>
+        <b class="story-main-heading">Share Game Scorecard</b>
+        <small id="shareGameSubtitle" class="story-sub-text">Share live match result to Instagram &amp; Facebook</small>
+      </div>
+      <span class="story-arrow-circle"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span>
+    </button>
+  </div>
+
+  <!-- (2026-07-13) Match history card layout; was basic glass table -->
+  <div class="match-history-card rounded-3xl p-4 sm:p-5 mt-4" id="matchHistoryCard">
+    <div class="match-history-head">
+      <div class="flex items-center gap-3">
+        <span class="history-head-icon"><i data-lucide="history"></i></span>
+        <div>
+          <div class="history-eyebrow">MATCH TIMELINE</div>
+          <h3 class="history-title">Match History &amp; Log</h3>
+          <p class="history-subtitle">Game <span id="inlineLogGameNo">1</span> · Live rally-by-rally scorecard</p>
+        </div>
+      </div>
+      <div class="history-head-meta">
+        <span class="history-count-badge" id="inlineLogCountBadge"><i class="history-pulse-dot"></i><span id="inlineLogCount">0 rallies</span></span>
+      </div>
+    </div>
+    <div class="match-history-table-wrap">
+      <table class="match-history-table" id="matchHistoryTable">
+        <thead>
+          <tr>
+            <th class="col-num">#</th>
+            <th class="col-score">SCORE</th>
+            <th class="col-event">RALLY WINNER / EVENT</th>
+            <th class="col-server text-right">SERVER</th>
+          </tr>
+        </thead>
+        <tbody id="inlineMatchLogRows">
+          <tr><td colspan="4" class="history-empty-state"><i data-lucide="activity"></i><p>No rallies logged yet in Game 1.<br><small>Tap rally buttons above to score and track match events.</small></p></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+<!-- (2026-07-13) Close view-score before view-split; was unclosed score section -->
+<!-- (2026-07-13) Split layout with green stepper & breakdown progress; was simple -->
+<section class="view" id="view-split">
+  <div class="split-layout">
+    <div class="glass rounded-2xl p-3 sm:p-4 split-main">
+      <div class="split-simple-card">
+        <div class="split-booking-picker">
+          <button type="button" class="split-booking-card-btn" id="splitBookingCardBtn" onclick="toggleSplitOrderMenu()" aria-expanded="false" aria-haspopup="listbox">
+            <div class="split-booking-simple-left">
+              <span class="split-booking-badge" id="splitCardBadge">#K-1042</span>
+              <b class="split-venue-name" id="splitCardVenue">Pikol Pickle Hub · Court 1</b>
+              <span id="splitCardMeta" style="display:none;">Today, 1:00 PM – 3:00 PM</span>
+              <span id="splitCardCourt" style="display:none;">Court 1</span>
+              <span id="splitCardAmount" style="display:none;">₱1,500.00</span>
+            </div>
+            <span class="split-change-action">Change <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i></span>
+          </button>
+          <div class="split-booking-dropdown" id="splitBookingDropdown" role="listbox" hidden></div>
+          <select id="splitOrderSelect" style="display:none;" onchange="selectSplitOrder(this.value)"></select>
+        </div>
+
+        <div class="split-amount-block">
+          <label class="split-field">
+            <div class="split-field-header">
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="wallet" class="split-icon"></i>
+                <span class="split-field-title">Total amount to split</span>
+              </div>
+            </div>
+            <div class="split-big-currency">
+              <span class="split-currency-sign">₱</span>
+              <input id="splitCourtAmount" type="number" min="0" step="1" value="1500" inputmode="decimal" oninput="manualSplitAmountChanged()" aria-label="Total amount to split">
+            </div>
+          </label>
+        </div>
+
+        <div class="split-stepper-block">
+          <div class="split-field-header">
+            <div class="flex items-center gap-1.5">
+              <i data-lucide="users" class="split-icon"></i>
+              <span class="split-field-title">Number of players</span>
+            </div>
+            <span class="split-match-chip" id="splitMatchChip">Doubles Match</span>
+          </div>
+          <div class="split-stepper-box">
+            <button type="button" class="split-stepper-btn" onclick="stepSplitPlayers(-1)" aria-label="Subtract player"><i data-lucide="minus"></i></button>
+            <div class="split-stepper-center">
+              <input id="splitPlayerCount" type="number" min="1" max="40" step="1" value="4" inputmode="numeric" oninput="updateSplitBill()" aria-label="Player count">
+              <span id="splitPlayerCountLabel">PLAYERS</span>
+            </div>
+            <button type="button" class="split-stepper-btn" onclick="stepSplitPlayers(1)" aria-label="Add player"><i data-lucide="plus"></i></button>
+          </div>
+          <div class="split-quick-pills">
+            <button type="button" class="split-pill" onclick="setSplitPlayerCount(2)">2</button>
+            <button type="button" class="split-pill active" onclick="setSplitPlayerCount(4)">4</button>
+            <button type="button" class="split-pill" onclick="setSplitPlayerCount(6)">6</button>
+            <button type="button" class="split-pill" onclick="setSplitPlayerCount(8)">8</button>
+          </div>
+        </div>
+
+        <select id="splitVenue" style="display:none;"></select>
+        <select id="splitCourt" style="display:none;"></select>
+        <div id="splitExpenses" style="display:none;"></div>
+        <div class="split-hidden-members" id="members" hidden></div>
+      </div>
+    </div>
+
+    <!-- (2026-07-13) Digital receipt layout; was nested green border breakdown -->
+    <aside class="split-summary split-receipt-card h-fit">
+      <div class="split-receipt-top">
+        <div class="split-receipt-badge-row">
+          <span class="split-receipt-tag"><i data-lucide="receipt" class="w-3.5 h-3.5"></i> DIGITAL SPLIT RECEIPT</span>
+          <span class="split-receipt-status-pill">Split equal</span>
+        </div>
+        <div class="split-receipt-venue-row">
+          <span class="split-receipt-venue-title" id="splitContext">Pikol Pickle Hub · Court 1 (K-1042)</span>
+          <span class="split-receipt-total-val" id="splitTotalDisplay">₱1,500.00</span>
+        </div>
+      </div>
+
+      <!-- (2026-07-13) Move math to hero right & add dotted btn; was below amount -->
+      <div class="split-receipt-hero">
+        <div>
+          <span class="split-receipt-hero-label">Each player pays</span>
+          <b class="split-receipt-hero-amount" id="splitPerPerson">₱375.00</b>
+        </div>
+        <!-- (2026-07-13) Subtle gray calculator calculation pill; was emerald icon -->
+        <div class="split-receipt-calc-row">
+          <i data-lucide="calculator"></i>
+          <span id="splitShareCaption">₱1,500.00 ÷ 4 players</span>
+        </div>
+      </div>
+
+      <div class="split-receipt-tear">
+        <span class="split-tear-notch left"></span>
+        <span class="split-tear-line"></span>
+        <span class="split-tear-notch right"></span>
+      </div>
+
+      <div class="split-receipt-body">
+        <div class="split-paid-progress-wrap">
+          <div class="split-paid-meta">
+            <span class="split-paid-count-label" id="splitPaidCountLabel">1 of 4 Paid</span>
+            <span class="split-remaining-label" id="splitRemainingLabel">₱1,125.00 remaining</span>
+          </div>
+          <div class="split-paid-track">
+            <div class="split-paid-bar" id="splitProgressFill" style="width:25%;"></div>
+          </div>
+        </div>
+
+        <button type="button" class="split-add-player-dotted-btn" onclick="addSplitPlayer()"><i data-lucide="user-plus"></i> Add player</button>
+        <div class="split-player-list" id="splitPlayerRows"></div>
+
+        <div class="split-action-stack">
+          <button type="button" class="split-copy-button bolder-green-btn" onclick="copySplitSummary()"><i data-lucide="copy"></i> Copy split details</button>
+          <button type="button" class="split-qr-link" onclick="showModal('qrModal')"><i data-lucide="qr-code"></i> GCash QR</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section><section class="view" id="view-leader"><div class="glass rounded-3xl overflow-hidden"><div class="p-5 sm:p-6 border-b border-slate-100 flex flex-wrap justify-between items-center gap-3"><div><div class="text-xs uppercase tracking-widest font-bold text-emerald-700">Bogo community</div><h2 class="text-xl font-extrabold mt-1">Bogo City leaderboards</h2><p class="text-sm text-slate-500 mt-1">Track your local progress, one game at a time.</p></div><div class="flex p-1 bg-slate-100 rounded-xl" id="timePills"><button class="px-3 py-2 rounded-lg bg-white shadow-sm text-xs font-bold" onclick="timeframe(this)">This Week</button><button class="px-3 py-2 rounded-lg text-slate-500 text-xs font-semibold" onclick="timeframe(this)">This Month</button><button class="px-3 py-2 rounded-lg text-slate-500 text-xs font-semibold" onclick="timeframe(this)">All Time</button></div></div><div class="px-4 sm:px-6" id="leaderRows"></div><div class="bg-slate-900 text-white px-5 py-4 flex items-center justify-between"><div class="flex items-center gap-3"><div class="w-9 h-9 rounded-full bg-emerald-500 grid place-items-center font-bold text-sm">JM</div><div><div class="font-bold text-sm">Your rank <span class="text-emerald-300">#18</span></div><div class="text-[11px] text-slate-400">Keep playing to move up</div></div></div><div class="text-right"><div class="font-bold">3.42 DUPR</div><div class="text-[11px] text-slate-400">8 matches</div></div></div></div><section class="leader-market-shelf glass rounded-3xl p-5 sm:p-6 mt-5" id="leaderGearMarket"><div class="leader-market-head"><div><span class="market-kicker">PIKOL APP COMMUNITY MARKET</span><h2>Second-hand paddles</h2><p>Pre-loved gear listed by local players.</p></div><span class="used-gear-badge"><i data-lucide="recycle"></i> PLAYER LISTINGS</span></div><div class="grid grid-cols-2 sm:grid-cols-2 gap-3" id="marketGrid"></div><p class="market-demo-note"><i data-lucide="info"></i> Sample listings · Contact and checkout are demo-only.</p></section></section>
+<!-- (2026-07-13) Revamp admin portal into sorted subpages; was single view -->
+<section class="view" id="view-admin">
+  <!-- Venue Ownership Identity Banner -->
+  <div class="admin-venue-banner" id="adminVenueBanner">
+    <div class="admin-venue-info">
+      <img src="venues/kapenarra.jpg" alt="Venue Logo" id="adminVenueLogo" class="admin-venue-logo">
+      <div class="admin-venue-text">
+        <div class="flex items-center gap-2">
+          <h1 id="adminVenueName">Kapenarra Courtside Pickleball</h1>
+          <span class="admin-venue-badge">VERIFIED OWNER</span>
+        </div>
+        <div class="admin-venue-meta">
+          <span id="adminVenueLocation">Kapenarra · Bogo City</span>
+          <span>•</span>
+          <span id="adminVenueCourtsCount" class="font-bold text-white">4 Courts Owned</span>
+          <span>•</span>
+          <span id="adminVenueEmail" class="opacity-80">kapenarra@demo.com</span>
+        </div>
+      </div>
+    </div>
+    <div class="admin-venue-actions">
+      <button class="admin-switch-btn" onclick="signOutDemo()"><i data-lucide="log-out" class="w-3.5 h-3.5"></i> Switch Venue</button>
+    </div>
+  </div>
+
+  <!-- Sorted Admin Sub-Navigation Strip -->
+  <div class="admin-subnav-bar" role="tablist" aria-label="Admin Sections">
+    <button id="adminTabBtn-courts" class="admin-subnav-btn active" onclick="setAdminSubPage('courts')" role="tab">
+      <i data-lucide="tally-5"></i>
+      <span>Courts</span>
+      <span id="adminCourtsPill" class="admin-subnav-pill">4</span>
+    </button>
+    <button id="adminTabBtn-overview" class="admin-subnav-btn" onclick="setAdminSubPage('overview')" role="tab">
+      <i data-lucide="layout-dashboard"></i>
+      <span>Overview</span>
+    </button>
+    <button id="adminTabBtn-revenue" class="admin-subnav-btn" onclick="setAdminSubPage('revenue')" role="tab">
+      <i data-lucide="chart-no-axes-combined"></i>
+      <span>Revenue</span>
+    </button>
+    <button id="adminTabBtn-bookings" class="admin-subnav-btn" onclick="setAdminSubPage('bookings')" role="tab">
+      <i data-lucide="calendar-check-2"></i>
+      <span>Bookings & Ledger</span>
+    </button>
+    <button id="adminTabBtn-transactions" class="admin-subnav-btn" onclick="setAdminSubPage('transactions')" role="tab">
+      <i data-lucide="receipt-text"></i>
+      <span>Transactions</span>
+    </button>
+    <button id="adminTabBtn-settings" class="admin-subnav-btn" onclick="setAdminSubPage('settings')" role="tab">
+      <i data-lucide="sliders-horizontal"></i>
+      <span>QR & Settings</span>
+    </button>
+  </div>
+
+  <!-- SUBPAGE 1: DEDICATED COURTS PAGE -->
+  <div id="admin-sub-courts" class="admin-subpage active">
+    <div class="courts-admin-head">
+      <div>
+        <h2>Facility Courts</h2>
+        <p>Manage individual courts, hourly rates, operating hours, surface colors, and availability status.</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-xs font-bold text-slate-500 bg-white border border-slate-200 rounded-xl px-3 py-2 flex items-center gap-1.5">
+          <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i> Locked to your owned facility
+        </span>
+      </div>
+    </div>
+
+    <!-- Court Cards Grid with 3-dot menus -->
+    <div class="courts-admin-grid" id="adminCourtsGrid">
+      <!-- Generated dynamically by renderAdminCourts() -->
+    </div>
+  </div>
+
+  <!-- SUBPAGE 2: OVERVIEW -->
+  <div id="admin-sub-overview" class="admin-subpage">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+      <div class="glass rounded-2xl p-4">
+        <span class="text-[10px] text-slate-400 font-extrabold uppercase tracking-widest block">TODAY'S REVENUE</span>
+        <div class="text-2xl font-black mt-1 text-slate-900" id="adminTopRevenue">₱0</div>
+        <small class="text-xs text-emerald-700 font-semibold" id="adminTopRevenueSub">From booked slots</small>
+      </div>
+      <div class="glass rounded-2xl p-4">
+        <span class="text-[10px] text-slate-400 font-extrabold uppercase tracking-widest block">ACTIVE RESERVATIONS</span>
+        <div class="text-2xl font-black mt-1 text-slate-900" id="adminTopBookings">0</div>
+        <small class="text-xs text-slate-500">Confirmed on your courts</small>
+      </div>
+      <div class="glass rounded-2xl p-4">
+        <span class="text-[10px] text-slate-400 font-extrabold uppercase tracking-widest block">COURTS ONLINE</span>
+        <div class="text-2xl font-black mt-1 text-slate-900" id="adminTopCourtsOnline">4/4</div>
+        <small class="text-xs text-emerald-700 font-semibold">Ready for play</small>
+      </div>
+      <div class="glass rounded-2xl p-4">
+        <span class="text-[10px] text-slate-400 font-extrabold uppercase tracking-widest block">UTILIZATION</span>
+        <div class="text-2xl font-black mt-1 text-slate-900" id="adminTopUtilization">78%</div>
+        <small class="text-xs text-slate-500">Peak hours occupancy</small>
+      </div>
+    </div>
+
+    <div class="glass rounded-3xl p-5 mb-4">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <span class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-700">FACILITY STATUS</span>
+          <h3 class="text-base font-extrabold text-slate-900 mt-0.5">Live court schedules today</h3>
+        </div>
+        <button class="text-xs font-bold text-emerald-700 flex items-center gap-1 hover:underline" onclick="setAdminSubPage('courts')">
+          Manage all courts <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+      <div class="space-y-2.5" id="liveCourtRows"></div>
+    </div>
+  </div>
+
+  <!-- SUBPAGE 3: REVENUE & ANALYTICS -->
+  <div id="admin-sub-revenue" class="admin-subpage">
+    <div id="admin-revenue" class="glass rounded-3xl p-5 mb-4">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-100 pb-4 mb-4">
+        <div>
+          <span class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-700">FINANCIAL METRICS</span>
+          <h2 class="text-lg font-black text-slate-900 mt-0.5">Revenue & booking trends</h2>
+          <p class="text-xs text-slate-500 mt-0.5">Track your venue income, average booking size, and collection states.</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <div class="revenue-presets">
+            <button id="revPreset7" class="revenue-preset" onclick="applyRevenueRange(7,this)">7D</button>
+            <button id="revPreset30" class="revenue-preset active" onclick="applyRevenueRange(30,this)">30D</button>
+            <button id="revPreset90" class="revenue-preset" onclick="applyRevenueRange(90,this)">90D</button>
+          </div>
+          <button class="export-button" onclick="exportRevenueCsv()"><i data-lucide="download"></i> Export CSV</button>
+        </div>
+      </div>
+      <div class="revenue-date-strip mb-4">
+        <label>From <input type="date" id="revenueFrom" onchange="renderAdminAnalytics()"></label>
+        <label>To <input type="date" id="revenueTo" onchange="renderAdminAnalytics()"></label>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
+        <div class="bg-slate-50 border border-slate-100 rounded-2xl p-4">
+          <small class="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">TOTAL ESTIMATED REVENUE</small>
+          <div class="text-2xl font-black text-slate-900 mt-1" id="revenueTotal">₱0</div>
+          <span class="text-xs text-slate-500" id="revenuePeriod">Selected period</span>
+        </div>
+        <div class="bg-slate-50 border border-slate-100 rounded-2xl p-4">
+          <small class="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">RESERVED BOOKINGS</small>
+          <div class="text-2xl font-black text-slate-900 mt-1" id="revenueBookings">0</div>
+          <span class="text-xs text-slate-500">Confirmed court reservations</span>
+        </div>
+        <div class="bg-slate-50 border border-slate-100 rounded-2xl p-4">
+          <small class="text-[10px] font-extrabold uppercase text-slate-400 tracking-wider">AVG PER BOOKING</small>
+          <div class="text-2xl font-black text-slate-900 mt-1" id="revenueAverage">₱0</div>
+          <span class="text-xs text-slate-500">Per court session</span>
+        </div>
+      </div>
+      <div class="grid lg:grid-cols-3 gap-4">
+        <div class="lg:col-span-2 chart-card glass p-4 rounded-2xl">
+          <div class="flex items-center justify-between mb-2">
+            <b class="text-xs text-slate-700">Revenue timeline</b>
+            <span class="text-[10px] text-slate-400 font-bold">DAILY TOTALS</span>
+          </div>
+          <svg id="revenueLineChart" viewBox="0 0 520 180" class="w-full h-[180px]"></svg>
+          <div class="flex justify-between text-[10px] text-slate-400 font-bold mt-2">
+            <span id="revenueStartLabel">Start</span>
+            <span id="revenueMidLabel">Mid</span>
+            <span id="revenueEndLabel">End</span>
+          </div>
+        </div>
+        <div class="chart-card glass p-4 rounded-2xl flex flex-col justify-between">
+          <b class="text-xs text-slate-700 mb-2 block">Payment status split</b>
+          <div class="flex items-center justify-center my-2">
+            <svg id="revenueDonut" viewBox="0 0 140 140" class="w-32 h-32"></svg>
+          </div>
+          <div class="space-y-1.5 text-xs">
+            <div class="flex justify-between"><span>Paid / Settled</span><b id="paidAmount" class="text-emerald-700">₱0</b></div>
+            <div class="flex justify-between"><span>Pending / On file</span><b id="pendingAmount" class="text-amber-700">₱0</b></div>
+            <div class="flex justify-between text-[10px] text-slate-400"><span>Paid ratio</span><b id="paidPercent">0%</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBPAGE 4: BOOKINGS & LEDGER -->
+  <div id="admin-sub-bookings" class="admin-subpage">
+    <div id="admin-bookings" class="glass rounded-3xl p-5 mb-4">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-100 pb-4 mb-4">
+        <div>
+          <span class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-700">DAILY TIMELINE</span>
+          <h2 class="text-lg font-black text-slate-900 mt-0.5">Court schedule & ledger</h2>
+          <p class="text-xs text-slate-500 mt-0.5">Live timeline for your venue courts and booking entries.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <!-- Hidden filter to lock to venue -->
+          <input type="hidden" id="bookingOwnerFilter" value="kapenarra">
+          <select id="bookingCourtFilter" class="border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold bg-white" onchange="renderCourtDayBoard()">
+            <option value="all">All Courts</option>
+          </select>
+          <input type="date" id="bookingBoardDate" class="border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold bg-white" onchange="renderCourtDayBoard()">
+        </div>
+      </div>
+      <div id="courtDayBoard" class="mb-5 overflow-x-auto"></div>
+      <div>
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-sm font-extrabold text-slate-800">Recent Reservations Ledger</h3>
+          <span class="text-xs text-slate-400 font-bold">Filtered to your facility</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="transaction-full-table">
+            <thead>
+              <tr>
+                <th>Date / Ref</th>
+                <th>Court</th>
+                <th>Time</th>
+                <th>Booked by</th>
+                <th>Status</th>
+                <th class="text-right">Amount</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="adminBookingRows"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBPAGE 5: TRANSACTIONS -->
+  <div id="admin-sub-transactions" class="admin-subpage">
+    <div class="glass rounded-3xl p-5 mb-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-4">
+        <div>
+          <span class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-700">ACCOUNTING</span>
+          <h2 class="text-lg font-black text-slate-900 mt-0.5">Venue transactions</h2>
+          <p class="text-xs text-slate-500 mt-0.5">Complete demo transactions for your venue accounts.</p>
+        </div>
+        <button class="px-3 py-2 rounded-xl border border-slate-200 text-xs font-bold flex items-center gap-1.5 hover:bg-slate-50" onclick="renderAdminTransactions()">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Refresh
+        </button>
+      </div>
+      <div class="transaction-summary mb-4" id="transactionSummary"></div>
+      <div class="overflow-x-auto">
+        <table class="transaction-full-table">
+          <thead>
+            <tr>
+              <th>Date / Reference</th>
+              <th>Court Business</th>
+              <th>Court · Time</th>
+              <th>Booked by · Players</th>
+              <th>Transaction</th>
+              <th>Status</th>
+              <th class="text-right">Amount</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="adminTransactionRows"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBPAGE 6: QR, SOCIAL & SETTINGS -->
+  <div id="admin-sub-settings" class="admin-subpage">
+    <div class="grid lg:grid-cols-2 gap-4">
+      <!-- Direct Court QR Link Generator -->
+      <div class="glass rounded-3xl p-5">
+        <span class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-700">TOUCHLESS CHECK-IN</span>
+        <h3 class="text-base font-extrabold text-slate-900 mt-0.5">Court direct booking QR</h3>
+        <p class="text-xs text-slate-500 mt-1 mb-4">Players can scan this QR code directly at the court to reserve upcoming slots.</p>
+        <div class="space-y-3">
+          <input type="hidden" id="qrOwnerSelect" value="kapenarra">
+          <label class="block text-xs font-bold text-slate-700">
+            Select Court
+            <select id="qrCourtSelect" class="w-full mt-1 border border-slate-200 rounded-xl px-3 py-2.5 font-bold bg-white" onchange="loadQrEditor()"></select>
+          </label>
+          <label class="block text-xs font-bold text-slate-700">
+            QR Target Link
+            <input type="url" id="qrLinkInput" class="w-full mt-1 border border-slate-200 rounded-xl px-3 py-2 font-bold" oninput="saveQrLinkDraft(this.value)">
+          </label>
+          <div class="border border-slate-200 rounded-2xl p-4 flex flex-col items-center justify-center bg-slate-50 text-center">
+            <img id="courtQrImage" class="w-40 h-40 object-contain rounded-xl shadow-sm mb-2" alt="Court QR">
+            <div id="qrPlaceholder" class="hidden text-xs text-slate-400">QR preview unavailable</div>
+            <b id="qrPreviewTitle" class="text-xs text-slate-800">Court 1 QR</b>
+            <small id="qrPreviewHint" class="text-[10px] text-slate-500 mt-0.5">Scan to book directly</small>
+          </div>
+          <button class="w-full rounded-xl bg-emerald-700 text-white py-2.5 text-xs font-bold hover:bg-emerald-800" onclick="saveCourtQr()">Save QR link</button>
+        </div>
+      </div>
+
+      <!-- Court Surface Color Customizer -->
+      <div id="courtColorsAdmin" class="glass rounded-3xl p-5">
+        <span class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-700">AESTHETICS</span>
+        <h3 class="text-base font-extrabold text-slate-900 mt-0.5">Court surface appearance</h3>
+        <p class="text-xs text-slate-500 mt-1 mb-4">Set the playing area and Non-Volley Zone colors displayed to players.</p>
+        <input type="hidden" id="courtColorOwnerSelect" value="kapenarra">
+        <div class="space-y-3">
+          <label class="block text-xs font-bold text-slate-700">
+            Select Court
+            <select id="courtColorCourtSelect" class="w-full mt-1 border border-slate-200 rounded-xl px-3 py-2.5 font-bold bg-white" onchange="loadCourtColorEditor()"></select>
+          </label>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <span class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Playing Area</span>
+              <div class="flex items-center gap-2">
+                <input type="color" id="ownerCourtSideColor" class="w-9 h-9 rounded-lg border-none cursor-pointer" oninput="onOwnerCourtColorChange('side',this.value)">
+                <input type="text" id="ownerCourtSideHex" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 font-mono text-xs font-bold" oninput="onOwnerCourtHexChange('side',this.value)">
+              </div>
+            </div>
+            <div>
+              <span class="text-[10px] font-bold text-slate-500 uppercase block mb-1">NVZ / Kitchen</span>
+              <div class="flex items-center gap-2">
+                <input type="color" id="ownerCourtNvzColor" class="w-9 h-9 rounded-lg border-none cursor-pointer" oninput="onOwnerCourtColorChange('nvz',this.value)">
+                <input type="text" id="ownerCourtNvzHex" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 font-mono text-xs font-bold" oninput="onOwnerCourtHexChange('nvz',this.value)">
+              </div>
+            </div>
+          </div>
+          <div class="border border-slate-200 rounded-2xl p-3 bg-slate-50">
+            <b id="ownerCourtPreviewTitle" class="text-xs text-slate-800 block mb-2">Court Surface Preview</b>
+            <div id="ownerCourtPreview" class="h-16 rounded-xl flex overflow-hidden border border-slate-300">
+              <div id="ownerPreviewSideL" class="flex-1" style="background:#15803d"></div>
+              <div id="ownerPreviewNvz" class="w-1/3 border-x-2 border-white" style="background:#22c55e"></div>
+              <div id="ownerPreviewSideR" class="flex-1" style="background:#15803d"></div>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <button class="flex-1 rounded-xl bg-emerald-700 text-white py-2.5 text-xs font-bold hover:bg-emerald-800" onclick="saveOwnerCourtColors()">Save court colors</button>
+            <button class="rounded-xl border border-slate-200 px-3 py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-100" onclick="resetOwnerCourtColors()">Reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Announcement & Rules -->
+    <div class="glass rounded-3xl p-5 mt-4">
+      <span class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-700">SOCIAL FLYER</span>
+      <h3 class="text-base font-extrabold text-slate-900 mt-0.5">Daily court availability flyer</h3>
+      <p class="text-xs text-slate-500 mt-1 mb-4">Export a branded graphic of open slots to share directly to Instagram or Facebook groups.</p>
+      <input type="hidden" id="announcementVenue" value="kapenarra">
+      <div id="announcement" class="bg-emerald-950 text-white p-6 rounded-3xl max-w-md mx-auto mb-4 border border-emerald-800">
+        <div class="flex items-center gap-3 border-b border-emerald-800/80 pb-3 mb-3">
+          <img id="announceOwnerLogo" src="venues/kapenarra.jpg" class="w-10 h-10 rounded-xl object-cover" alt="Venue">
+          <div>
+            <h4 id="announceOwnerName" class="font-extrabold text-sm leading-tight text-white">Kapenarra Courtside</h4>
+            <small id="announceOwnerLocation" class="text-[10px] text-emerald-300">Poblacion · Bogo City</small>
+          </div>
+        </div>
+        <p id="announceSubtitle" class="text-xs text-emerald-100 mb-3 font-semibold">Today's Open Court Hours</p>
+        <div id="announceRows" class="space-y-2 text-xs">
+          <div class="flex justify-between p-2 rounded-lg bg-emerald-900/60 border border-emerald-800">
+            <span>Court 1</span><b id="announceHours1">6:00 AM – 10:00 PM</b>
+          </div>
+          <div class="flex justify-between p-2 rounded-lg bg-emerald-900/60 border border-emerald-800">
+            <span>Court 2</span><b id="announceHours2">6:00 AM – 10:00 PM</b>
+          </div>
+        </div>
+        <div class="mt-4 pt-3 border-t border-emerald-800 text-[9px] text-emerald-400 flex justify-between">
+          <span>Bookings via PIKOL APP</span>
+          <span id="announceFooterVenue">Kapenarra Courtside</span>
+        </div>
+      </div>
+      <div class="flex gap-2 max-w-md mx-auto">
+        <button class="flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center justify-center gap-2" onclick="downloadAnnouncement()">
+          <i data-lucide="download" class="w-4 h-4"></i> Download image
+        </button>
+        <button class="flex-1 py-2.5 rounded-xl border border-slate-200 text-slate-700 text-xs font-bold hover:bg-slate-50 flex items-center justify-center gap-2" onclick="shareAnnouncement()">
+          <i data-lucide="share-2" class="w-4 h-4"></i> Share flyer
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="view" id="view-admin-transactions" aria-hidden="true">
+  <div class="admin-transactions-page glass rounded-3xl overflow-hidden">
+    <div class="admin-transaction-heading"><div><span>ADMIN · RECORDS</span><h2>Bookings & transactions</h2><p>Complete demo ledger across all court businesses, bookings, and payment states.</p></div><div class="transaction-heading-actions"><button class="transaction-back" onclick="setTab('admin')"><i data-lucide="arrow-left"></i> Admin overview</button><button class="transaction-refresh" onclick="renderAdminTransactions()"><i data-lucide="refresh-cw"></i> Refresh</button></div></div>
+    <div class="transaction-summary" id="transactionSummary"></div>
+    <div class="transaction-table-wrap"><table class="transaction-full-table"><thead><tr><th>Date / Reference</th><th>Court business</th><th>Court · time</th><th>Booked by · players</th><th>Transaction</th><th>Status</th><th class="text-right">Amount</th><th></th></tr></thead><tbody id="adminTransactionRows"></tbody></table></div>
+    <p class="transaction-demo-note">Sample records for prototype review only. Payment statuses do not represent live collections.</p>
+  </div>
+</section>
+</main>
+<div id="checkout" class="fixed bottom-0 left-0 right-0 z-30 p-3 sm:px-6 safe-bottom bg-white/95 backdrop-blur-xl border-t border-slate-200 shadow-[0_-8px_30px_rgba(15,23,42,.08)] hidden"><div class="max-w-7xl mx-auto flex items-center justify-between gap-3"><div><div class="text-xs text-slate-500"><span id="selectedCount">0</span> selected slot(s)</div><div class="font-extrabold text-lg">₱<span id="totalPrice">0</span></div></div><button class="min-h-12 rounded-xl bg-emerald-600 text-white px-5 sm:px-7 font-bold flex items-center gap-2" onclick="showModal('payModal')">Continue <i data-lucide="arrow-right" class="w-4 h-4"></i></button></div></div>
+<div class="modal-backdrop" id="bookingDetailModal" onclick="backdropClose(event,'bookingDetailModal')"><div class="modal booking-detail-modal"><div class="flex items-start justify-between"><div><span class="text-[10px] uppercase tracking-widest text-emerald-700 font-extrabold">BOOKING RECORD</span><h2 class="text-xl font-extrabold mt-1" id="bookingDetailTitle">Booking details</h2><p class="text-xs text-slate-500 mt-1" id="bookingDetailSub"></p></div><button class="w-9 h-9 rounded-lg hover:bg-slate-100 grid place-items-center" onclick="closeModal('bookingDetailModal')"><i data-lucide="x"></i></button></div><div id="bookingDetailBody" class="booking-detail-body"></div><h3 class="font-extrabold text-sm mt-5">Transaction history</h3><div id="bookingTransactions" class="transaction-history"></div><button class="w-full rounded-xl bg-slate-900 text-white py-3 mt-4 text-sm font-bold" onclick="closeModal('bookingDetailModal')">Done</button></div></div><div class="modal-backdrop" id="pasaloModal" onclick="backdropClose(event,'pasaloModal')"><div class="modal pasalo-resale-modal"><div class="flex justify-between items-start"><div><span class="text-[9px] uppercase tracking-[.16em] text-emerald-700 font-extrabold">PLAYER-TO-PLAYER TRANSFER</span><h2 class="text-xl font-extrabold mt-1">List your booked court</h2><p class="text-[10px] text-slate-500 mt-1">Can’t make it? Offer your paid reservation to another player.</p></div><button class="w-9 h-9 rounded-lg hover:bg-slate-100 grid place-items-center" onclick="closeModal('pasaloModal')"><i data-lucide="x" class="w-4 h-4"></i></button></div><div class="pasalo-form-grid"><label class="pasalo-form-field">Seller name<input id="pasaloSellerInput" maxlength="35" placeholder="Your name"></label><label class="pasalo-form-field">Court location<select id="pasaloVenueInput" onchange="renderPasaloCourtOptions()"></select></label><label class="pasalo-form-field">Court number<select id="pasaloCourtInput"></select></label><label class="pasalo-form-field">Booking date<input id="pasaloDateInput" type="date"></label><label class="pasalo-form-field">Start time<select id="pasaloStartInput"></select></label><label class="pasalo-form-field">End time<select id="pasaloEndInput"></select></label><label class="pasalo-form-field">Original booking total (₱)<input id="pasaloOriginalInput" type="number" min="1" placeholder="700"></label><label class="pasalo-form-field">Your transfer price (₱)<input id="pasaloPriceInput" type="number" min="1" placeholder="500"></label><label class="pasalo-form-field full">Why are you transferring it?<textarea id="pasaloReasonInput" maxlength="160" placeholder="Schedule conflict · work ran late · can’t attend…"></textarea></label></div><p class="pasalo-form-help">Mockup flow: your listing is saved on this device. The buyer requests a transfer; you confirm the booking hand-off outside this demo. Never share payment credentials.</p><button class="w-full mt-4 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white py-3 text-sm font-extrabold" onclick="submitPasaloListing()">Publish Pasalo listing</button></div></div>
+<!-- (2026-07-13) Pasalo detail modal with social story; was none -->
+<div class="modal-backdrop" id="pasaloDetailModal" onclick="backdropClose(event,'pasaloDetailModal')">
+  <div class="modal pasalo-detail-modal">
+    <div class="flex items-start justify-between border-b border-slate-100 pb-3 mb-3">
+      <div>
+        <span class="text-[10px] uppercase tracking-widest text-emerald-700 font-extrabold flex items-center gap-1.5"><i data-lucide="repeat-2" class="w-3.5 h-3.5"></i> PASALO COURT DETAILS</span>
+        <h2 class="text-xl font-black mt-0.5" id="pasaloDetailVenue">Kapenarra Courtside</h2>
+        <p class="text-xs text-slate-500 mt-0.5 flex items-center gap-1"><i data-lucide="map-pin" class="w-3 h-3 text-emerald-600"></i> <span id="pasaloDetailLocation">Bogo City · Cebu</span></p>
+      </div>
+      <button class="w-9 h-9 rounded-lg hover:bg-slate-100 grid place-items-center" onclick="closeModal('pasaloDetailModal')"><i data-lucide="x" class="w-4 h-4"></i></button>
+    </div>
+
+    <div class="pasalo-info-card">
+      <div class="grid grid-cols-2 gap-2 text-xs mb-3">
+        <div class="rounded-xl bg-slate-50 p-2.5">
+          <small class="text-slate-400 block text-[10px] font-bold uppercase">Date & Time</small>
+          <b class="text-slate-800 text-xs block mt-0.5" id="pasaloDetailDate">Fri, Aug 21, 2026</b>
+          <span class="text-emerald-700 font-extrabold text-[11px]" id="pasaloDetailTime">6:00 PM – 10:00 PM</span>
+        </div>
+        <div class="rounded-xl bg-slate-50 p-2.5">
+          <small class="text-slate-400 block text-[10px] font-bold uppercase">Court & Seller</small>
+          <b class="text-slate-800 text-xs block mt-0.5" id="pasaloDetailCourt">Courts 1 & 2</b>
+          <span class="text-slate-500 text-[11px]" id="pasaloDetailSeller">Booked by Carlo M.</span>
+        </div>
+      </div>
+      <div class="rounded-xl bg-emerald-50/60 border border-emerald-100 p-2.5 mb-3 text-xs">
+        <small class="text-emerald-800 font-bold block text-[10px] uppercase">Reason for transfer</small>
+        <p class="text-slate-700 text-xs mt-0.5" id="pasaloDetailReason">Schedule conflict with work tournament.</p>
+      </div>
+      <div class="flex items-center justify-between p-3 rounded-xl bg-slate-900 text-white mb-3">
+        <div>
+          <del class="text-xs text-slate-400 block" id="pasaloDetailOriginal">₱1,200</del>
+          <b class="text-lg font-black text-emerald-400" id="pasaloDetailPrice">₱900</b>
+        </div>
+        <button type="button" class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs" id="pasaloDetailRequestBtn" onclick="requestPasaloFromModal()">Request transfer</button>
+      </div>
+    </div>
+
+    <div class="pasalo-social-share-wrap">
+      <div class="flex items-center justify-between mb-2">
+        <b class="text-xs font-black text-slate-800 uppercase tracking-wider flex items-center gap-1.5"><i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-600"></i> Shareable Story Graphic</b>
+        <span class="text-[10px] font-bold text-slate-400">STORY / PM</span>
+      </div>
+
+      <div class="pasalo-story-graphic-container" id="pasaloShareCardGraphic">
+        <div class="pasalo-story-overlay"></div>
+        <div class="pasalo-story-content">
+          <div class="pasalo-story-capsule">
+            <div class="pasalo-capsule-icon-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#65a30d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3" fill="#bef264"/></svg>
+            </div>
+            <span class="pasalo-capsule-divider"></span>
+            <span class="pasalo-capsule-text" id="pasaloStoryVenue">KAPENARRA COURTSIDE</span>
+          </div>
+
+          <div class="pasalo-story-capsule">
+            <div class="pasalo-capsule-icon-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#65a30d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/></svg>
+            </div>
+            <span class="pasalo-capsule-divider"></span>
+            <span class="pasalo-capsule-text" id="pasaloStoryDate">FRIDAY, AUG 21, 2026</span>
+          </div>
+
+          <div class="pasalo-story-capsule">
+            <div class="pasalo-capsule-icon-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#65a30d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <span class="pasalo-capsule-divider"></span>
+            <span class="pasalo-capsule-text" id="pasaloStoryTime">6:00 PM – 10:00 PM</span>
+          </div>
+
+          <div class="pasalo-story-capsule">
+            <div class="pasalo-capsule-icon-wrap">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#65a30d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" fill="#d9f99d"/><path d="M3 12h18"/><path d="M12 3v18"/></svg>
+            </div>
+            <span class="pasalo-capsule-divider"></span>
+            <span class="pasalo-capsule-text" id="pasaloStoryCourt">COURTS 1 & 2</span>
+          </div>
+
+          <div class="pasalo-story-cta-banner">
+            <div class="pasalo-cta-bubble">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#bef264" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><circle cx="8" cy="12" r=".8" fill="#bef264"/><circle cx="12" cy="12" r=".8" fill="#bef264"/><circle cx="16" cy="12" r=".8" fill="#bef264"/></svg>
+            </div>
+            <div class="pasalo-cta-copy">
+              <em>INTERESTED?</em>
+              <small>PLEASE SEND US A DIRECT PM.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2 mt-3">
+        <button type="button" class="pasalo-share-action-btn primary" onclick="downloadPasaloGraphic()"><i data-lucide="download" class="w-4 h-4"></i> Save image</button>
+        <button type="button" class="pasalo-share-action-btn secondary" onclick="sharePasaloGraphic()"><i data-lucide="share-2" class="w-4 h-4"></i> Share story</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop" id="payModal" onclick="backdropClose(event,'payModal')"><div class="modal"><div class="flex justify-between items-center"><div class="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-700 grid place-items-center"><i data-lucide="wallet"></i></div><button class="w-9 h-9 rounded-lg hover:bg-slate-100 grid place-items-center" onclick="closeModal('payModal')"><i data-lucide="x" class="w-4 h-4"></i></button></div><h2 class="font-extrabold text-xl mt-4">Confirm your booking</h2><p class="text-sm text-slate-500 mt-1" id="paySummary">Review your selected court slots.</p><div class="rounded-xl bg-slate-50 p-4 mt-4 flex justify-between"><span class="text-sm text-slate-600">Total due</span><b>₱<span id="modalTotal">0</span></b></div><div class="mt-4 text-xs font-bold uppercase tracking-wider text-slate-400">Payment method</div><div class="grid grid-cols-2 gap-2 mt-2"><button class="method border-2 border-emerald-600 bg-emerald-50 rounded-xl p-3 text-left" onclick="chooseMethod(this)"><b class="text-sm">GCash</b><div class="text-[11px] text-slate-500 mt-1">E-wallet · MOCKUP</div></button><button class="method border border-slate-200 rounded-xl p-3 text-left" onclick="chooseMethod(this)"><b class="text-sm">QRPh</b><div class="text-[11px] text-slate-500 mt-1">Scan to pay · MOCKUP</div></button></div><p class="text-[11px] text-slate-400 mt-3">Demo checkout only — no payment is collected.</p><button class="w-full rounded-xl bg-emerald-600 text-white py-3.5 mt-4 font-bold" onclick="confirmBooking()">Reserve & continue</button></div></div>
+<div class="modal-backdrop" id="qrModal" onclick="backdropClose(event,'qrModal')"><div class="modal text-center"><button class="ml-auto w-9 h-9 rounded-lg hover:bg-slate-100 grid place-items-center" onclick="closeModal('qrModal')"><i data-lucide="x" class="w-4 h-4"></i></button><div class="mx-auto w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-700 grid place-items-center"><i data-lucide="qr-code" class="w-8 h-8"></i></div><h2 class="font-extrabold text-xl mt-4">Your group QR</h2><p class="text-sm text-slate-500 mt-1">Share this demo payment reference with your group.</p><div class="w-44 h-44 mx-auto mt-5 rounded-2xl border-4 border-slate-900 bg-white grid place-items-center relative overflow-hidden"><div class="absolute inset-3 opacity-80" style="background-image: repeating-conic-gradient(#0f172a 0% 25%, white 0% 50%);background-size:14px 14px"></div><div class="relative bg-white px-2 py-1 rounded font-black text-xs">GCASH · DEMO</div></div><div class="font-bold mt-4">₱750.00 <span class="text-slate-400 font-medium">· ₱187.50 / person</span></div><button class="w-full rounded-xl bg-slate-900 text-white py-3 mt-5 font-bold" onclick="closeModal('qrModal');notify('Demo QR reference copied')">Copy payment reference</button></div></div>
+<!-- (2026-07-13) Rebrand modals & standards to PIKOL; was Pikol App -->
+<div class="modal-backdrop" id="helpModal" onclick="backdropClose(event,'helpModal')"><div class="modal"><div class="flex justify-between"><h2 class="text-xl font-extrabold">How PIKOL works</h2><button class="w-9 h-9 rounded-lg hover:bg-slate-100 grid place-items-center" onclick="closeModal('helpModal')"><i data-lucide="x" class="w-4 h-4"></i></button></div><p class="text-sm text-slate-500 mt-2">Reserve a court, track your games, and split costs with your crew. This is an interactive frontend demo; payment and account actions are not connected to live services.</p><button class="w-full rounded-xl bg-emerald-600 text-white py-3 mt-5 font-bold" onclick="closeModal('helpModal')">Got it</button></div></div>
+<div class="comment-drawer" id="commentDrawer"><div class="flex justify-between items-center"><h2 class="font-extrabold text-xl">Match comments</h2><button class="w-10 h-10 rounded-xl bg-slate-50 grid place-items-center" onclick="closeComments()"><i data-lucide="x" class="w-4 h-4"></i></button></div><p class="text-sm text-slate-500 mt-1" id="commentMatch">Game at PIKOL</p><div id="comments" class="mt-5 space-y-3"><div class="rounded-2xl bg-slate-50 p-3 text-sm"><b>Joey M.</b><p class="text-slate-600 mt-1">Great rallies today!</p></div><div class="rounded-2xl bg-slate-50 p-3 text-sm"><b>Ana C.</b><p class="text-slate-600 mt-1">Run it back next week.</p></div></div><form class="absolute bottom-6 left-6 right-6 flex gap-2" onsubmit="addComment(event)"><input id="commentInput" class="min-w-0 flex-1 rounded-xl border border-slate-200 px-3 py-3 text-sm" placeholder="Write a comment…"><button class="w-12 rounded-xl bg-emerald-600 text-white grid place-items-center" aria-label="Send"><i data-lucide="send" class="w-4 h-4"></i></button></form></div>
+<!-- (2026-07-13) Generic rosters in ref setup modals; was real names -->
+<div class="modal-backdrop" id="scoreEditModal" onclick="backdropClose(event,'scoreEditModal')"><div class="modal"><div class="flex justify-between"><div><span class="text-xs uppercase tracking-wider text-emerald-700 font-extrabold">REFEREE TOOL</span><h2 class="text-xl font-extrabold mt-1">Edit score & serve</h2></div><button class="w-9 h-9 rounded-lg hover:bg-slate-100 grid place-items-center" onclick="closeModal('scoreEditModal')"><i data-lucide="x" class="w-4 h-4"></i></button></div><p class="text-sm text-slate-500 mt-1">Manual corrections are saved to the current game.</p><div class="grid grid-cols-2 gap-3 mt-4"><label class="text-xs font-bold text-slate-700">Team 1 score<input id="editScoreA" type="number" min="0" max="99" class="w-full mt-1.5 rounded-xl border border-slate-300 bg-slate-50 text-center px-3 py-3 text-2xl font-black text-slate-900 focus:bg-white focus:border-emerald-600 outline-none"></label><label class="text-xs font-bold text-slate-700">Team 2 score<input id="editScoreB" type="number" min="0" max="99" class="w-full mt-1.5 rounded-xl border border-slate-300 bg-slate-50 text-center px-3 py-3 text-2xl font-black text-slate-900 focus:bg-white focus:border-emerald-600 outline-none"></label></div><div class="rounded-xl bg-slate-50 border border-slate-200/80 p-3 mt-4 flex justify-between items-center"><div><b class="text-sm">Serving team</b><p class="text-xs text-slate-500 font-medium" id="manualServerTeam">Team 1</p></div><button onclick="toggleManualServer()" class="rounded-xl bg-white border border-slate-300 px-4 py-2.5 text-xs font-bold text-slate-800 shadow-sm hover:bg-slate-50">Switch team</button></div><div class="rounded-xl bg-slate-50 border border-slate-200/80 p-3 mt-2 flex justify-between items-center"><div><b class="text-sm">Server number</b><p class="text-xs text-slate-500 font-medium">First or second server</p></div><button onclick="toggleManualServerNumber()" class="rounded-xl bg-white border border-slate-300 px-4 py-2.5 text-xs font-bold text-slate-800 shadow-sm hover:bg-slate-50">Server <span id="manualServerNumber">1</span> ↻</button></div><!-- (2026-07-13) Add winning target score control; was scores & serve only --><div class="rounded-xl bg-slate-50 border border-slate-200/80 p-3 mt-2 flex justify-between items-center"><div><b class="text-sm">Winning target score</b><p class="text-xs text-slate-500 font-medium">Points to win game (win by 2)</p></div><div class="flex items-center gap-1.5"><div class="flex items-center bg-white border border-slate-300 rounded-xl px-2.5 py-1.5 shadow-sm"><input id="editTargetScore" type="number" min="1" max="99" value="11" class="w-10 text-center text-sm font-black text-slate-900 bg-transparent outline-none" aria-label="Winning target score"><span class="text-[11px] font-bold text-slate-400 ml-0.5">pts</span></div><div class="flex gap-1"><button type="button" onclick="setEditTargetScore(11)" class="px-2 py-1.5 rounded-lg text-[11px] font-bold border border-slate-200 bg-white text-slate-700 hover:bg-emerald-50 hover:text-emerald-700">11</button><button type="button" onclick="setEditTargetScore(15)" class="px-2 py-1.5 rounded-lg text-[11px] font-bold border border-slate-200 bg-white text-slate-700 hover:bg-emerald-50 hover:text-emerald-700">15</button><button type="button" onclick="setEditTargetScore(21)" class="px-2 py-1.5 rounded-lg text-[11px] font-bold border border-slate-200 bg-white text-slate-700 hover:bg-emerald-50 hover:text-emerald-700">21</button></div></div></div><button class="w-full rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white py-3.5 mt-4 text-sm font-bold shadow-sm" onclick="saveManualScore()">Save corrections</button></div></div><div class="modal-backdrop" id="refSettingsModal" onclick="backdropClose(event,'refSettingsModal')"><div class="modal"><div class="flex justify-between"><div><span class="text-xs uppercase tracking-wider text-emerald-700 font-extrabold">MATCH CONTROL</span><h2 class="text-xl font-extrabold mt-1">Ref settings</h2></div><button class="w-9 h-9 rounded-lg hover:bg-slate-100 grid place-items-center" onclick="closeModal('refSettingsModal')"><i data-lucide="x" class="w-4 h-4"></i></button></div><p class="text-sm text-slate-500 mt-1">Choose a game above, or make a serve correction below.</p><div class="flex items-center justify-between mt-4"><b class="text-sm">Games in this match</b><button class="add-game-button" onclick="openGameOnboarding(true)"><i data-lucide="plus"></i> Add game</button></div><div id="gameSettingsButtons" class="game-settings-list mt-2"></div><div class="game-settings-footer"><span class="text-xs text-slate-500">Set match length: 1–7 games</span><button class="remove-game-button" id="removeGameButton" onclick="removeMatchGame()">− Remove last game</button></div><label class="game-target-setting">Points to win a game<input id="gameTargetInput" type="number" min="1" max="99" value="11" oninput="gameTarget=Math.max(1,Math.min(99,Number(this.value)||11))"></label><div class="mt-4"><b class="text-sm">Match location & court</b><select id="matchVenueSelect" class="schedule-input mt-2" aria-label="Match venue" onchange="setMatchVenue(this.value)"></select><div id="matchCourtChoices" class="grid grid-cols-3 gap-2 mt-2"></div></div><div class="match-setup-panel mt-4">
+  <div class="flex items-center justify-between gap-2">
+    <div><b class="text-sm">Game <span id="setupGameNo">1</span> setup</b><p class="text-xs text-slate-500 mt-1">Left side vs right side · settings are saved for this game only.</p></div>
+    <span class="side-key">COURT SIDES</span>
+  </div>
+  <div class="team-setup-grid mt-3">
+    <section class="team-setup-card side-left">
+      <div class="team-card-heading"><b>LEFT SIDE · TEAM A</b><input id="teamColorA" type="color" value="#059669" aria-label="Left team color"></div>
+      <label class="setup-field">Team name<input id="teamNameA" class="schedule-input" value="Team 1" maxlength="22" aria-label="Left team name"></label>
+      <label class="setup-field">Left-side player 1<input id="rosterA1" class="schedule-input" value="Player 1" maxlength="22" aria-label="Left-side player one"></label>
+      <label class="setup-field">Left-side player 2<input id="rosterA2" class="schedule-input" value="Player 2" maxlength="22" aria-label="Left-side player two"></label>
+    </section>
+    <section class="team-setup-card side-right">
+      <div class="team-card-heading"><b>RIGHT SIDE · TEAM B</b><input id="teamColorB" type="color" value="#e11d48" aria-label="Right team color"></div>
+      <label class="setup-field">Team name<input id="teamNameB" class="schedule-input" value="Team 2" maxlength="22" aria-label="Right team name"></label>
+      <label class="setup-field">Right-side player 1<input id="rosterB1" class="schedule-input" value="Player 3" maxlength="22" aria-label="Right-side player one"></label>
+      <label class="setup-field">Right-side player 2<input id="rosterB2" class="schedule-input" value="Player 4" maxlength="22" aria-label="Right-side player two"></label>
+    </section>
+  </div>
+  <div class="mt-3 grid grid-cols-2 gap-2">
+    <label class="setup-field">Start mode<select id="serveStartMode" class="schedule-input" onchange="toggleServeModeUI()"><option value="serve">Choose first serve</option><option value="play">Play for serve</option></select></label>
+    <label id="firstServeField" class="setup-field">First serve<select id="firstServeTeam" class="schedule-input"><option value="A">Team A serves first</option><option value="B">Team B serves first</option></select></label>
+  </div>
+  <p id="playForServeHint" class="play-for-serve-hint" hidden>Play for serve: first rally winner earns the serve; no point is awarded on that rally.</p>
+  <button class="w-full mt-3 rounded-xl bg-emerald-50 text-emerald-800 py-3 text-sm font-bold" onclick="saveMatchRoster()">Save setup for Game <span id="saveSetupGameNo">1</span></button>
+  <button class="w-full mt-2 rounded-xl border border-slate-200 py-2.5 text-xs font-bold" onclick="restartCurrentGame()">Reset score and start this game from its setup</button>
+</div><button class="w-full mt-3 rounded-xl border border-slate-200 py-3 text-sm font-bold" onclick="switchServer()">Advance server / side out</button><button class="w-full mt-2 rounded-xl bg-slate-900 text-white py-3 text-sm font-bold" onclick="closeModal('refSettingsModal')">Done</button></div></div><div class="modal-backdrop" id="matchLogModal" onclick="backdropClose(event,'matchLogModal')"><div class="modal"><div class="flex justify-between"><div><h2 class="text-xl font-extrabold">Match log</h2><p class="text-xs text-slate-500 mt-1">Game <span id="logGameNo">1</span> · latest referee calls</p></div><button class="w-9 h-9 rounded-lg hover:bg-slate-100 grid place-items-center" onclick="closeModal('matchLogModal')"><i data-lucide="x" class="w-4 h-4"></i></button></div><div class="rounded-xl bg-slate-50 p-3 mt-4 text-sm" id="matchLogEntry">Match started · Team Reyes serving, server 1.</div><div id="matchLogList" class="match-log-list mt-3"></div><button class="w-full rounded-xl bg-emerald-600 text-white py-3 mt-4 font-bold" onclick="closeModal('matchLogModal')">Close log</button></div></div><div class="modal-backdrop" id="matchStoryModal" onclick="backdropClose(event,'matchStoryModal')"><div class="modal story-modal"><div class="story-modal-head"><div><span class="text-xs uppercase tracking-wider text-emerald-700 font-extrabold">PIKOL STORY · 9:16</span><h2 class="text-xl font-extrabold mt-1">A clean scorecard to share.</h2><p class="text-xs text-slate-500 mt-1">Choose one game or a compact series summary.</p></div><button class="w-9 h-9 rounded-lg bg-slate-100 grid place-items-center" onclick="closeModal('matchStoryModal')" aria-label="Close story"><i data-lucide="x" class="w-4 h-4"></i></button></div><div class="story-mode-switch"><button id="storyModeGame" onclick="renderMatchStory('game')">This game</button><button id="storyModeAll" onclick="renderMatchStory('all')">All games</button></div><div class="story-graphic" id="matchStoryGraphic"><div class="story-shade"></div><div class="story-brandline"><span>PIKOL · COURTSIDE</span><span id="storyVenue">COURT 1</span></div><div class="story-headline"><span id="storyHeadline">THE GAME, IN ONE FRAME</span><b id="storyGame">GAME 1</b><small id="storyDateLine"></small></div><div class="story-score-panel" id="storySinglePanel"><div class="story-team"><b id="storyTeamA">TEAM A</b><span id="storyPlayersA"></span></div><div class="story-scoreline"><b id="storyScoreA">0</b><span>—</span><b id="storyScoreB">0</b></div><div class="story-team story-team-b"><b id="storyTeamB">TEAM B</b><span id="storyPlayersB"></span></div><div class="story-final-tag" id="storyResult">GAME IN PROGRESS</div></div><div class="story-game-summary" id="storyGameSummary" hidden></div><div class="story-footer"><span>PLAY IT. LOG IT. SHARE IT.</span><b>PIKOL · PICKLEBALL</b></div></div><div class="grid grid-cols-2 gap-2 mt-3"><button class="announce-button primary" onclick="downloadMatchStory()"><i data-lucide="download"></i> Save image</button><button class="announce-button" onclick="shareMatchStory()"><i data-lucide="send"></i> Share Story</button></div><p class="text-xs text-slate-500 mt-2" id="storyShareHint">One game · teams, score, and court details. No rally-by-rally spam.</p></div></div><div class="modal-backdrop" id="communityModal" onclick="backdropClose(event,'communityModal')"><div class="modal"><div class="flex justify-between"><h2 class="text-xl font-extrabold">Post to the community</h2><button class="w-9 h-9 rounded-lg hover:bg-slate-100 grid place-items-center" onclick="closeModal('communityModal')"><i data-lucide="x" class="w-4 h-4"></i></button></div><p class="text-sm text-slate-500 mt-1">Log the moment. Invite your next game.</p><textarea id="communityText" rows="4" class="w-full mt-4 rounded-xl border border-slate-200 p-3 text-sm" placeholder="What happened at the courts?"></textarea><button class="w-full rounded-xl bg-emerald-600 text-white py-3 mt-3 font-bold" onclick="publishCommunityPost()">Share with community</button></div></div>
+<!-- (2026-07-13) PIKOL design standards modal; was Pikol App modal -->
+<div class="modal-backdrop" id="pikolStandardsModal" onclick="backdropClose(event,'pikolStandardsModal')">
+  <div class="modal pikol-standards-modal">
+    <div class="flex justify-between items-start border-b border-slate-100 pb-4">
+      <div class="flex items-center gap-3">
+        <img src="assets/pikol-logo.png" alt="PIKOL Logo" class="w-12 h-12 rounded-2xl object-cover shadow-md shadow-emerald-900/20">
+        <div>
+          <span class="standards-chip"><i data-lucide="shield-check" class="w-3.5 h-3.5"></i> PIKOL DESIGN SYSTEM v1.0</span>
+          <h2 class="pikol-brand-font text-2xl mt-1 tracking-wider text-slate-900">PIKOL Standards</h2>
+          <p class="text-xs text-slate-500">Official brand identity, 3D tactile button standards, and design tokens.</p>
+        </div>
+      </div>
+      <button class="w-9 h-9 rounded-xl hover:bg-slate-100 grid place-items-center" onclick="closeModal('pikolStandardsModal')" aria-label="Close standards"><i data-lucide="x" class="w-4 h-4"></i></button>
+    </div>
+    <div class="mt-5 rounded-2xl overflow-hidden border border-slate-200/80 bg-slate-950 shadow-inner">
+      <img src="assets/pikol-brand-banner.png" alt="PIKOL Official Brand Banner" class="w-full h-auto object-cover max-h-52">
+      <div class="p-3 bg-slate-900 text-white flex justify-between items-center text-xs">
+        <span class="font-bold tracking-wider text-emerald-300">OFFICIAL BRAND BANNER</span>
+        <span class="text-slate-400">Dark Green &amp; Deep Shadow Courtside Identity</span>
+      </div>
+
+    </div>
+    <!-- (2026-07-13) Dark green #005204 & #002901 standards; was volt/emerald -->
+    <div class="mt-5">
+      <b class="text-sm text-slate-900">Core Color Tokens</b>
+      <p class="text-xs text-slate-500 mt-0.5">High-contrast, saturated sports arcade palette aligned with courtside play.</p>
+      <div class="standards-swatch-grid">
+        <div class="standards-swatch" style="background:#005204; color:#ffffff;">
+          <div><b>Dark Court Green</b><p class="text-[10px] opacity-80">Primary Action / Play Match</p></div><span>#005204</span>
+        </div>
+        <div class="standards-swatch" style="background:#002901; color:#ffffff;">
+          <div><b>Deep Shadow Bevel</b><p class="text-[10px] opacity-80">3D Extruded Depth</p></div><span>#002901</span>
+        </div>
+        <div class="standards-swatch" style="background:#0e261d;">
+          <div><b>Dark Court Forest</b><p class="text-[10px] opacity-80">Substrate &amp; Tactical UI</p></div><span>#0E261D</span>
+        </div>
+        <div class="standards-swatch" style="background:#059669;">
+          <div><b>Tournament Emerald</b><p class="text-[10px] opacity-80">Court Surface Turf</p></div><span>#059669</span>
+        </div>
+        <div class="standards-swatch" style="background:#05140e;">
+          <div><b>Deep Court Shadow</b><p class="text-[10px] opacity-80">Tactical 3D Bevel</p></div><span>#05140E</span>
+        </div>
+        <div class="standards-swatch" style="background:#ffffff; color:#0f172a; border-color:#e2e8f0;">
+          <div><b>Card Pure White</b><p class="text-[10px] opacity-70">Elevated Pill Cards</p></div><span>#FFFFFF</span>
+        </div>
+      </div>
+    </div>
+    <div class="mt-6 pt-5 border-t border-slate-100">
+      <div class="flex items-center justify-between mb-2">
+        <div>
+          <b class="text-sm text-slate-900">Tactile 3D Button Standards</b>
+          <p class="text-xs text-slate-500">Solid extruded 6-7px bottom bevel with 3-4px tactile press-down action.</p>
+        </div>
+        <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full">INTERACTIVE TESTER</span>
+      </div>
+      <div class="p-4 rounded-3xl bg-[#081a13] mt-3">
+        <div class="pikol-action-suite">
+          <button type="button" class="pikol-btn-primary" onclick="notify('Hero Button: Dark Green #005204 with 7px #002901 shadow')">
+            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            <span>PLAY MATCH</span>
+          </button>
+          <button type="button" class="pikol-btn-white" onclick="notify('Card Button: White #ffffff with 7px #cbd5e1 shadow')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>
+            <div><b>Tournament</b><small>8 teams · 3 rounds · win it all</small></div>
+          </button>
+          <div class="pikol-btn-grid">
+            <button type="button" class="pikol-btn-tactical" onclick="notify('Tactical 1: Practice · #0e261d with #bef264 icon')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+              <span>Practice</span>
+            </button>
+            <button type="button" class="pikol-btn-tactical" onclick="notify('Tactical 2: How to Play · #0e261d with #bef264 icon')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg>
+              <span>How to Play</span>
+            </button>
+            <button type="button" class="pikol-btn-tactical" onclick="notify('Tactical 3: Settings · #0e261d with #bef264 icon')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="21" x2="14" y1="4" y2="4"></line><line x1="10" x2="3" y1="4" y2="4"></line><line x1="21" x2="12" y1="12" y2="12"></line><line x1="8" x2="3" y1="12" y2="12"></line><line x1="21" x2="16" y1="20" y2="20"></line><line x1="12" x2="3" y1="20" y2="20"></line><line x1="14" x2="14" y1="2" y2="6"></line><line x1="8" x2="8" y1="10" y2="14"></line><line x1="16" x2="16" y1="18" y2="22"></line></svg>
+              <span>Settings</span>
+            </button>
+          </div>
+          <button type="button" class="pikol-btn-banner" onclick="notify('Banner Button: Play Online with badge #bef264 &amp; chevron')">
+            <div class="pikol-btn-banner-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" x2="22" y1="12" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path></svg>
+            </div>
+            <div class="pikol-btn-banner-info"><b>Play Online</b><small>Play a friend or a quick match</small></div>
+            <span class="pikol-btn-banner-badge">NEW</span>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="mt-6 pt-5 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+      <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+        <b class="text-sm text-slate-900">Typography Scale</b>
+        <p class="text-slate-500 mt-1"><b class="text-slate-800 italic font-black">DISPLAY 950 ITALIC:</b> Action buttons, headlines, game scores, banner tags.</p>
+        <p class="text-slate-500 mt-1"><b class="text-slate-800 font-semibold">BODY / UI 600–800:</b> Inter / ui-sans-serif, tabular figures for clocks &amp; match numbers.</p>
+      </div>
+      <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+        <b class="text-sm text-slate-900">Geometry &amp; Radii</b>
+        <p class="text-slate-500 mt-1"><b class="text-slate-800">PILL BUTTONS:</b> 22px – 26px radius, solid 6–7px depth bevel.</p>
+        <p class="text-slate-500 mt-1"><b class="text-slate-800">TACTICAL CARDS:</b> 18px radius, 6px bottom shadow, 1px contrast rim.</p>
+      </div>
+    </div>
+    <button type="button" class="w-full mt-5 rounded-2xl bg-slate-900 text-white py-3.5 text-sm font-bold shadow-lg" onclick="closeModal('pikolStandardsModal')">Done Reviewing Standards</button>
+  </div>
+</div>
+
+<!-- Game Winner celebration overlay -->
+<div id="gameWinnerOverlay" class="winner-overlay" style="display:none;" onclick="backdropClose(event,'gameWinnerOverlay')">
+  <canvas id="winnerConfettiCanvas" class="winner-confetti-canvas"></canvas>
+  <div class="winner-celebration-card animate-celebrate">
+<!-- (2026-07-13) Replace emoji trophy with clean SVG vector; was 🏆 -->
+    <div class="winner-trophy-ring">
+      <svg class="w-10 h-10 text-[#072419]" viewBox="0 0 24 24" fill="currentColor"><path d="M6 3h12v2h2a3 3 0 0 1 3 3v2a5 5 0 0 1-5 5h-.2A6.002 6.002 0 0 1 13 18.92V21h4v2H7v-2h4v-2.08A6.002 6.002 0 0 1 6.2 15H6a5 5 0 0 1-5-5V8a3 3 0 0 1 3-3h2V3zm0 4H4a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h.2A6 6 0 0 1 6 11V7zm12 0v4a6 6 0 0 1-.2 2H18a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1h-2z"/></svg>
+    </div>
+<!-- (2026-07-13) Set default winner title to generic team; was Team Reyes -->
+    <h2 id="winnerTeamTitle" class="winner-team-title">Team 1 Wins!</h2>
+    <div class="winner-score-banner">
+      <span id="winnerFinalScoreA">11</span>
+      <span class="winner-score-sep">–</span>
+      <span id="winnerFinalScoreB">8</span>
+    </div>
+    <p id="winnerPlayersList" class="winner-players-line">Player 1 &amp; Player 2</p>
+    <p class="winner-rule-caption" id="winnerRuleCaption">Won game by regulation 2-point margin.</p>
+    <div class="winner-actions-stack mt-5">
+<!-- (2026-07-13) Replace missing instagram lucide icon with svg; was lucide -->
+      <button class="winner-primary-cta" onclick="shareWinnerStory()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg> Share Victory to Story
+      </button>
+      <button class="winner-secondary-cta" onclick="openNewGameFromWin()">
+        <i data-lucide="plus-circle"></i> Start Next Game
+      </button>
+      <button class="winner-close-link" onclick="closeWinnerOverlay()">Done &amp; Review Match</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"><div class="rounded-xl bg-slate-900 text-white px-4 py-3 shadow-lg text-sm font-semibold" id="toastText"></div></div>
+<!-- (2026-07-13) Modal to edit court settings; was non-existent -->
+<div class="modal-backdrop" id="courtEditModal" onclick="backdropClose(event,'courtEditModal')">
+  <div class="modal" style="width: min(520px, 100%); max-height: 90vh; overflow-y: auto;">
+    <div class="flex items-start justify-between border-b border-slate-100 pb-3 mb-4">
+      <div>
+        <span class="text-[10px] uppercase tracking-widest text-emerald-700 font-extrabold flex items-center gap-1.5">
+          <i data-lucide="settings-2" class="w-3.5 h-3.5"></i> COURT SETTINGS
+        </span>
+        <h2 class="text-xl font-extrabold mt-1 text-slate-900" id="editCourtModalTitle">Edit Court 1 Settings</h2>
+        <p class="text-xs text-slate-500 mt-0.5" id="editCourtModalVenue">Kapenarra Courtside Pickleball</p>
+      </div>
+      <button class="w-9 h-9 rounded-lg hover:bg-slate-100 grid place-items-center" onclick="closeModal('courtEditModal')">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+    <form id="courtEditForm" onsubmit="saveCourtSettingsModal(event)">
+      <input type="hidden" id="editCourtNumber" value="1">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+        <label class="block sm:col-span-2">
+          <span class="font-bold text-slate-700 block mb-1">Court Display Name</span>
+          <input type="text" id="editCourtNameInput" class="w-full border border-slate-200 rounded-xl px-3 py-2.5 font-bold" placeholder="e.g. Court 1 · Pro Center" required>
+        </label>
+        <label class="block">
+          <span class="font-bold text-slate-700 block mb-1">Operational Status</span>
+          <select id="editCourtStatusSelect" class="w-full border border-slate-200 rounded-xl px-3 py-2.5 font-bold bg-white">
+            <option value="open">Active / Open</option>
+            <option value="maintenance">Under Maintenance</option>
+            <option value="closed">Closed / Private</option>
+          </select>
+        </label>
+        <label class="block">
+          <span class="font-bold text-slate-700 block mb-1">Minimum Booking Duration</span>
+          <select id="editCourtMinHoursSelect" class="w-full border border-slate-200 rounded-xl px-3 py-2.5 font-bold bg-white">
+            <option value="1">1 Hour Minimum</option>
+            <option value="2">2 Hours Minimum</option>
+            <option value="3">3 Hours Minimum</option>
+          </select>
+        </label>
+        <label class="block">
+          <span class="font-bold text-slate-700 block mb-1">Standard Rate (₱ / hr)</span>
+          <input type="number" id="editCourtRateInput" min="100" step="50" class="w-full border border-slate-200 rounded-xl px-3 py-2.5 font-bold" placeholder="650" required>
+        </label>
+        <label class="block">
+          <span class="font-bold text-slate-700 block mb-1">Peak Rate (₱ / hr)</span>
+          <input type="number" id="editCourtPeakRateInput" min="100" step="50" class="w-full border border-slate-200 rounded-xl px-3 py-2.5 font-bold" placeholder="750" required>
+        </label>
+        <label class="block">
+          <span class="font-bold text-slate-700 block mb-1">Opening Hour</span>
+          <select id="editCourtOpenTimeSelect" class="w-full border border-slate-200 rounded-xl px-3 py-2.5 font-bold bg-white">
+            <option value="6:00 AM">6:00 AM</option>
+            <option value="7:00 AM">7:00 AM</option>
+            <option value="8:00 AM">8:00 AM</option>
+          </select>
+        </label>
+        <label class="block">
+          <span class="font-bold text-slate-700 block mb-1">Closing Hour</span>
+          <select id="editCourtCloseTimeSelect" class="w-full border border-slate-200 rounded-xl px-3 py-2.5 font-bold bg-white">
+            <option value="10:00 PM">10:00 PM</option>
+            <option value="11:00 PM">11:00 PM</option>
+            <option value="12:00 AM">12:00 AM (Midnight)</option>
+            <option value="Next Day 8:00 AM">Next Day 8:00 AM</option>
+          </select>
+        </label>
+        <label class="block sm:col-span-2">
+          <span class="font-bold text-slate-700 block mb-1">Surface Type</span>
+          <select id="editCourtSurfaceSelect" class="w-full border border-slate-200 rounded-xl px-3 py-2.5 font-bold bg-white">
+            <option value="Cushioned Acrylic">Cushioned Acrylic (Pro Tournament)</option>
+            <option value="Hard Court Polyurethane">Hard Court Polyurethane</option>
+            <option value="Concrete Smooth Finish">Concrete Smooth Finish</option>
+            <option value="Indoor Hardwood">Indoor Hardwood</option>
+          </select>
+        </label>
+        <div class="sm:col-span-2 border border-slate-200 rounded-xl p-3 bg-slate-50">
+          <span class="font-bold text-slate-700 block mb-2 text-xs">Court Surface Colors</span>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <span class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Playing Area / Side</span>
+              <div class="flex items-center gap-2">
+                <input type="color" id="editCourtSideColorInput" class="w-9 h-9 rounded-lg border-none cursor-pointer">
+                <input type="text" id="editCourtSideHexInput" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 font-mono text-xs font-bold" placeholder="#15803d">
+              </div>
+            </div>
+            <div>
+              <span class="text-[10px] font-bold text-slate-500 uppercase block mb-1">Kitchen / Non-Volley</span>
+              <div class="flex items-center gap-2">
+                <input type="color" id="editCourtNvzColorInput" class="w-9 h-9 rounded-lg border-none cursor-pointer">
+                <input type="text" id="editCourtNvzHexInput" class="w-full border border-slate-200 rounded-lg px-2 py-1.5 font-mono text-xs font-bold" placeholder="#22c55e">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sm:col-span-2">
+          <span class="font-bold text-slate-700 block mb-1 text-xs">Included Amenities</span>
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <label class="flex items-center gap-2 p-2 bg-slate-50 rounded-lg border border-slate-200 cursor-pointer">
+              <input type="checkbox" id="editAmenityLighting" class="rounded text-emerald-600">
+              <span class="font-semibold text-slate-700">Night LED Lighting</span>
+            </label>
+            <label class="flex items-center gap-2 p-2 bg-slate-50 rounded-lg border border-slate-200 cursor-pointer">
+              <input type="checkbox" id="editAmenityCovered" class="rounded text-emerald-600">
+              <span class="font-semibold text-slate-700">Roofed / Covered</span>
+            </label>
+            <label class="flex items-center gap-2 p-2 bg-slate-50 rounded-lg border border-slate-200 cursor-pointer">
+              <input type="checkbox" id="editAmenityNet" class="rounded text-emerald-600">
+              <span class="font-semibold text-slate-700">Tournament Pro Net</span>
+            </label>
+            <label class="flex items-center gap-2 p-2 bg-slate-50 rounded-lg border border-slate-200 cursor-pointer">
+              <input type="checkbox" id="editAmenityScoreboard" class="rounded text-emerald-600">
+              <span class="font-semibold text-slate-700">Electronic Scoreboard</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center justify-end gap-2 mt-5 pt-3 border-t border-slate-100">
+        <button type="button" class="px-4 py-2.5 rounded-xl border border-slate-200 font-bold text-slate-600 text-xs" onclick="closeModal('courtEditModal')">Cancel</button>
+        <button type="submit" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 font-bold text-white text-xs flex items-center gap-2">
+          <i data-lucide="check" class="w-4 h-4"></i> Save Court Settings
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- (2026-07-13) Load modular scripts before body close; was inline script -->
+<script src="js/data.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/booking.js"></script>
+<script src="js/referee.js"></script>
+<script src="js/admin.js"></script>
+<script src="js/community.js"></script>
+<script src="js/main.js"></script>
+</body></html>

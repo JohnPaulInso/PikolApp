@@ -1,0 +1,8 @@
+{
+  "name": "pikol-app",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "npx -y live-server --port=5588",
+    "dev": "npx -y live-server --port=5588"
+  }
+}
