@@ -45,7 +45,7 @@
 </div>
 <div class="demo-credentials mt-3"><i data-lucide="info"></i><span>All venue owner accounts use password: <b>admin123</b></span></div><p class="login-terms">Demo credentials stay on this device. No real account or payment is used.</p></section></div></div>
 <!-- (2026-07-13) Frosted glass top header navbar; was solid bg-white/90 -->
-<header class="safe-top sticky top-0 z-40 frosted-header border-b border-slate-200/80"><div class="max-w-7xl mx-auto h-[68px] px-4 sm:px-6 flex items-center justify-between"><div class="top-brand flex items-center gap-3"><div class="top-brand-mark w-10 h-10 rounded-2xl overflow-hidden grid place-items-center shadow-lg shadow-emerald-900/15"><img src="assets/pikol-logo.png" alt="PIKOL" class="w-full h-full object-cover"></div><div><div class="pikol-brand-font text-[22px] leading-5 text-slate-900 top-brand-text">PIKOL</div><small class="text-slate-500 text-xs font-semibold tracking-wider">COURTSIDE <span class="mx-1">·</span> BOGO CITY</small></div></div><div class="desktop-nav flex items-center gap-1" id="desktopTabs"></div><div class="flex items-center gap-2"><button class="standards-btn-link" onclick="showModal('pikolStandardsModal')" aria-label="Open PIKOL Design Standards"><i data-lucide="palette" class="w-3.5 h-3.5"></i><span class="hidden sm:inline">Standards</span></button><button class="w-10 h-10 rounded-xl border border-slate-200 grid place-items-center hover:bg-slate-50" aria-label="Notifications" onclick="notify('You’re all caught up')"><i data-lucide="bell" class="w-4 h-4"></i></button><div class="user-menu-wrap"><button id="userBadge" class="user-badge" type="button" onclick="toggleUserMenu()" aria-label="Open account menu" aria-expanded="false">AR</button><div class="user-popover" id="userPopover"><div class="user-popover-head"><span id="userPopoverAvatar" class="user-popover-avatar">AR</span><div><b id="userDisplayName">Alex Reyes</b><small id="userDisplayRole">PLAYER DEMO</small></div></div><p id="userDisplayEmail">alex@demo.com</p><button onclick="openLoginScreen(currentUser?.role==='admin'?'player':'admin')"><i data-lucide="repeat-2"></i> Switch demo account</button><button onclick="openLeaderboardMarket()"><i data-lucide="shopping-bag"></i> Community Marketplace</button><button class="user-logout" onclick="signOutDemo()"><i data-lucide="log-out"></i> Sign out</button></div></div></div></div></header>
+<header class="safe-top sticky top-0 z-40 frosted-header border-b border-slate-200/80"><div class="max-w-7xl mx-auto h-[68px] px-4 sm:px-6 flex items-center justify-between"><div class="top-brand flex items-center gap-3"><div class="top-brand-mark w-10 h-10 rounded-2xl overflow-hidden grid place-items-center shadow-lg shadow-emerald-900/15"><img src="assets/pikol-logo.png" alt="PIKOL" class="w-full h-full object-cover"></div><div><div class="pikol-brand-font text-[22px] leading-5 text-slate-900 top-brand-text">PIKOL</div><small class="text-slate-500 text-xs font-semibold tracking-wider">COURTSIDE <span class="mx-1">·</span> BOGO CITY</small></div></div><div class="desktop-nav flex items-center gap-1" id="desktopTabs"></div><div class="flex items-center gap-2"><button class="standards-btn-link" onclick="showModal('pikolStandardsModal')" aria-label="Open PIKOL Design Standards"><i data-lucide="palette" class="w-3.5 h-3.5"></i><span class="hidden sm:inline">Standards</span></button><button class="w-10 h-10 rounded-xl border border-slate-200 grid place-items-center hover:bg-slate-50" aria-label="Notifications" onclick="notify('You’re all caught up')"><i data-lucide="bell" class="w-4 h-4"></i></button><div class="user-menu-wrap"><button id="userBadge" class="user-badge" type="button" onclick="toggleUserMenu()" aria-label="Open account menu" aria-expanded="false">AR</button><div class="user-popover" id="userPopover"><div class="user-popover-head"><span id="userPopoverAvatar" class="user-popover-avatar">AR</span><div><b id="userDisplayName">Alex Reyes</b><small id="userDisplayRole">PLAYER DEMO</small></div></div><p id="userDisplayEmail">alex@demo.com</p><!-- (2026-07-13) Add profile link to user popover; was missing profile link --><button onclick="setTab('profile')"><i data-lucide="user"></i> My Profile & Activity</button><button onclick="openLoginScreen(currentUser?.role==='admin'?'player':'admin')"><i data-lucide="repeat-2"></i> Switch demo account</button><button onclick="openLeaderboardMarket()"><i data-lucide="shopping-bag"></i> Community Marketplace</button><button class="user-logout" onclick="signOutDemo()"><i data-lucide="log-out"></i> Sign out</button></div></div></div></div></header>
 <aside class="desktop-rail" id="desktopRail" aria-label="Desktop navigation"><div class="rail-brand"><span class="rail-logo"><img src="assets/pikol-logo.png" alt="PIKOL" class="w-full h-full object-cover rounded-xl"></span><div><b class="pikol-brand-font text-xl text-white">PIKOL</b><small>Bogo Pickle Hub</small></div></div><div class="rail-workspace"><span class="rail-workspace-dot"></span><span><b>BOGO CITY</b><small>Sample workspace</small></span><i data-lucide="chevron-down"></i></div><div class="rail-section-label">WORKSPACE</div><nav class="rail-nav" id="desktopRailTabs" aria-label="Main workspace"></nav><button class="rail-link mt-2" onclick="showModal('pikolStandardsModal')"><span class="rail-link-icon"><i data-lucide="palette"></i></span><span>Design Standards</span></button><div class="rail-bottom"><div class="rail-status"><span class="rail-status-dot"></span><span><b>Demo mode</b><small>Sample data only</small></span></div><button class="rail-signout" onclick="signOutDemo()"><i data-lucide="log-out"></i> Sign out</button><small class="rail-version">PIKOL · MOBILE + DESKTOP</small></div></aside>
 <main class="mainpad max-w-7xl mx-auto px-4 sm:px-6 pt-7">
 <!-- (2026-07-13) Remove closeCourtBooking from main header; was back button -->
@@ -588,7 +588,178 @@
       </div>
     </aside>
   </div>
-</section><section class="view" id="view-leader"><div class="glass rounded-3xl overflow-hidden"><div class="p-5 sm:p-6 border-b border-slate-100 flex flex-wrap justify-between items-center gap-3"><div><div class="text-xs uppercase tracking-widest font-bold text-emerald-700">Bogo community</div><h2 class="text-xl font-extrabold mt-1">Bogo City leaderboards</h2><p class="text-sm text-slate-500 mt-1">Track your local progress, one game at a time.</p></div><div class="flex p-1 bg-slate-100 rounded-xl" id="timePills"><button class="px-3 py-2 rounded-lg bg-white shadow-sm text-xs font-bold" onclick="timeframe(this)">This Week</button><button class="px-3 py-2 rounded-lg text-slate-500 text-xs font-semibold" onclick="timeframe(this)">This Month</button><button class="px-3 py-2 rounded-lg text-slate-500 text-xs font-semibold" onclick="timeframe(this)">All Time</button></div></div><div class="px-4 sm:px-6" id="leaderRows"></div><div class="bg-slate-900 text-white px-5 py-4 flex items-center justify-between"><div class="flex items-center gap-3"><div class="w-9 h-9 rounded-full bg-emerald-500 grid place-items-center font-bold text-sm">JM</div><div><div class="font-bold text-sm">Your rank <span class="text-emerald-300">#18</span></div><div class="text-[11px] text-slate-400">Keep playing to move up</div></div></div><div class="text-right"><div class="font-bold">3.42 DUPR</div><div class="text-[11px] text-slate-400">8 matches</div></div></div></div><section class="leader-market-shelf glass rounded-3xl p-5 sm:p-6 mt-5" id="leaderGearMarket"><div class="leader-market-head"><div><span class="market-kicker">PIKOL APP COMMUNITY MARKET</span><h2>Second-hand paddles</h2><p>Pre-loved gear listed by local players.</p></div><span class="used-gear-badge"><i data-lucide="recycle"></i> PLAYER LISTINGS</span></div><div class="grid grid-cols-2 sm:grid-cols-2 gap-3" id="marketGrid"></div><p class="market-demo-note"><i data-lucide="info"></i> Sample listings · Contact and checkout are demo-only.</p></section></section>
+</section>
+<!-- (2026-07-13) Retain leaderboards view before profile; was omitted -->
+<section class="view" id="view-leader"><div class="glass rounded-3xl overflow-hidden"><div class="p-5 sm:p-6 border-b border-slate-100 flex flex-wrap justify-between items-center gap-3"><div><div class="text-xs uppercase tracking-widest font-bold text-emerald-700">Bogo community</div><h2 class="text-xl font-extrabold mt-1">Bogo City leaderboards</h2><p class="text-sm text-slate-500 mt-1">Track your local progress, one game at a time.</p></div><div class="flex p-1 bg-slate-100 rounded-xl" id="timePills"><button class="px-3 py-2 rounded-lg bg-white shadow-sm text-xs font-bold" onclick="timeframe(this)">This Week</button><button class="px-3 py-2 rounded-lg text-slate-500 text-xs font-semibold" onclick="timeframe(this)">This Month</button><button class="px-3 py-2 rounded-lg text-slate-500 text-xs font-semibold" onclick="timeframe(this)">All Time</button></div></div><div class="px-4 sm:px-6" id="leaderRows"></div><div class="bg-slate-900 text-white px-5 py-4 flex items-center justify-between"><div class="flex items-center gap-3"><div class="w-9 h-9 rounded-full bg-emerald-500 grid place-items-center font-bold text-sm">JM</div><div><div class="font-bold text-sm">Your rank <span class="text-emerald-300">#18</span></div><div class="text-[11px] text-slate-400">Keep playing to move up</div></div></div><div class="text-right"><div class="font-bold">3.42 DUPR</div><div class="text-[11px] text-slate-400">8 matches</div></div></div></div><section class="leader-market-shelf glass rounded-3xl p-5 sm:p-6 mt-5" id="leaderGearMarket"><div class="leader-market-head"><div><span class="market-kicker">PIKOL APP COMMUNITY MARKET</span><h2>Second-hand paddles</h2><p>Pre-loved gear listed by local players.</p></div><span class="used-gear-badge"><i data-lucide="recycle"></i> PLAYER LISTINGS</span></div><div class="grid grid-cols-2 sm:grid-cols-2 gap-3" id="marketGrid"></div><p class="market-demo-note"><i data-lucide="info"></i> Sample listings · Contact and checkout are demo-only.</p></section></section>
+<!-- (2026-07-13) Player profile view for bookings, DUPR & orders; was none -->
+<section class="view" id="view-profile" aria-label="Player Profile and Activity">
+  <div class="profile-container max-w-3xl mx-auto space-y-4">
+    <!-- Profile Hero Card -->
+    <div class="profile-hero-card">
+      <div class="profile-hero-top">
+        <div class="profile-avatar-wrap">
+          <div class="profile-avatar-circle" id="profilePageAvatar">AR</div>
+          <span class="profile-verified-badge" title="DUPR Verified"><i data-lucide="check" class="w-3 h-3 text-white"></i></span>
+        </div>
+        <div class="profile-hero-identity">
+          <div class="flex items-center gap-2 flex-wrap">
+            <h2 class="profile-user-name" id="profilePageName">Alex Rivera</h2>
+            <span class="profile-pro-badge">PRO MEMBER</span>
+          </div>
+          <p class="profile-user-handle" id="profilePageHandle">@alexrivera · Bogo City, Cebu</p>
+          <div class="profile-badges-row">
+            <span class="profile-pill-badge"><i data-lucide="shield-check"></i> DUPR Rated</span>
+            <span class="profile-pill-badge"><i data-lucide="map-pin"></i> Kapenarra VIP</span>
+            <span class="profile-pill-badge"><i data-lucide="sparkles"></i> 4.9 ★ Rating</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Quick Stats Strip -->
+      <div class="profile-stats-grid">
+        <div class="profile-stat-item">
+          <b class="profile-stat-val">48</b>
+          <span class="profile-stat-lbl">Matches</span>
+        </div>
+        <div class="profile-stat-item">
+          <b class="profile-stat-val text-emerald-400">68%</b>
+          <span class="profile-stat-lbl">Win Rate</span>
+        </div>
+        <div class="profile-stat-item">
+          <b class="profile-stat-val text-lime-400">3.85</b>
+          <span class="profile-stat-lbl">Doubles DUPR</span>
+        </div>
+        <div class="profile-stat-item">
+          <b class="profile-stat-val">64h</b>
+          <span class="profile-stat-lbl">On Court</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Official DUPR Card -->
+    <div class="profile-dupr-banner">
+      <div class="profile-dupr-header">
+        <div class="flex items-center gap-2">
+          <span class="dupr-logo-badge">DUPR</span>
+          <b class="text-xs sm:text-sm font-black text-slate-800">Dynamic Universal Pickleball Rating</b>
+        </div>
+        <button type="button" class="dupr-sync-btn" onclick="syncDuprProfile()" id="duprSyncBtn" aria-label="Sync DUPR">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> <span>Sync DUPR</span>
+        </button>
+      </div>
+      <div class="profile-dupr-scores-grid">
+        <div class="dupr-score-box primary-score">
+          <span class="dupr-score-label">DOUBLES RATING</span>
+          <div class="dupr-score-value">3.85<small>2</small></div>
+          <span class="dupr-reliability-tag"><i data-lucide="check-circle-2" class="w-3 h-3 text-emerald-600 inline"></i> Half DUPR Verified · 78%</span>
+        </div>
+        <div class="dupr-score-box">
+          <span class="dupr-score-label">SINGLES RATING</span>
+          <div class="dupr-score-value">3.42<small>0</small></div>
+          <span class="dupr-reliability-tag">64% Reliability</span>
+        </div>
+      </div>
+      <div class="dupr-footer-meta">
+        <span>DUPR ID: <b class="font-mono text-slate-800">PH-BGO-849201</b></span>
+        <span class="dupr-trend-up"><i data-lucide="trending-up" class="w-3.5 h-3.5 inline"></i> +0.18 past 30 days</span>
+      </div>
+    </div>
+
+    <!-- Profile Navigation Subtabs -->
+    <div class="profile-subnav-scroll">
+      <div class="profile-subnav-bar" role="tablist">
+        <button type="button" class="profile-tab-btn active" onclick="setProfileSubTab('bookings')" id="profileTabBtn-bookings" role="tab">
+          <i data-lucide="calendar"></i>
+          <span>Bookings</span>
+          <span class="profile-tab-count">3</span>
+        </button>
+        <button type="button" class="profile-tab-btn" onclick="setProfileSubTab('orders')" id="profileTabBtn-orders" role="tab">
+          <i data-lucide="shopping-bag"></i>
+          <span>Orders</span>
+          <span class="profile-tab-count">4</span>
+        </button>
+        <button type="button" class="profile-tab-btn" onclick="setProfileSubTab('openplays')" id="profileTabBtn-openplays" role="tab">
+          <i data-lucide="users"></i>
+          <span>Open Plays</span>
+          <span class="profile-tab-count">2</span>
+        </button>
+        <button type="button" class="profile-tab-btn" onclick="setProfileSubTab('posts')" id="profileTabBtn-posts" role="tab">
+          <i data-lucide="message-square"></i>
+          <span>Posts</span>
+          <span class="profile-tab-count">3</span>
+        </button>
+        <button type="button" class="profile-tab-btn" onclick="setProfileSubTab('dupr')" id="profileTabBtn-dupr" role="tab">
+          <i data-lucide="activity"></i>
+          <span>DUPR Log</span>
+          <span class="profile-tab-count">5</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Subtab Panes Container -->
+    <div class="profile-content-panes">
+      <!-- 1. Bookings Pane -->
+      <div class="profile-pane active" id="profilePane-bookings">
+        <div class="profile-section-heading">
+          <div>
+            <h3 class="text-sm font-extrabold text-slate-800">Court Reservations</h3>
+            <p class="text-xs text-slate-500">Upcoming sessions and past bookings at Bogo venues</p>
+          </div>
+          <button type="button" class="profile-action-link" onclick="setTab('book')">New booking <i data-lucide="arrow-right" class="w-3 h-3"></i></button>
+        </div>
+        <div class="profile-bookings-list" id="profileBookingsList"></div>
+      </div>
+
+      <!-- 2. Orders Pane -->
+      <div class="profile-pane" id="profilePane-orders">
+        <div class="profile-section-heading">
+          <div>
+            <h3 class="text-sm font-extrabold text-slate-800">Orders & Purchases</h3>
+            <p class="text-xs text-slate-500">Paddles, merchandise, and venue cafe orders</p>
+          </div>
+          <button type="button" class="profile-action-link" onclick="openLeaderboardMarket()">Shop market <i data-lucide="arrow-right" class="w-3 h-3"></i></button>
+        </div>
+        <div class="profile-orders-list" id="profileOrdersList"></div>
+      </div>
+
+      <!-- 3. Open Plays Pane -->
+      <div class="profile-pane" id="profilePane-openplays">
+        <div class="profile-section-heading">
+          <div>
+            <h3 class="text-sm font-extrabold text-slate-800">My Open Play Sessions</h3>
+            <p class="text-xs text-slate-500">Sessions you are hosting or have registered to join</p>
+          </div>
+          <button type="button" class="profile-action-link" onclick="setTab('feed')">Browse all <i data-lucide="arrow-right" class="w-3 h-3"></i></button>
+        </div>
+        <div class="profile-openplays-list" id="profileOpenPlaysList"></div>
+      </div>
+
+      <!-- 4. Posts Pane -->
+      <div class="profile-pane" id="profilePane-posts">
+        <div class="profile-section-heading">
+          <div>
+            <h3 class="text-sm font-extrabold text-slate-800">My Community Posts</h3>
+            <p class="text-xs text-slate-500">Discussions, match results, and court callouts</p>
+          </div>
+          <button type="button" class="profile-action-link" onclick="openCommunityComposer()">New post <i data-lucide="plus" class="w-3 h-3"></i></button>
+        </div>
+        <div class="profile-posts-list" id="profilePostsList"></div>
+      </div>
+
+      <!-- 5. DUPR Matches Log Pane -->
+      <div class="profile-pane" id="profilePane-dupr">
+        <div class="profile-section-heading">
+          <div>
+            <h3 class="text-sm font-extrabold text-slate-800">Official DUPR Match History</h3>
+            <p class="text-xs text-slate-500">Verified tournament and referee-scored games</p>
+          </div>
+          <button type="button" class="profile-action-link" onclick="setTab('score')">Score match <i data-lucide="clipboard-list" class="w-3 h-3"></i></button>
+        </div>
+        <div class="profile-dupr-matches-list" id="profileDuprMatchesList"></div>
+      </div>
+    </div>
+  </div>
+</section>
 <!-- (2026-07-13) Revamp admin portal into sorted subpages; was single view -->
 <section class="view" id="view-admin">
   <!-- Venue Ownership Identity Banner -->
@@ -1648,6 +1819,8 @@
 <script src="js/referee.js"></script>
 <script src="js/admin.js"></script>
 <script src="js/community.js"></script>
+<!-- (2026-07-13) Load profile module; was not loaded -->
+<script src="js/profile.js"></script>
 <script src="js/main.js"></script>
 <!-- (2026-07-13) Register PWA service worker; was no service worker -->
 <script>
