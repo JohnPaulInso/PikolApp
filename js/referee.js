@@ -137,13 +137,51 @@ function setOnboardServeChoice(choice) {
   });
 }
 
+// (2026-07-13) Format toggle & quick player suggestions; was doubles only
+let currentMatchFormat = 'doubles';
+let activePlayerInputField = null;
+function setActivePlayerInput(el) { activePlayerInputField = el; }
+function quickFillPlayer(name) {
+  if (activePlayerInputField && activePlayerInputField.offsetParent !== null) {
+    activePlayerInputField.value = name;
+  } else {
+    const inputs = [document.getElementById('onboardPlayerA1'), document.getElementById('onboardPlayerA2'), document.getElementById('onboardPlayerB1'), document.getElementById('onboardPlayerB2')].filter(Boolean);
+    const empty = inputs.find(inp => inp.offsetParent !== null && (!inp.value || ['Player 1', 'Player 2', 'Player 3', 'Player 4'].includes(inp.value.trim())));
+    if (empty) empty.value = name;
+    else if (inputs[0]) inputs[0].value = name;
+  }
+  updateSampleCourtPreview();
+}
+function setOnboardFormat(fmt) {
+  currentMatchFormat = fmt;
+  document.getElementById('formatDoublesBtn')?.classList.toggle('active', fmt === 'doubles');
+  document.getElementById('formatSinglesBtn')?.classList.toggle('active', fmt === 'singles');
+  const fA2 = document.getElementById('fieldPlayerA2'), fB2 = document.getElementById('fieldPlayerB2');
+  if (fA2) fA2.style.display = fmt === 'singles' ? 'none' : 'block';
+  if (fB2) fB2.style.display = fmt === 'singles' ? 'none' : 'block';
+  const sA2 = document.getElementById('samplePlayerA2'), sB2 = document.getElementById('samplePlayerB2');
+  if (sA2) sA2.style.display = fmt === 'singles' ? 'none' : 'grid';
+  if (sB2) sB2.style.display = fmt === 'singles' ? 'none' : 'grid';
+  updateSampleCourtPreview();
+}
+
+// (2026-07-13) Gate X button on made game & activate ref page view; was modal
 function openGameOnboarding(isNew = false) {
   window._onboardingIsNew = isNew;
   const targetGame = isNew ? Math.min(7, availableGames + 1) : gameNo;
   const numSpan = document.getElementById('onboardGameNumber');
   if (numSpan) numSpan.textContent = targetGame;
+  const hasMadeGame = !!(window._matchStarted || (typeof a !== 'undefined' && (a > 0 || b > 0)) || (history && history.length > 0) || (matchLogs && matchLogs.some(l => l && l.length > 0)));
+  const closeBtn = document.getElementById('onboardCloseBtn');
+  if (closeBtn) closeBtn.style.display = hasMadeGame ? 'grid' : 'none';
+  const titleEl = document.getElementById('onboardTitle');
+  if (titleEl) titleEl.textContent = hasMadeGame ? `Game ${targetGame} Setup` : 'Who is playing?';
+  const subEl = document.getElementById('onboardSub');
+  if (subEl) subEl.textContent = hasMadeGame ? 'Customize court surface, team colors, and player roster.' : 'Choose match format, assign players, and set court surface.';
   const submitLabel = document.getElementById('onboardSubmitLabel');
-  if (submitLabel) submitLabel.textContent = isNew ? `Create & Start Game ${targetGame}` : `Start Scoring Match`;
+  if (submitLabel) submitLabel.textContent = hasMadeGame ? (isNew ? `Create & Start Game ${targetGame}` : 'Save Setup & Resume') : 'Start Scoring Match';
+  const viewScore = document.getElementById('view-score');
+  if (viewScore) viewScore.classList.add('onboarding-active');
 
   const cfg = isNew ? getGameConfig(gameNo) : getGameConfig(targetGame);
   const targetInput = document.getElementById('onboardTargetScore');
@@ -175,6 +213,7 @@ function openGameOnboarding(isNew = false) {
 
   renderCourtColorOptions();
   setOnboardCourtColor(cfg.courtColor || currentCourtColorKey || 'emerald');
+  setOnboardFormat(currentMatchFormat || 'doubles');
   updateSampleCourtPreview();
 
   setOnboardServeChoice(cfg.startMode === 'play' ? 'play' : (cfg.firstServe || 'A'));
@@ -188,9 +227,9 @@ function confirmGameOnboarding() {
   const tNameA = document.getElementById('onboardTeamNameA').value.trim() || 'Team 1';
   const tNameB = document.getElementById('onboardTeamNameB').value.trim() || 'Team 2';
   const pA1 = document.getElementById('onboardPlayerA1').value.trim() || 'Player 1';
-  const pA2 = document.getElementById('onboardPlayerA2').value.trim() || 'Player 2';
+  const pA2 = document.getElementById('onboardPlayerA2').value.trim() || (currentMatchFormat === 'singles' ? '' : 'Player 2');
   const pB1 = document.getElementById('onboardPlayerB1').value.trim() || 'Player 3';
-  const pB2 = document.getElementById('onboardPlayerB2').value.trim() || 'Player 4';
+  const pB2 = document.getElementById('onboardPlayerB2').value.trim() || (currentMatchFormat === 'singles' ? '' : 'Player 4');
   const sChoice = onboardServeSelected || 'A';
 
   if (window._onboardingIsNew) {
@@ -212,7 +251,7 @@ function confirmGameOnboarding() {
   cfg.colors = { A: colA, B: colB };
   cfg.courtColor = currentCourtColorKey;
   cfg.teamNames = { A: tNameA, B: tNameB };
-  cfg.players = { A: [pA1, pA2], B: [pB1, pB2] };
+  cfg.players = { A: currentMatchFormat === 'singles' ? [pA1] : [pA1, pA2], B: currentMatchFormat === 'singles' ? [pB1] : [pB1, pB2] };
   cfg.startMode = sChoice === 'play' ? 'play' : 'serve';
   cfg.firstServe = sChoice === 'play' ? 'A' : sChoice;
 
@@ -233,7 +272,10 @@ function confirmGameOnboarding() {
   cfg.runtime = { servingTeam, serverNumber, playForServePending };
   lastCall = playForServePending ? `Game ${gameNo} ready · Play for serve.` : `Game ${gameNo} ready · ${teamName(servingTeam)} serves first.`;
 
+  window._matchStarted = true;
   window._matchConfigured = true;
+  const viewScore = document.getElementById('view-score');
+  if (viewScore) viewScore.classList.remove('onboarding-active');
   closeModal('gameOnboardingModal');
   renderGameControls();
   syncRef();

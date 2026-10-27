@@ -69,16 +69,39 @@
 <section class="community-discovery mt-6"><div class="community-disc-head"><div class="discovery-heading-lead"><div class="discovery-header-icon pasalo-head-icon"><i data-lucide="ticket-check"></i></div><div><span>COMMUNITY COURT EXCHANGE</span><h2>Pasalo Courts</h2></div></div><button class="text-xs font-semibold text-emerald-700 flex items-center gap-1" onclick="openPasaloForm()"><i data-lucide="plus" class="w-3.5 h-3.5"></i> Offer booking</button></div><div id="pasaloCommunity" class="community-openplay-list"></div></section><div class="grid lg:grid-cols-[1fr_300px] gap-5"><div class="space-y-4" id="feedCards"></div><aside class="glass rounded-3xl p-5 h-fit"><div class="flex items-center gap-3"><div class="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-700 grid place-items-center"><i data-lucide="activity"></i></div><div><b>Play verified</b><p class="text-xs text-slate-500">Your games, your progress.</p></div></div><div class="grid grid-cols-2 gap-3 mt-5"><div class="rounded-2xl bg-slate-50 p-3"><p class="text-[11px] text-slate-500">Games this month</p><b class="text-xl">12</b></div><div class="rounded-2xl bg-slate-50 p-3"><p class="text-[11px] text-slate-500">Current DUPR</p><b class="text-xl">3.42</b></div></div><button class="w-full mt-4 rounded-xl bg-emerald-600 text-white py-3 text-sm font-bold" onclick="setTab('score')">Log a match</button></aside></div></section>
 <!-- (2026-07-13) Symmetrical un-crammed ref board layout; was cramped layout -->
 <section class="view" id="view-score">
-  <!-- (2026-07-13) Overlay priority inside view-score; was fixed body modal -->
+  <!-- (2026-07-13) Full ref onboarding page with format switch & chips; was popup -->
   <div class="modal-backdrop onboard-ref-overlay" id="gameOnboardingModal" onclick="backdropClose(event,'gameOnboardingModal')">
     <div class="modal onboard-overlay-modal">
       <div class="onboard-overlay-head">
         <div>
-          <span class="onboard-kicker">COURT CUSTOMIZER</span>
-          <h2 class="onboard-title">Game <span id="onboardGameNumber">1</span> Setup</h2>
-          <p class="onboard-sub">Customize court surface, team colors, and player roster.</p>
+          <span class="onboard-kicker" id="onboardKicker">MATCH SETUP</span>
+          <h2 class="onboard-title" id="onboardTitle">Who is playing?</h2>
+          <p class="onboard-sub" id="onboardSub">Choose your match format, assign players, and set court surface.</p>
         </div>
-        <button class="onboard-close-btn" onclick="closeModal('gameOnboardingModal')" aria-label="Close setup"><i data-lucide="x" class="w-4 h-4"></i></button>
+        <button class="onboard-close-btn" id="onboardCloseBtn" onclick="closeModal('gameOnboardingModal')" aria-label="Close setup" style="display:none"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+
+      <!-- Format Switcher -->
+      <div class="onboard-format-switch">
+        <button type="button" class="onboard-format-btn active" id="formatDoublesBtn" onclick="setOnboardFormat('doubles')">
+          <i data-lucide="users" class="w-3.5 h-3.5"></i> Doubles (2 vs 2)
+        </button>
+        <button type="button" class="onboard-format-btn" id="formatSinglesBtn" onclick="setOnboardFormat('singles')">
+          <i data-lucide="user" class="w-3.5 h-3.5"></i> Singles (1 vs 1)
+        </button>
+      </div>
+
+      <!-- Quick Player Suggestions -->
+      <div class="onboard-player-suggestions">
+        <div class="onboard-suggestions-label">QUICK PLAYER SUGGESTIONS (TAP TO FILL)</div>
+        <div class="onboard-chips-wrap">
+          <button type="button" class="onboard-chip" onclick="quickFillPlayer('Alex Reyes')"><i data-lucide="plus" class="w-3 h-3"></i> Alex Reyes</button>
+          <button type="button" class="onboard-chip" onclick="quickFillPlayer('Bea Santos')"><i data-lucide="plus" class="w-3 h-3"></i> Bea Santos</button>
+          <button type="button" class="onboard-chip" onclick="quickFillPlayer('Carlo Ramos')"><i data-lucide="plus" class="w-3 h-3"></i> Carlo Ramos</button>
+          <button type="button" class="onboard-chip" onclick="quickFillPlayer('Dan Perez')"><i data-lucide="plus" class="w-3 h-3"></i> Dan Perez</button>
+          <button type="button" class="onboard-chip" onclick="quickFillPlayer('Ana Cruz')"><i data-lucide="plus" class="w-3 h-3"></i> Ana Cruz</button>
+          <button type="button" class="onboard-chip" onclick="quickFillPlayer('Joey Miller')"><i data-lucide="plus" class="w-3 h-3"></i> Joey Miller</button>
+        </div>
       </div>
 
       <!-- Live Interactive Sample Court Preview -->
@@ -130,10 +153,10 @@
           </label>
           <div class="onboard-players-row">
             <label class="onboard-field-label">Player 1
-              <input id="onboardPlayerA1" class="onboard-text-input" value="Player 1" placeholder="Player 1" oninput="updateSampleCourtPreview()">
+              <input id="onboardPlayerA1" class="onboard-text-input" value="Player 1" placeholder="Player 1" oninput="updateSampleCourtPreview()" onfocus="setActivePlayerInput(this)">
             </label>
-            <label class="onboard-field-label">Player 2
-              <input id="onboardPlayerA2" class="onboard-text-input" value="Player 2" placeholder="Player 2" oninput="updateSampleCourtPreview()">
+            <label class="onboard-field-label" id="fieldPlayerA2">Player 2
+              <input id="onboardPlayerA2" class="onboard-text-input" value="Player 2" placeholder="Player 2" oninput="updateSampleCourtPreview()" onfocus="setActivePlayerInput(this)">
             </label>
           </div>
         </div>
@@ -158,10 +181,10 @@
           </label>
           <div class="onboard-players-row">
             <label class="onboard-field-label">Player 3
-              <input id="onboardPlayerB1" class="onboard-text-input" value="Player 3" placeholder="Player 3" oninput="updateSampleCourtPreview()">
+              <input id="onboardPlayerB1" class="onboard-text-input" value="Player 3" placeholder="Player 3" oninput="updateSampleCourtPreview()" onfocus="setActivePlayerInput(this)">
             </label>
-            <label class="onboard-field-label">Player 4
-              <input id="onboardPlayerB2" class="onboard-text-input" value="Player 4" placeholder="Player 4" oninput="updateSampleCourtPreview()">
+            <label class="onboard-field-label" id="fieldPlayerB2">Player 4
+              <input id="onboardPlayerB2" class="onboard-text-input" value="Player 4" placeholder="Player 4" oninput="updateSampleCourtPreview()" onfocus="setActivePlayerInput(this)">
             </label>
           </div>
         </div>
