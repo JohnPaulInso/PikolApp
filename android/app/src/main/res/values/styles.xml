@@ -13,6 +13,11 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:background">@null</item>
+        <!-- (2026-07-13) Set Samsung status/nav bar colors & contrast; was default -->
+        <item name="android:statusBarColor">#0B4537</item>
+        <item name="android:navigationBarColor">#080D0C</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
     </style>
 
 
