@@ -2,6 +2,8 @@
 function adminGo(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})}
 // (2026-07-13) Set court subtitle to Select open court below; was select an avail
 
+// (2026-07-13) Initialize courtColors store; was undefined ReferenceError
+let courtColors={};
 let activeAdminSubPage='courts';
 function setAdminSubPage(subId){
   activeAdminSubPage=subId;

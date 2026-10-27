@@ -1,5 +1,5 @@
-// (2026-07-13) PWA service worker with offline cache fallback; was none
-const CACHE_NAME = 'pikol-cache-v1';
+// (2026-07-13) Bump cache v2 and network-first strategy; was cache-first
+const CACHE_NAME = 'pikol-cache-v2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -9,6 +9,7 @@ const ASSETS_TO_CACHE = [
   './js/booking.js',
   './js/community.js',
   './js/referee.js',
+  './js/admin.js',
   './js/main.js',
   './assets/pikol-logo.png',
   './manifest.json'
@@ -34,18 +35,20 @@ self.addEventListener('activate', event => {
   );
 });
 
+// (2026-07-13) Network-first strategy with cache fallback; was cache-first
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
+  const url = new URL(event.request.url);
+  if (url.protocol !== 'http:' && url.protocol !== 'https:') return;
   event.respondWith(
-    caches.match(event.request).then(cached => {
-      const networked = fetch(event.request).then(response => {
-        if (response && response.status === 200 && response.type === 'basic') {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
-        }
-        return response;
-      }).catch(() => cached);
-      return cached || networked;
-    })
+    fetch(event.request).then(response => {
+      if (response && response.status === 200 && (response.type === 'basic' || response.type === 'cors')) {
+        const clone = response.clone();
+        caches.open(CACHE_NAME).then(cache => {
+          try { cache.put(event.request, clone); } catch (_) {}
+        });
+      }
+      return response;
+    }).catch(() => caches.match(event.request))
   );
 });
