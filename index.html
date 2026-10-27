@@ -57,7 +57,69 @@
 <!-- (2026-07-13) Court search bar; was catalog heading only -->
 <!-- (2026-07-13) Add carousel bottom navigations; was cards without nav -->
 <!-- (2026-07-13) Remove redundant venue heading; was duplicate title & subtitle -->
-<section class="view active" id="view-book"><span id="courtCatalogCount" class="hidden">6 local venues · Bogo City</span><div class="court-search-box"><i data-lucide="search" class="court-search-icon"></i><input type="text" id="courtSearchInput" placeholder="Search courts or venues (e.g. Service Box, Aminova, Lighted)..." oninput="filterCourtCatalog(this.value)" autocomplete="off"><button type="button" id="clearCourtSearchBtn" class="court-search-clear" onclick="clearCourtSearch()" aria-label="Clear search" style="display:none"><i data-lucide="x"></i></button></div><div class="court-catalog" id="courtCatalog"></div><div class="book-divider"></div><section class="discovery-shelf" aria-label="Open Play sessions"><div class="discovery-heading"><div class="discovery-heading-lead"><div class="discovery-header-icon openplay-head-icon"><i data-lucide="users-round"></i></div><div><span class="discovery-kicker">PLAY WITH THE COMMUNITY</span><h3>Open Play</h3><p>Drop in, meet players, and get on court.</p></div></div><button onclick="setTab('feed')">All sessions <i data-lucide="arrow-right"></i></button></div><div class="discovery-scroller" id="openPlayCards"></div><div class="carousel-nav-bottom" id="openPlayCarouselNav"><button type="button" class="carousel-nav-btn" onclick="slideCarousel('openPlayCards',-1)" aria-label="Previous Open Play"><i data-lucide="chevron-left"></i></button><div class="carousel-dots" id="openPlayDots"></div><button type="button" class="carousel-nav-btn" onclick="slideCarousel('openPlayCards',1)" aria-label="Next Open Play"><i data-lucide="chevron-right"></i></button></div></section><div class="book-divider"></div><div class="discovery-heading"><div class="discovery-heading-lead"><div class="discovery-header-icon pasalo-head-icon"><i data-lucide="ticket-check"></i></div><div><span class="discovery-kicker pasalo-kicker">COMMUNITY COURT EXCHANGE</span><h3>Pasalo courts</h3><p>Take over a player’s unused court reservation.</p></div></div><div class="pasalo-heading-actions"><button class="pasalo-offer-cta" onclick="openPasaloForm()"><i data-lucide="plus"></i> Offer booking</button><button class="pasalo-offer-cta pasalo-browse-cta" onclick="setTab('feed')">Browse all <i data-lucide="arrow-right"></i></button></div></div><div class="discovery-scroller" id="pasaloCards"></div><div class="carousel-nav-bottom" id="pasaloCarouselNav"><button type="button" class="carousel-nav-btn" onclick="slideCarousel('pasaloCards',-1)" aria-label="Previous Pasalo"><i data-lucide="chevron-left"></i></button><div class="carousel-dots" id="pasaloDots"></div><button type="button" class="carousel-nav-btn" onclick="slideCarousel('pasaloCards',1)" aria-label="Next Pasalo"><i data-lucide="chevron-right"></i></button></div></section>
+<!-- (2026-07-13) 13-section Book dashboard layout; was plain listing -->
+<section class="view active book-tab-view" id="view-book">
+  <!-- 1. GREETING HEADER & 2. LOCATION CHIP -->
+  <div id="bookGreetingHeader" class="book-dashboard-section"></div>
+
+  <!-- 3. SEARCH + FILTER ROW & QUICK CHIPS -->
+  <div id="bookSearchFilterSection" class="book-dashboard-section"></div>
+
+  <!-- 4. UPCOMING BOOKING CARD (HERO) -->
+  <div id="bookUpcomingHeroSection" class="book-dashboard-section"></div>
+
+  <!-- 5. QUICK ACTIONS ROW (4 ICON BUTTONS) -->
+  <div id="bookQuickActionsSection" class="book-dashboard-section"></div>
+
+  <!-- 6. TODAY'S AVAILABILITY / BOOK TONIGHT -->
+  <div id="bookTodayAvailabilitySection" class="book-dashboard-section"></div>
+
+  <!-- 7. YOUR STATS STRIP -->
+  <div id="bookStatsStripSection" class="book-dashboard-section"></div>
+
+  <!-- 8. OPEN GAMES NEAR YOU -->
+  <div id="bookOpenGamesSection" class="book-dashboard-section"></div>
+
+  <!-- 9. PROMOS & REWARDS BANNER -->
+  <div id="bookPromosBannerSection" class="book-dashboard-section"></div>
+
+  <!-- 10. FAVORITES / RECENTLY BOOKED VENUES -->
+  <div id="bookFavoritesSection" class="book-dashboard-section"></div>
+
+  <!-- 11. VENUES NEAR YOU (UPGRADED) -->
+  <section class="book-dashboard-section" id="bookVenuesSection">
+    <div class="book-section-header">
+      <div>
+        <span class="book-section-kicker">EXPLORE BOGO COURTS</span>
+        <h3 class="book-section-title">Venues Near You</h3>
+      </div>
+      <div class="venue-controls-wrap">
+        <select class="venue-sort-select" onchange="setVenueSortMode(this.value)" aria-label="Sort venues">
+          <option value="nearest">Nearest</option>
+          <option value="cheapest">Cheapest</option>
+          <option value="rating">Top Rated</option>
+          <option value="courts">Most Courts</option>
+        </select>
+        <div class="view-mode-toggle">
+          <button type="button" class="view-toggle-btn active" id="viewModeListBtn" onclick="toggleVenueDisplayMode('list')" aria-label="List view">
+            <i data-lucide="list"></i>
+          </button>
+          <button type="button" class="view-toggle-btn" id="viewModeMapBtn" onclick="toggleVenueDisplayMode('map')" aria-label="Map view">
+            <i data-lucide="map"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <span id="courtCatalogCount" class="hidden">6 local venues · Bogo City</span>
+    <div class="court-catalog" id="courtCatalog"></div>
+  </section>
+
+  <!-- 12. BOOKING HISTORY PREVIEW -->
+  <div id="bookHistorySection" class="book-dashboard-section"></div>
+
+  <!-- 13. TIPS / ANNOUNCEMENTS -->
+  <div id="bookAnnouncementSection" class="book-dashboard-section"></div>
+</section>
 <!-- (2026-07-13) Move booking slots to venue view; was on booking page -->
 <section class="view booking-detail-view" id="view-court" aria-label="Court booking details"><div class="booking-detail-shell"><div class="booking-route-top"><button class="booking-back-button" onclick="closeCourtBooking()" aria-label="Back to courts"><i data-lucide="arrow-left"></i><span>All courts</span></button><div class="booking-step-label"><span class="booking-step-dot"></span>COURT RESERVATION</div></div><div class="booking-page-title" id="bookingHeroCard"><div class="booking-hero-content"><div class="booking-hero-top"><img id="bookingPageVenueLogo" class="booking-page-venue-logo" src="venues/aminova-logo.jpg" alt="Venue logo"><div class="booking-hero-head"><span class="booking-page-kicker" id="bookingPageLocation">BOGO CITY · CEBU</span><h2 id="bookingPageVenue">Choose your court time</h2><p id="bookingPageSub">Select open court below</p></div></div><div class="booking-page-court" id="bookingPageCourt"><i data-lucide="map-pin"></i><span id="bookingPageCourtLabel">Court booking</span><span class="booking-open-hours">OPEN · 6 AM–8 AM NEXT DAY</span></div></div></div>
 <!-- (2026-07-13) Add subtle court photo gallery carousel; was title banner only -->
@@ -1299,10 +1361,218 @@
     </form>
   </div>
 </div>
+<!-- (2026-07-13) Location, filter & QR sheets + book-dashboard.js; was none -->
+<!-- Location Bottom Sheet -->
+<div class="sheet-backdrop" id="locationSheetModal" onclick="if(event.target===this)closeLocationSheet()">
+  <div class="sheet-container">
+    <div class="sheet-drag-handle"></div>
+    <div class="sheet-head">
+      <h3 class="sheet-title">Court Location</h3>
+      <button type="button" class="sheet-close-btn" onclick="closeLocationSheet()" aria-label="Close location sheet">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <button type="button" class="gps-detect-hero-btn" onclick="detectGpsLocationAction()">
+      <i data-lucide="crosshair"></i> Detect My Location (GPS)
+    </button>
+    <div id="gpsDetectionStatus" class="text-xs text-center text-slate-500 font-semibold -mt-2"></div>
+    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200">
+      <div>
+        <b class="text-xs text-slate-800 block">Location Filtering</b>
+        <small class="text-[10px] text-slate-500">Show courts within radius</small>
+      </div>
+      <button type="button" id="locToggleStateBtn" class="px-3 py-1.5 rounded-lg bg-emerald-100 text-emerald-800 text-xs font-bold" onclick="toggleLocationEnabled()">
+        Disable
+      </button>
+    </div>
+    <div>
+      <div class="flex justify-between items-center mb-1">
+        <label for="locationRadiusSlider" class="text-xs font-bold text-slate-700">Search Radius</label>
+        <span class="text-xs font-black text-emerald-700" id="locRadiusValue">40 km</span>
+      </div>
+      <input type="range" id="locationRadiusSlider" min="5" max="40" step="5" value="40" class="w-full accent-emerald-700" oninput="setSearchLocationRadius(this.value)">
+      <div class="radius-chips-row">
+        <button type="button" class="radius-chip-btn" data-radius="5" onclick="setSearchLocationRadius(5)">5 km</button>
+        <button type="button" class="radius-chip-btn" data-radius="10" onclick="setSearchLocationRadius(10)">10 km</button>
+        <button type="button" class="radius-chip-btn" data-radius="20" onclick="setSearchLocationRadius(20)">20 km</button>
+        <button type="button" class="radius-chip-btn active" data-radius="40" onclick="setSearchLocationRadius(40)">40 km</button>
+      </div>
+    </div>
+    <div>
+      <span class="text-[10px] font-black uppercase tracking-wider text-slate-400 block mb-2">Nearby Municipalities</span>
+      <div class="recent-locations-list">
+        <div class="recent-loc-item" onclick="selectRecentLocation('Bogo City', 10)">
+          <span>📍 Bogo City Center</span>
+          <small class="text-emerald-700 font-bold">10 km</small>
+        </div>
+        <div class="recent-loc-item" onclick="selectRecentLocation('San Remigio', 15)">
+          <span>📍 San Remigio</span>
+          <small class="text-slate-500 font-semibold">15 km</small>
+        </div>
+        <div class="recent-loc-item" onclick="selectRecentLocation('Medellin', 20)">
+          <span>📍 Medellin</span>
+          <small class="text-slate-500 font-semibold">20 km</small>
+        </div>
+        <div class="recent-loc-item" onclick="selectRecentLocation('Daanbantayan', 40)">
+          <span>📍 Daanbantayan</span>
+          <small class="text-slate-500 font-semibold">40 km</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Filter Bottom Sheet -->
+<div class="sheet-backdrop" id="filterSheetModal" onclick="if(event.target===this)closeFilterSheet()">
+  <div class="sheet-container">
+    <div class="sheet-drag-handle"></div>
+    <div class="sheet-head">
+      <h3 class="sheet-title">Filter Courts</h3>
+      <button type="button" class="sheet-close-btn" onclick="closeFilterSheet()" aria-label="Close filters">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <div>
+      <div class="flex justify-between items-center mb-1">
+        <label for="filterPriceSlider" class="text-xs font-bold text-slate-700">Max Price Per Hour</label>
+        <span class="text-xs font-black text-emerald-700" id="filterPriceValue">₱500/hr</span>
+      </div>
+      <input type="range" id="filterPriceSlider" min="200" max="500" step="20" value="500" class="w-full accent-emerald-700" oninput="setFilterPriceRange(this.value)">
+      <div class="flex justify-between text-[10px] text-slate-400 font-bold mt-1">
+        <span>₱200</span>
+        <span>₱350</span>
+        <span>₱500</span>
+      </div>
+    </div>
+    <div>
+      <label class="text-xs font-bold text-slate-700 block mb-2">Court Environment</label>
+      <div class="court-type-radio-group">
+        <button type="button" class="court-type-radio-btn active" onclick="setFilterCourtType('all'); this.parentNode.querySelectorAll('button').forEach(b=>b.classList.remove('active')); this.classList.add('active');">All</button>
+        <button type="button" class="court-type-radio-btn" onclick="setFilterCourtType('indoor'); this.parentNode.querySelectorAll('button').forEach(b=>b.classList.remove('active')); this.classList.add('active');">Indoor</button>
+        <button type="button" class="court-type-radio-btn" onclick="setFilterCourtType('outdoor'); this.parentNode.querySelectorAll('button').forEach(b=>b.classList.remove('active')); this.classList.add('active');">Outdoor</button>
+      </div>
+    </div>
+    <div>
+      <label class="text-xs font-bold text-slate-700 block mb-2">Amenities</label>
+      <div class="amenities-checkbox-grid">
+        <label class="amenity-checkbox-item">
+          <input type="checkbox" value="lighted" onchange="toggleAmenityFilter('lighted')">
+          <span>💡 Night Lighted</span>
+        </label>
+        <label class="amenity-checkbox-item">
+          <input type="checkbox" value="cafe" onchange="toggleAmenityFilter('cafe')">
+          <span>☕ Cafe / Dining</span>
+        </label>
+        <label class="amenity-checkbox-item">
+          <input type="checkbox" value="lounge" onchange="toggleAmenityFilter('lounge')">
+          <span>🛋️ Pro Lounge</span>
+        </label>
+        <label class="amenity-checkbox-item">
+          <input type="checkbox" value="parking" onchange="toggleAmenityFilter('parking')">
+          <span>🚗 Free Parking</span>
+        </label>
+        <label class="amenity-checkbox-item">
+          <input type="checkbox" value="showers" onchange="toggleAmenityFilter('showers')">
+          <span>🚿 Restrooms & Showers</span>
+        </label>
+      </div>
+    </div>
+    <div class="flex items-center gap-2 p-3 bg-slate-50 rounded-xl border border-slate-200">
+      <input type="checkbox" id="filterOpenNowCheckbox" class="rounded text-emerald-700 w-4 h-4">
+      <label for="filterOpenNowCheckbox" class="text-xs font-bold text-slate-700 cursor-pointer">Only show courts open now</label>
+    </div>
+    <div class="flex items-center gap-2 pt-2 border-t border-slate-100">
+      <button type="button" class="flex-1 py-3 rounded-xl border border-slate-200 font-bold text-slate-600 text-xs" onclick="resetAllDashboardFilters()">
+        Reset All
+      </button>
+      <button type="button" class="flex-1 py-3 rounded-xl bg-emerald-800 text-white font-bold text-xs" onclick="applyFilterSheet()">
+        Apply Filters
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- QR Check-in Modal -->
+<div class="modal-backdrop" id="bookingQrCheckinModal" onclick="if(event.target===this)closeBookingCheckinQr()">
+  <div class="modal max-w-sm">
+    <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+      <b class="text-sm font-extrabold text-slate-800">Front Desk Check-in</b>
+      <button type="button" class="w-8 h-8 rounded-full bg-slate-100 text-slate-600 grid place-items-center" onclick="closeBookingCheckinQr()">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+    <div class="qr-checkin-body">
+      <div class="qr-checkin-frame">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&format=png&data=PIKOL-CHECKIN-BK-8902-KAPENARRA" alt="Checkin QR code" class="qr-code-img">
+      </div>
+      <div class="qr-booking-meta">
+        <b>Kapenarra Courtside · Court 1</b>
+        <span>Today, Oct 27 · 4:00 PM – 5:00 PM</span>
+        <small>PASSCODE: BK-8902 · VERIFIED</small>
+      </div>
+      <p class="text-[11px] text-slate-500">Hold your screen near the courtside scanner or show to the manager.</p>
+    </div>
+  </div>
+</div>
+
+<!-- My Bookings Sheet Modal -->
+<div class="sheet-backdrop" id="myBookingsSheetModal" onclick="if(event.target===this)closeMyBookingsSheet()">
+  <div class="sheet-container">
+    <div class="sheet-drag-handle"></div>
+    <div class="sheet-head">
+      <h3 class="sheet-title">My Bookings</h3>
+      <button type="button" class="sheet-close-btn" onclick="closeMyBookingsSheet()" aria-label="Close bookings">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <div class="space-y-3">
+      <div class="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200">
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="text-[9.5px] font-black uppercase text-emerald-800 bg-white px-2 py-0.5 rounded-md border border-emerald-200">Upcoming Today</span>
+          <b class="text-xs text-emerald-900">₱350 · Paid</b>
+        </div>
+        <b class="text-sm text-slate-900 block font-extrabold">Kapenarra Courtside · Court 1</b>
+        <span class="text-xs text-slate-600 block mt-0.5">Today, Oct 27 · 4:00 PM – 5:00 PM</span>
+        <div class="flex gap-2 mt-3">
+          <button type="button" class="px-3 py-1.5 rounded-lg bg-emerald-700 text-white text-xs font-bold" onclick="closeMyBookingsSheet(); openBookingCheckinQr()">
+            Check-in QR
+          </button>
+          <button type="button" class="px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 text-xs font-bold" onclick="openVenueDirections('kapenarra')">
+            Directions
+          </button>
+        </div>
+      </div>
+      <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="text-[9.5px] font-black uppercase text-slate-600 bg-white px-2 py-0.5 rounded-md border border-slate-200">Completed</span>
+          <b class="text-xs text-slate-700">₱700 · Paid</b>
+        </div>
+        <b class="text-sm text-slate-900 block font-extrabold">Kapenarra Courtside · Court 1</b>
+        <span class="text-xs text-slate-600 block mt-0.5">Oct 22, 2026 · 5:00 PM – 7:00 PM</span>
+        <button type="button" class="mt-2.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 text-xs font-bold" onclick="closeMyBookingsSheet(); focusVenueCourt('kapenarra', 1)">
+          Book Again
+        </button>
+      </div>
+      <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+        <div class="flex items-center justify-between mb-1.5">
+          <span class="text-[9.5px] font-black uppercase text-slate-600 bg-white px-2 py-0.5 rounded-md border border-slate-200">Completed</span>
+          <b class="text-xs text-slate-700">₱640 · Paid</b>
+        </div>
+        <b class="text-sm text-slate-900 block font-extrabold">Service Box Courts · Court 2</b>
+        <span class="text-xs text-slate-600 block mt-0.5">Oct 18, 2026 · 4:00 PM – 6:00 PM</span>
+        <button type="button" class="mt-2.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-slate-700 text-xs font-bold" onclick="closeMyBookingsSheet(); focusVenueCourt('servicebox', 1)">
+          Book Again
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- (2026-07-13) Load modular scripts before body close; was inline script -->
 <script src="js/data.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/booking.js"></script>
+<script src="js/book-dashboard.js"></script>
 <script src="js/referee.js"></script>
 <script src="js/admin.js"></script>
 <script src="js/community.js"></script>
