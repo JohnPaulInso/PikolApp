@@ -35,7 +35,8 @@ body.is-phone-app,body.is-standalone-pwa,body.is-capacitor{--sat:env(safe-area-i
  #checkout>div{gap:12px}
  #checkout button{min-height:46px!important;border-radius:15px!important}
  .table-wrap{margin:0 -1px;scrollbar-width:thin;scrollbar-color:#cbd5e1 transparent}
- .grid-courts{min-width:570px!important;padding:12px!important}
+ /* (2026-07-13) Exclude compact-courts from 570px; was all .grid-courts */
+ .grid-courts:not(.compact-courts){min-width:570px!important;padding:12px!important}
  .slot{min-height:54px!important;border-radius:13px!important}
  /* (2026-07-13) Exclude split-simple-card from glass padding; was div:first */
  .view .glass>div:first-child:not(.split-simple-card){padding:15px!important}
@@ -299,8 +300,8 @@ body.is-phone-app,body.is-standalone-pwa,body.is-capacitor{--sat:env(safe-area-i
 .onboard-start-btn:active{transform:scale(.98);background:#003d03}
 
 
-/* (2026-07-13) Date strip scrollable horizontally; was fixed width grid */
-.date-strip{display:flex!important;align-items:stretch;gap:5px;width:100%;margin-bottom:13px}.date-visible{display:flex!important;flex:1;min-width:0;overflow-x:auto!important;overflow-y:hidden;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;gap:6px;padding:2px 1px}.date-visible::-webkit-scrollbar{display:none}.date-strip .date-card{flex:0 0 54px;min-width:54px;min-height:76px;scroll-snap-align:start}.date-page{flex:0 0 30px;display:grid;place-items:center;border:1px solid #e2e8f0;border-radius:12px;background:white;color:#047857;cursor:pointer}.date-page svg{width:16px;height:16px}.date-page:disabled{opacity:.35;cursor:default}.date-custom{position:relative;flex:0 0 52px;min-height:76px;border:1px solid #a7f3d0;border-radius:14px;background:#ecfdf5;color:#047857;display:flex;align-items:center;justify-content:center;cursor:pointer}.date-custom>span{pointer-events:none;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px}.date-custom svg{width:19px;height:19px}.date-custom small{font-size:8px;font-weight:900}.date-custom input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+/* (2026-07-13) Fix date-visible padding & overflow-y; was overflow-y:hidden */
+.date-strip{display:flex!important;align-items:stretch;gap:5px;width:100%;margin-bottom:13px}.date-visible{display:flex!important;flex:1;min-width:0;overflow-x:auto!important;overflow-y:visible!important;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;gap:6px;padding:4px 2px 12px 2px!important;margin-bottom:-8px}.date-visible::-webkit-scrollbar{display:none}.date-strip .date-card{flex:0 0 54px;min-width:54px;min-height:76px;scroll-snap-align:start}.date-page{flex:0 0 30px;display:grid;place-items:center;border:1px solid #e2e8f0;border-radius:12px;background:white;color:#047857;cursor:pointer}.date-page svg{width:16px;height:16px}.date-page:disabled{opacity:.35;cursor:default}.date-custom{position:relative;flex:0 0 52px;min-height:76px;border:1px solid #a7f3d0;border-radius:14px;background:#ecfdf5;color:#047857;display:flex;align-items:center;justify-content:center;cursor:pointer}.date-custom>span{pointer-events:none;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px}.date-custom svg{width:19px;height:19px}.date-custom small{font-size:8px;font-weight:900}.date-custom input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
 @media(max-width:640px){.date-strip{gap:4px}.date-visible{gap:4px}.date-page{flex-basis:27px}.date-custom{flex-basis:48px;min-height:72px}.date-strip .date-card{flex:0 0 46px;min-width:46px;min-height:72px}.date-strip .date-card span{font-size:8px}.date-strip .date-card b{font-size:20px}.date-strip .date-card small{font-size:7px}.date-custom small{font-size:7px}}
 
 
@@ -412,7 +413,8 @@ body.is-phone-app,body.is-standalone-pwa,body.is-capacitor{--sat:env(safe-area-i
 /* (2026-07-13) Court mode header back button & divider; was standard title */
 body.court-mode .page-header-row .min-w-0.flex-1 { display: none !important; }
 body:not(.court-mode) .court-header-back { display: none !important; }
-body.court-mode .booking-detail-view .booking-route-top { display: none !important; }
+/* (2026-07-13) Show route top in court mode; was display:none */
+body.court-mode .booking-detail-view .booking-route-top { display: flex !important; margin-bottom: 12px; }
 .book-divider { border: 0; border-top: 1px solid rgba(226, 232, 240, 0.85); margin: 24px 0; }
 #view-market { background: #f8faf9; }
 
@@ -800,7 +802,9 @@ html{min-height:100%;overflow-x:clip;scroll-behavior:smooth}body{min-height:100%
 
 /* (2026-07-13) Book dashboard 13-section responsive redesign; was static cards */
 body.tab-book .page-header-row { display: none !important; }
-.book-tab-view { display: flex; flex-direction: column; gap: 18px; width: 100%; max-width: 100%; padding-bottom: 24px; }
+/* (2026-07-13) Scope book tab to active state; was flex on all pages */
+.book-tab-view { display: none; flex-direction: column; gap: 18px; width: 100%; max-width: 100%; padding-bottom: 24px; }
+.book-tab-view.active { display: flex; }
 .book-dashboard-section { width: 100%; }
 
 /* 1. Greeting Header & 2. Location Chip */
@@ -843,21 +847,21 @@ body.tab-book .page-header-row { display: none !important; }
 .book-quick-chip:active { transform: scale(0.95); }
 .book-quick-chip.active { background: #005204; color: #ffffff; border-color: #005204; box-shadow: 0 3px 8px rgba(0,82,4,0.22); }
 
-// (2026-07-13) Refined upcoming hero card & open play styles; was uneven layout
-.upcoming-hero-card { width: 100%; border-radius: 24px; padding: 18px; color: #ffffff; background-size: cover; background-position: center; box-shadow: 0 16px 36px -6px rgba(6,37,25,0.36); position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 14px; border: 1px solid rgba(190,242,100,0.24); }
+/* (2026-07-13) Fix hero card styling; was italic Barlow & dark schedule */
+.upcoming-hero-card { width: 100%; border-radius: 22px; padding: 16px; color: #ffffff; background-size: cover; background-position: center top; box-shadow: 0 12px 32px -4px rgba(6,37,25,0.4); position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 12px; border: 1px solid rgba(255,255,255,0.14); }
 .upcoming-hero-topbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.upcoming-status-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 900; letter-spacing: 0.08em; padding: 4.5px 11px; border-radius: 999px; background: rgba(190,242,100,0.16); border: 1px solid rgba(190,242,100,0.35); color: #bef264; text-transform: uppercase; }
+.upcoming-status-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 10px; font-weight: 850; letter-spacing: 0.08em; padding: 4px 10px; border-radius: 999px; background: rgba(52,211,153,0.18); border: 1px solid rgba(52,211,153,0.3); color: #6ee7b7; text-transform: uppercase; }
 .pulse-live-dot { width: 6px; height: 6px; border-radius: 50%; background: #34d399; box-shadow: 0 0 0 3px rgba(52,211,153,0.35); animation: pulseDot 1.6s infinite; }
-.upcoming-countdown-tag { font-size: 11px; font-weight: 850; color: #ffffff; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.16); padding: 4px 10px; border-radius: 999px; backdrop-filter: blur(8px); display: inline-flex; align-items: center; gap: 5px; }
+.upcoming-countdown-tag { font-size: 11px; font-weight: 750; color: #ffffff; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.16); padding: 4px 10px; border-radius: 999px; backdrop-filter: blur(8px); display: inline-flex; align-items: center; gap: 5px; }
 .upcoming-hero-body-row { display: flex; align-items: center; gap: 12px; }
-.upcoming-venue-logo { width: 48px; height: 48px; border-radius: 14px; object-fit: cover; border: 2px solid rgba(255,255,255,0.3); box-shadow: 0 4px 14px rgba(0,0,0,0.35); flex-shrink: 0; background: #ffffff; }
+.upcoming-venue-logo { width: 44px; height: 44px; border-radius: 12px; object-fit: cover; border: 1.5px solid rgba(255,255,255,0.3); box-shadow: 0 4px 14px rgba(0,0,0,0.35); flex-shrink: 0; background: #ffffff; }
 .upcoming-hero-info { min-width: 0; flex: 1; }
-.upcoming-venue-name { font-size: 21px; font-weight: 950; font-family: 'Barlow Semi Condensed', Inter, sans-serif; font-style: italic; letter-spacing: -0.01em; margin: 0 0 2px; color: #ffffff; line-height: 1.15; }
+.upcoming-venue-name { font-size: 19px; font-weight: 800; font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif; font-style: normal; letter-spacing: -0.02em; margin: 0 0 2px; color: #ffffff; line-height: 1.2; }
 .upcoming-location-sub { font-size: 11.5px; color: #a7f3d0; font-weight: 600; margin: 0; display: flex; align-items: center; gap: 4px; }
-.upcoming-schedule-strip { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; background: rgba(0,0,0,0.32); padding: 9px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); font-size: 11px; font-weight: 750; color: #e2e8f0; }
+.upcoming-schedule-strip { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; background: rgba(255,255,255,0.08); padding: 8px 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.12); font-size: 11px; font-weight: 750; color: #f1f5f9; backdrop-filter: blur(8px); }
 .upcoming-schedule-item { display: inline-flex; align-items: center; gap: 5px; }
 .upcoming-schedule-item svg { width: 13px; height: 13px; color: #bef264; }
-.upcoming-schedule-court { margin-left: auto; background: #bef264; color: #072419; font-weight: 950; font-size: 10.5px; padding: 2.5px 8.5px; border-radius: 6px; }
+.upcoming-schedule-court { margin-left: auto; background: #bef264; color: #072419; font-weight: 850; font-size: 10.5px; padding: 3px 8.5px; border-radius: 7px; }
 .upcoming-hero-actions-container { display: flex; flex-direction: column; gap: 7px; width: 100%; }
 .upcoming-primary-checkin-btn { width: 100%; min-height: 46px; border-radius: 14px; background: #bef264; color: #072419; font-size: 13px; font-weight: 950; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 14px rgba(190,242,100,0.35); transition: all 0.14s ease; }
 .upcoming-primary-checkin-btn:active { transform: scale(0.98); background: #a3e635; }
@@ -925,7 +929,8 @@ body.tab-book .page-header-row { display: none !important; }
 .open-play-logo-badge { width: 34px; height: 34px; border-radius: 10px; object-fit: cover; border: 2px solid #ffffff; box-shadow: 0 2px 8px rgba(0,0,0,0.25); background: #ffffff; }
 .open-play-save-btn { width: 30px; height: 30px; border-radius: 50%; background: rgba(15,23,42,0.65); backdrop-filter: blur(4px); border: none; color: #ffffff; display: grid; place-items: center; cursor: pointer; }
 .open-play-save-btn svg { width: 13px; height: 13px; }
-.open-play-tag-pill { position: absolute; bottom: 8px; left: 9px; padding: 3px 8px; border-radius: 6px; background: rgba(6,78,59,0.9); color: #ffffff; font-size: 8.5px; font-weight: 850; letter-spacing: 0.02em; }
+/* (2026-07-13) Style open-play-tag-pill as hour chip; was generic pill */
+.open-play-tag-pill { position: absolute; bottom: 8px; left: 9px; padding: 2px 7.5px; border-radius: 6px; background: rgba(6,78,59,0.92); color: #bef264; font-size: 9.5px; font-weight: 900; letter-spacing: 0.03em; white-space: nowrap; border: 1px solid rgba(190,242,100,0.35); box-shadow: 0 2px 6px rgba(0,0,0,0.35); display: inline-flex; align-items: center; }
 .open-play-compact-body { padding: 11px 13px 13px; display: flex; flex-direction: column; gap: 5px; flex: 1; }
 .open-play-compact-title { font-size: 13px; font-weight: 900; color: #0f172a; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .open-play-compact-loc { font-size: 10px; color: #64748b; font-weight: 600; display: flex; align-items: center; gap: 4px; }
@@ -957,21 +962,21 @@ body.tab-book .page-header-row { display: none !important; }
 .promo-copy-btn:active { transform: scale(0.95); }
 .loyalty-points-badge { font-size: 11px; font-weight: 900; color: #854d0e; background: #fef08a; padding: 3px 9px; border-radius: 8px; border: 1px solid #facc15; }
 
-// (2026-07-13) Support favorite court card styling; was venue-only chip
+/* (2026-07-13) Make favorite courts 2-column on mobile; was flex scroller */
 /* 10. Favorites */
-.favorites-scroller { display: flex; gap: 10px; overflow-x: auto; padding: 2px 0 6px; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-.favorites-scroller::-webkit-scrollbar { display: none; }
-.favorite-venue-chip, .favorite-court-chip { flex-shrink: 0; width: 180px; border-radius: 18px; background: #ffffff; border: 1px solid #e2e8f0; overflow: hidden; box-shadow: 0 4px 14px rgba(15,23,42,0.05); cursor: pointer; transition: all 0.15s ease; display: flex; flex-direction: column; }
+.favorites-scroller { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 2px 0 6px; }
+@media (min-width: 640px) { .favorites-scroller { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; } }
+.favorite-venue-chip, .favorite-court-chip { width: 100%; border-radius: 18px; background: #ffffff; border: 1px solid #e2e8f0; overflow: hidden; box-shadow: 0 4px 14px rgba(15,23,42,0.05); cursor: pointer; transition: all 0.15s ease; display: flex; flex-direction: column; }
 .favorite-venue-chip:active, .favorite-court-chip:active { transform: scale(0.97); }
-.favorite-thumb, .favorite-court-thumb { height: 92px; background-size: cover; background-position: center; position: relative; padding: 8px; display: flex; justify-content: space-between; align-items: flex-start; }
+.favorite-thumb, .favorite-court-thumb { height: 98px; background-size: cover; background-position: center; position: relative; padding: 8px; display: flex; justify-content: space-between; align-items: flex-start; }
 .fav-heart-btn { width: 30px; height: 30px; border-radius: 50%; background: rgba(15,23,42,0.65); backdrop-filter: blur(4px); border: none; display: grid; place-items: center; cursor: pointer; position: absolute; top: 6px; right: 6px; }
 .fav-heart-btn svg { width: 14px; height: 14px; }
 .favorite-court-logo { width: 28px; height: 28px; border-radius: 8px; object-fit: cover; border: 1.5px solid #ffffff; box-shadow: 0 2px 6px rgba(0,0,0,0.25); background: #ffffff; }
-.favorite-info, .favorite-court-info { padding: 10px 11px 12px; display: flex; flex-direction: column; gap: 3px; flex: 1; }
-.favorite-name, .favorite-court-name { font-size: 12.5px; font-weight: 900; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.favorite-meta, .favorite-court-meta { font-size: 10px; color: #64748b; font-weight: 650; }
-.favorite-court-price { font-size: 11px; font-weight: 850; color: #064e3b; }
-.favorite-rebook-cta, .favorite-court-rebook-btn { margin-top: 6px; width: 100%; min-height: 32px; border-radius: 9px; background: #005204; color: #ffffff; font-size: 10.5px; font-weight: 850; cursor: pointer; border: none; display: inline-flex; align-items: center; justify-content: center; gap: 4px; box-shadow: 0 2px 6px rgba(0,82,4,0.18); transition: transform 0.12s; }
+.favorite-info, .favorite-court-info { padding: 10px 11px 12px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.favorite-name, .favorite-court-name { font-size: 12px; font-weight: 850; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.25; }
+.favorite-meta, .favorite-court-meta { display: flex; align-items: center; justify-content: space-between; gap: 4px; font-size: 9.5px; color: #64748b; font-weight: 650; }
+.favorite-court-price { font-size: 10.5px; font-weight: 850; color: #064e3b; white-space: nowrap; }
+.favorite-rebook-cta, .favorite-court-rebook-btn { margin-top: 6px; width: 100%; min-height: 30px; border-radius: 9px; background: #005204; color: #ffffff; font-size: 10px; font-weight: 850; cursor: pointer; border: none; display: inline-flex; align-items: center; justify-content: center; gap: 4px; box-shadow: 0 2px 6px rgba(0,82,4,0.18); transition: transform 0.12s; }
 .favorite-rebook-cta:active, .favorite-court-rebook-btn:active { transform: scale(0.95); }
 
 /* 11. Upgraded Venues Near You */
@@ -1018,20 +1023,36 @@ body.tab-book .page-header-row { display: none !important; }
 .court-pin-label { font-size: 8.5px; font-weight: 750; color: #1e293b; background: rgba(255,255,255,0.85); padding: 1px 4px; border-radius: 4px; margin-top: 2px; }
 .map-view-footer { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #f8fafc; border-top: 1px solid #f1f5f9; }
 
+/* (2026-07-13) Improve booking card & pagination styling; was cramped */
 /* 12. Booking History */
-.recent-bookings-list { display: flex; flex-direction: column; gap: 8px; }
-.history-item-card { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; border-radius: 16px; background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(15,23,42,0.03); }
-.history-item-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
-.history-item-icon { width: 36px; height: 36px; border-radius: 11px; background: #f0fdf4; color: #047857; display: grid; place-items: center; flex-shrink: 0; }
-.history-item-icon svg { width: 17px; height: 17px; }
-.history-item-meta { display: flex; flex-direction: column; min-width: 0; }
-.history-item-title { font-size: 12.5px; font-weight: 850; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.history-item-sub { font-size: 10.5px; color: #64748b; font-weight: 600; }
-.history-item-right { display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
-.history-item-price { font-size: 12px; font-weight: 900; color: #072419; }
-.history-status-pill { font-size: 9.5px; font-weight: 850; padding: 2px 7px; border-radius: 6px; border: 1px solid transparent; }
-.history-rebook-btn { min-height: 30px; padding: 0 10px; border-radius: 8px; background: #f0fdf4; color: #005204; border: 1px solid #bbf7d0; font-size: 10.5px; font-weight: 850; cursor: pointer; }
-.history-rebook-btn:active { transform: scale(0.95); }
+.recent-bookings-list { display: flex; flex-direction: column; gap: 10px; }
+.history-item-card { display: flex; flex-direction: column; gap: 10px; padding: 13px 15px; border-radius: 16px; background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(15,23,42,0.03); transition: transform 0.15s ease, box-shadow 0.15s ease; }
+.history-item-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.history-item-info { display: flex; align-items: center; gap: 11px; min-width: 0; flex: 1; }
+.history-item-icon { width: 38px; height: 38px; border-radius: 12px; background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; display: grid; place-items: center; flex-shrink: 0; }
+.history-item-icon svg { width: 18px; height: 18px; }
+.history-item-meta { display: flex; flex-direction: column; gap: 2.5px; min-width: 0; flex: 1; }
+.history-item-title { font-size: 13px; font-weight: 850; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3; }
+.history-item-sub { font-size: 10.5px; color: #64748b; font-weight: 600; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+/* (2026-07-13) Add hours badge chip style; was missing duration badge */
+.hours-badge-chip { font-size: 10px !important; font-weight: 800 !important; color: #047857 !important; background: #ecfdf5 !important; border: 1px solid #a7f3d0 !important; padding: 1.5px 6.5px !important; border-radius: 6px !important; display: inline-flex !important; align-items: center !important; line-height: 1.3 !important; white-space: nowrap !important; }
+.history-status-pill { font-size: 9.5px; font-weight: 850; padding: 3px 8px; border-radius: 6px; border: 1px solid; flex-shrink: 0; letter-spacing: 0.02em; }
+.history-item-bottom { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 9px; border-top: 1px dashed #e2e8f0; }
+.history-item-fee { display: flex; align-items: baseline; gap: 6px; }
+.history-fee-label { font-size: 10px; font-weight: 750; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.04em; }
+.history-item-price { font-size: 13.5px; font-weight: 900; color: #064e3b; }
+.history-rebook-btn { display: inline-flex; align-items: center; gap: 5px; min-height: 30px; padding: 0 12px; border-radius: 8px; background: #f0fdf4; color: #047857; border: 1px solid #a7f3d0; font-size: 11px; font-weight: 850; cursor: pointer; transition: all 0.15s ease; }
+.history-rebook-btn svg { width: 12.5px; height: 12.5px; }
+.history-rebook-btn:hover { background: #047857; color: #ffffff; border-color: #047857; }
+.history-rebook-btn:active { transform: scale(0.96); }
+
+/* History Pagination */
+.history-pagination-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 12px; padding: 6px 8px; background: #ffffff; border-radius: 14px; border: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(15,23,42,0.03); }
+.history-page-btn { display: inline-flex; align-items: center; justify-content: center; gap: 5px; height: 32px; padding: 0 12px; border-radius: 9px; background: #f8fafc; border: 1px solid #e2e8f0; color: #047857; font-size: 11px; font-weight: 800; cursor: pointer; transition: all 0.15s ease; }
+.history-page-btn svg { width: 14px; height: 14px; stroke-width: 2.2px; }
+.history-page-btn:hover:not(:disabled) { background: #ecfdf5; border-color: #a7f3d0; color: #047857; }
+.history-page-btn:disabled { opacity: 0.45; cursor: not-allowed; color: #94a3b8; background: #f8fafc; border-color: #e2e8f0; }
+.history-page-indicator { display: inline-flex; align-items: center; font-size: 11px; font-weight: 800; color: #475569; background: #f1f5f9; padding: 4.5px 12px; border-radius: 20px; font-variant-numeric: tabular-nums; }
 
 /* 13. Tips / Announcements */
 .book-tip-card { width: 100%; border-radius: 18px; padding: 14px 16px; background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%); border: 1.5px solid #a7f3d0; display: flex; align-items: flex-start; gap: 12px; position: relative; box-shadow: 0 3px 12px rgba(4,120,87,0.06); }
@@ -1204,3 +1225,276 @@ body.tab-book .page-header-row { display: none !important; }
 .match-impact-tag { font-size: 11.5px; font-weight: 950; }
 .match-meta-footer { display: flex; align-items: center; justify-content: space-between; font-size: 10.5px; color: #64748b; font-weight: 600; margin-top: 4px; padding-top: 4px; border-top: 1px solid #f1f5f9; }
 .match-meta-footer svg { width: 11px; height: 11px; color: #047857; display: inline; }
+
+/* (2026-07-13) Fix hero actions grid; was 10px margin-top & cramped 1fr */
+.upcoming-three-actions-grid {
+  display: grid !important;
+  grid-template-columns: 1.15fr 1fr 1fr !important;
+  gap: 8px !important;
+  margin-top: 2px !important;
+  width: 100%;
+}
+.upcoming-action-pill-primary {
+  min-height: 40px;
+  background: #bef264 !important;
+  color: #072419 !important;
+  font-size: 11.5px !important;
+  font-weight: 850 !important;
+  border-radius: 12px !important;
+  border: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(190, 242, 100, 0.25) !important;
+  transition: transform 0.12s ease;
+}
+.upcoming-action-pill-sub {
+  min-height: 40px;
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  border-radius: 12px !important;
+  font-size: 11.5px !important;
+  font-weight: 750 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: transform 0.12s ease;
+}
+.upcoming-action-pill-primary:active,
+.upcoming-action-pill-sub:active {
+  transform: scale(0.97);
+}
+
+.quick-actions-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+  margin-bottom: 16px !important;
+}
+.quick-action-card {
+  padding: 13px 8px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  border-radius: 16px !important;
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
+}
+
+.court-price-features-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  margin: 12px 0 10px 0 !important;
+  padding: 6px 0 !important;
+  border-top: 1px solid #f1f5f9 !important;
+}
+.court-price-col {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+}
+.court-price-col .court-rate-kicker {
+  font-size: 9.5px !important;
+  font-weight: 800 !important;
+  color: #64748b !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+}
+.court-price-col .prominent-price {
+  font-size: 21px !important;
+  font-weight: 950 !important;
+  color: #005204 !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.02em !important;
+}
+/* (2026-07-13) Stack Next time above features in court card; was inline flex */
+.court-features-col {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  justify-content: center !important;
+  gap: 3px !important;
+  text-align: right !important;
+  flex: 1 !important;
+}
+.court-features-badge {
+  font-size: 11px !important;
+  font-weight: 750 !important;
+  color: #475569 !important;
+  background: #f1f5f9 !important;
+  padding: 5px 10px !important;
+  border-radius: 8px !important;
+  line-height: 1.3 !important;
+}
+
+.carousel-peek-container {
+  display: flex !important;
+  overflow-x: auto !important;
+  overflow-y: visible !important;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none !important;
+  gap: 12px !important;
+  margin-inline: -14px !important;
+  padding-inline: 14px !important;
+  padding-bottom: 8px !important;
+}
+.carousel-peek-container::-webkit-scrollbar {
+  display: none !important;
+}
+.carousel-peek-container > * {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+}
+
+.compact-earlier-hours {
+  margin-bottom: 10px !important;
+  border-radius: 12px !important;
+  background: #f8fafc !important;
+  border: 1px dashed #cbd5e1 !important;
+  overflow: hidden !important;
+}
+.compact-past-summary {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 8px 12px !important;
+  cursor: pointer !important;
+  color: #64748b !important;
+  font-size: 11px !important;
+  font-weight: 750 !important;
+  user-select: none !important;
+  list-style: none !important;
+}
+.compact-past-summary::-webkit-details-marker {
+  display: none !important;
+}
+.compact-past-summary svg {
+  width: 14px !important;
+  height: 14px !important;
+  color: #047857 !important;
+  flex-shrink: 0 !important;
+}
+.compact-past-summary .past-toggle-pill {
+  margin-left: auto !important;
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  color: #005204 !important;
+  background: #dcfce7 !important;
+  padding: 2px 8px !important;
+  border-radius: 99px !important;
+}
+
+.grid-courts.compact-courts {
+  min-width: 0 !important;
+  width: 100% !important;
+  padding: 8px 4px !important;
+  box-sizing: border-box !important;
+}
+.grid-courts.compact-courts .schedule-header,
+.grid-courts.compact-courts .schedule-row {
+  min-width: 0 !important;
+  width: 100% !important;
+  display: grid !important;
+  grid-template-columns: 84px repeat(2, minmax(0, 1fr)) !important;
+  gap: 6px !important;
+}
+
+.photo-lightbox-modal {
+  display: none;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 10000 !important;
+  background: rgba(0, 0, 0, 0.92) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 16px !important;
+}
+.photo-lightbox-modal.active {
+  display: flex !important;
+}
+.photo-lightbox-content {
+  position: relative !important;
+  max-width: 96vw !important;
+  max-height: 90vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+.photo-lightbox-content img {
+  max-width: 100% !important;
+  max-height: 80vh !important;
+  border-radius: 16px !important;
+  object-fit: contain !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8) !important;
+}
+.photo-lightbox-close {
+  position: absolute !important;
+  top: -12px !important;
+  right: -12px !important;
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 50% !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border: none !important;
+  font-size: 18px !important;
+  font-weight: 900 !important;
+  display: grid !important;
+  place-items: center !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+  z-index: 2 !important;
+}
+.photo-lightbox-caption {
+  margin-top: 12px !important;
+  color: #ffffff !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  padding: 4px 14px !important;
+  border-radius: 99px !important;
+}
+
+.recent-bookings-pagination {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-top: 10px !important;
+  padding-top: 10px !important;
+  border-top: 1px solid #e2e8f0 !important;
+}
+.recent-bookings-pagination button {
+  min-height: 32px !important;
+  padding: 0 12px !important;
+  border-radius: 8px !important;
+  background: #f1f5f9 !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #334155 !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  cursor: pointer !important;
+}
+.recent-bookings-pagination button:disabled {
+  opacity: 0.4 !important;
+  cursor: not-allowed !important;
+}
+.recent-bookings-pagination span {
+  font-size: 11px !important;
+  font-weight: 750 !important;
+  color: #64748b !important;
+}

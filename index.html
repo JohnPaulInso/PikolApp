@@ -48,8 +48,8 @@
 <header class="safe-top sticky top-0 z-40 frosted-header border-b border-slate-200/80"><div class="max-w-7xl mx-auto h-[68px] px-4 sm:px-6 flex items-center justify-between"><div class="top-brand flex items-center gap-3"><div class="top-brand-mark w-10 h-10 rounded-2xl overflow-hidden grid place-items-center shadow-lg shadow-emerald-900/15"><img src="assets/pikol-logo.png" alt="PIKOL" class="w-full h-full object-cover"></div><div><div class="pikol-brand-font text-[22px] leading-5 text-slate-900 top-brand-text">PIKOL</div><small class="text-slate-500 text-xs font-semibold tracking-wider">COURTSIDE <span class="mx-1">·</span> BOGO CITY</small></div></div><div class="desktop-nav flex items-center gap-1" id="desktopTabs"></div><div class="flex items-center gap-2"><button class="standards-btn-link" onclick="showModal('pikolStandardsModal')" aria-label="Open PIKOL Design Standards"><i data-lucide="palette" class="w-3.5 h-3.5"></i><span class="hidden sm:inline">Standards</span></button><button class="w-10 h-10 rounded-xl border border-slate-200 grid place-items-center hover:bg-slate-50" aria-label="Notifications" onclick="notify('You’re all caught up')"><i data-lucide="bell" class="w-4 h-4"></i></button><div class="user-menu-wrap"><button id="userBadge" class="user-badge" type="button" onclick="toggleUserMenu()" aria-label="Open account menu" aria-expanded="false">AR</button><div class="user-popover" id="userPopover"><div class="user-popover-head"><span id="userPopoverAvatar" class="user-popover-avatar">AR</span><div><b id="userDisplayName">Alex Reyes</b><small id="userDisplayRole">PLAYER DEMO</small></div></div><p id="userDisplayEmail">alex@demo.com</p><!-- (2026-07-13) Add profile link to user popover; was missing profile link --><button onclick="setTab('profile')"><i data-lucide="user"></i> My Profile & Activity</button><button onclick="openLoginScreen(currentUser?.role==='admin'?'player':'admin')"><i data-lucide="repeat-2"></i> Switch demo account</button><button onclick="openLeaderboardMarket()"><i data-lucide="shopping-bag"></i> Community Marketplace</button><button class="user-logout" onclick="signOutDemo()"><i data-lucide="log-out"></i> Sign out</button></div></div></div></div></header>
 <aside class="desktop-rail" id="desktopRail" aria-label="Desktop navigation"><div class="rail-brand"><span class="rail-logo"><img src="assets/pikol-logo.png" alt="PIKOL" class="w-full h-full object-cover rounded-xl"></span><div><b class="pikol-brand-font text-xl text-white">PIKOL</b><small>Bogo Pickle Hub</small></div></div><div class="rail-workspace"><span class="rail-workspace-dot"></span><span><b>BOGO CITY</b><small>Sample workspace</small></span><i data-lucide="chevron-down"></i></div><div class="rail-section-label">WORKSPACE</div><nav class="rail-nav" id="desktopRailTabs" aria-label="Main workspace"></nav><button class="rail-link mt-2" onclick="showModal('pikolStandardsModal')"><span class="rail-link-icon"><i data-lucide="palette"></i></span><span>Design Standards</span></button><div class="rail-bottom"><div class="rail-status"><span class="rail-status-dot"></span><span><b>Demo mode</b><small>Sample data only</small></span></div><button class="rail-signout" onclick="signOutDemo()"><i data-lucide="log-out"></i> Sign out</button><small class="rail-version">PIKOL · MOBILE + DESKTOP</small></div></aside>
 <main class="mainpad max-w-7xl mx-auto px-4 sm:px-6 pt-7">
-<!-- (2026-07-13) Remove closeCourtBooking from main header; was back button -->
-<section class="mb-4 sm:mb-6 flex flex-row items-center justify-between gap-3 page-header-row"><div class="min-w-0 flex-1"><div class="flex items-center gap-1.5 text-[11px] sm:text-xs text-slate-500 mb-0.5"><button type="button" class="location-detect-pill" id="locationDetectBtn" onclick="detectUserLocation()" aria-label="Detect location"><i data-lucide="crosshair" class="w-3 h-3 text-emerald-700 shrink-0" id="locationDetectIcon"></i><span class="truncate" id="userLocationText">Bogo City, Cebu · within 40km range</span><span class="location-detect-badge">Detect</span></button></div><h1 class="text-xl sm:text-3xl font-extrabold tracking-tight truncate leading-tight" id="pageTitle">Venues Near You</h1><p class="text-slate-500 text-xs sm:text-sm truncate mt-0.5" id="pageSubtitle">6 local venues · Bogo City</p></div></section>
+<!-- (2026-07-13) Remove location pill from global header; was above title -->
+<section class="mb-4 sm:mb-6 flex flex-row items-center justify-between gap-3 page-header-row"><div class="min-w-0 flex-1"><h1 class="text-xl sm:text-3xl font-extrabold tracking-tight truncate leading-tight" id="pageTitle">Venues Near You</h1><p class="text-slate-500 text-xs sm:text-sm truncate mt-0.5" id="pageSubtitle">6 local venues · Bogo City</p></div></section>
 <!-- (2026-07-13) White frosted glass bottom navbar; was bg-black text-white -->
 <div class="mobile-nav fixed bottom-0 left-0 right-0 z-40 safe-bottom px-2 pt-1 justify-around" id="mobileTabs"></div>
 <!-- (2026-07-13) Symmetrical book sections & equal spacing; was rogue mt-6 -->
@@ -68,22 +68,19 @@
   <!-- 5. QUICK ACTIONS ROW (4 ICON BUTTONS) -->
   <div id="bookQuickActionsSection" class="book-dashboard-section"></div>
 
-  <!-- 7. YOUR STATS STRIP -->
-  <div id="bookStatsStripSection" class="book-dashboard-section"></div>
-
-  <!-- 8. OPEN PLAY NEAR YOU -->
-  <div id="bookOpenGamesSection" class="book-dashboard-section"></div>
-
-  <!-- 9. PROMOS & REWARDS BANNER -->
-  <div id="bookPromosBannerSection" class="book-dashboard-section"></div>
-
-  <!-- 10. FAVORITES / RECENTLY BOOKED VENUES & COURTS -->
-  <div id="bookFavoritesSection" class="book-dashboard-section"></div>
-
+  <!-- (2026-07-13) Prioritize venues near you on booking page; was placed low -->
   <!-- 11. VENUES NEAR YOU (UPGRADED) -->
   <section class="book-dashboard-section" id="bookVenuesSection">
     <div class="book-section-header">
       <div>
+        <!-- (2026-07-13) Move location detect pill to booking tab; was in header -->
+        <div class="flex items-center gap-1.5 text-[11px] sm:text-xs text-slate-500 mb-1">
+          <button type="button" class="location-detect-pill" id="locationDetectBtn" onclick="detectUserLocation()" aria-label="Detect location">
+            <i data-lucide="crosshair" class="w-3 h-3 text-emerald-700 shrink-0" id="locationDetectIcon"></i>
+            <span class="truncate" id="userLocationText">Bogo City, Cebu · within 40km range</span>
+            <span class="location-detect-badge">Detect</span>
+          </button>
+        </div>
         <span class="book-section-kicker">EXPLORE BOGO COURTS</span>
         <h3 class="book-section-title">Venues Near You</h3>
       </div>
@@ -110,6 +107,18 @@
     <div class="court-catalog" id="courtCatalog"></div>
   </section>
 
+  <!-- 7. YOUR STATS STRIP -->
+  <div id="bookStatsStripSection" class="book-dashboard-section"></div>
+
+  <!-- 8. OPEN PLAY NEAR YOU -->
+  <div id="bookOpenGamesSection" class="book-dashboard-section"></div>
+
+  <!-- 9. PROMOS & REWARDS BANNER -->
+  <div id="bookPromosBannerSection" class="book-dashboard-section"></div>
+
+  <!-- 10. FAVORITES / RECENTLY BOOKED VENUES & COURTS -->
+  <div id="bookFavoritesSection" class="book-dashboard-section"></div>
+
   <!-- 12. BOOKING HISTORY PREVIEW -->
   <div id="bookHistorySection" class="book-dashboard-section"></div>
 
@@ -127,8 +136,8 @@
 <section class="community-discovery mt-6"><div class="community-disc-head"><div class="discovery-heading-lead"><div class="discovery-header-icon pasalo-head-icon"><i data-lucide="ticket-check"></i></div><div><span>COMMUNITY COURT EXCHANGE</span><h2>Pasalo Courts</h2></div></div><button class="text-xs font-semibold text-emerald-700 flex items-center gap-1" onclick="openPasaloForm()"><i data-lucide="plus" class="w-3.5 h-3.5"></i> Offer booking</button></div><div id="pasaloCommunity" class="community-openplay-list"></div></section><div class="grid lg:grid-cols-[1fr_300px] gap-5"><div class="space-y-4" id="feedCards"></div><aside class="glass rounded-3xl p-5 h-fit"><div class="flex items-center gap-3"><div class="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-700 grid place-items-center"><i data-lucide="activity"></i></div><div><b>Play verified</b><p class="text-xs text-slate-500">Your games, your progress.</p></div></div><div class="grid grid-cols-2 gap-3 mt-5"><div class="rounded-2xl bg-slate-50 p-3"><p class="text-[11px] text-slate-500">Games this month</p><b class="text-xl">12</b></div><div class="rounded-2xl bg-slate-50 p-3"><p class="text-[11px] text-slate-500">Current DUPR</p><b class="text-xl">3.42</b></div></div><button class="w-full mt-4 rounded-xl bg-emerald-600 text-white py-3 text-sm font-bold" onclick="setTab('score')">Log a match</button></aside></div></section>
 <!-- (2026-07-13) Symmetrical un-crammed ref board layout; was cramped layout -->
 <section class="view" id="view-score">
-  <!-- (2026-07-13) Full ref onboarding page with format switch & chips; was popup -->
-  <div class="modal-backdrop onboard-ref-overlay" id="gameOnboardingModal" onclick="backdropClose(event,'gameOnboardingModal')">
+  <!-- (2026-07-13) Inline ref setup without modal-backdrop; was modal-backdrop -->
+  <div class="onboard-ref-overlay" id="gameOnboardingModal" onclick="backdropClose(event,'gameOnboardingModal')">
     <div class="modal onboard-overlay-modal">
       <div class="onboard-overlay-head">
         <div>
@@ -1620,27 +1629,28 @@
       </div>
     </div>
     <div>
+      <!-- (2026-07-13) Remove emojis from filter options; was emoji labels -->
       <label class="text-xs font-bold text-slate-700 block mb-2">Amenities</label>
       <div class="amenities-checkbox-grid">
         <label class="amenity-checkbox-item">
           <input type="checkbox" value="lighted" onchange="toggleAmenityFilter('lighted')">
-          <span>💡 Night Lighted</span>
+          <span>Night Lighted</span>
         </label>
         <label class="amenity-checkbox-item">
           <input type="checkbox" value="cafe" onchange="toggleAmenityFilter('cafe')">
-          <span>☕ Cafe / Dining</span>
+          <span>Cafe / Dining</span>
         </label>
         <label class="amenity-checkbox-item">
           <input type="checkbox" value="lounge" onchange="toggleAmenityFilter('lounge')">
-          <span>🛋️ Pro Lounge</span>
+          <span>Pro Lounge</span>
         </label>
         <label class="amenity-checkbox-item">
           <input type="checkbox" value="parking" onchange="toggleAmenityFilter('parking')">
-          <span>🚗 Free Parking</span>
+          <span>Free Parking</span>
         </label>
         <label class="amenity-checkbox-item">
           <input type="checkbox" value="showers" onchange="toggleAmenityFilter('showers')">
-          <span>🚿 Restrooms & Showers</span>
+          <span>Restrooms & Showers</span>
         </label>
       </div>
     </div>
@@ -1714,10 +1724,10 @@
       </div>
 
       <!-- Perforated Line -->
+      <!-- (2026-07-13) Remove notch-right on receipt; was notch-right span -->
       <div class="receipt-perforated-divider">
         <span class="notch notch-left"></span>
         <div class="dash-line"></div>
-        <span class="notch notch-right"></span>
       </div>
 
       <!-- Itemized Table -->
@@ -1807,6 +1817,20 @@
           Book Again
         </button>
       </div>
+    </div>
+  </div>
+<!-- (2026-07-13) Photo lightbox modal for full screen gallery previews; was card preview only -->
+<div class="modal-backdrop photo-lightbox-modal" id="photoLightboxModal" onclick="closePhotoLightbox(event)">
+  <div class="photo-lightbox-content" onclick="event.stopPropagation()">
+    <button type="button" class="photo-lightbox-close" onclick="closePhotoLightbox()" aria-label="Close photo preview">
+      <i data-lucide="x"></i>
+    </button>
+    <div class="photo-lightbox-img-wrap">
+      <img id="lightboxImg" src="" alt="Court photo">
+    </div>
+    <div class="photo-lightbox-caption">
+      <b id="lightboxCaptionTitle">Kapenarra Courtside</b>
+      <span id="lightboxCaptionTag">Court Overview</span>
     </div>
   </div>
 </div>

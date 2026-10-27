@@ -69,6 +69,10 @@
     status: 'CONFIRMED'
   };
 
+  // (2026-07-13) Paginated booking history records; was 3 static items
+  let historyPage = 1;
+  const historyPageSize = 3;
+  // (2026-07-13) Include hours property in booking history; was time only
   const bookingHistoryRecords = [
     {
       id: 'BK-8740',
@@ -77,6 +81,7 @@
       courtName: 'Court 1',
       date: 'Oct 22, 2026',
       time: '5:00 PM – 7:00 PM',
+      hours: '2 hrs',
       price: '₱700',
       status: 'Completed',
       statusClass: 'text-emerald-700 bg-emerald-50 border-emerald-200'
@@ -88,6 +93,7 @@
       courtName: 'Court 2',
       date: 'Oct 18, 2026',
       time: '4:00 PM – 6:00 PM',
+      hours: '2 hrs',
       price: '₱640',
       status: 'Completed',
       statusClass: 'text-emerald-700 bg-emerald-50 border-emerald-200'
@@ -99,11 +105,49 @@
       courtName: 'Court 1',
       date: 'Oct 12, 2026',
       time: '6:00 PM – 8:00 PM',
+      hours: '2 hrs',
       price: '₱600',
       status: 'Cancelled',
       statusClass: 'text-rose-700 bg-rose-50 border-rose-200'
+    },
+    {
+      id: 'BK-8190',
+      venueId: 'laguerta',
+      venueName: 'La Guerta Pickleball',
+      courtName: 'Court 2',
+      date: 'Oct 08, 2026',
+      time: '5:00 PM – 9:00 PM',
+      hours: '4 hrs',
+      price: '₱560',
+      status: 'Completed',
+      statusClass: 'text-emerald-700 bg-emerald-50 border-emerald-200'
+    },
+    {
+      id: 'BK-7954',
+      venueId: 'lima',
+      venueName: 'Lima Badminton & Pickle Club',
+      courtName: 'Court 3',
+      date: 'Oct 02, 2026',
+      time: '6:00 PM – 8:00 PM',
+      hours: '2 hrs',
+      price: '₱520',
+      status: 'Completed',
+      statusClass: 'text-emerald-700 bg-emerald-50 border-emerald-200'
+    },
+    {
+      id: 'BK-7811',
+      venueId: 'tambayanan',
+      venueName: 'Tambayanan Court & Cafe',
+      courtName: 'Court 1',
+      date: 'Sep 26, 2026',
+      time: '7:00 PM – 9:00 PM',
+      hours: '2 hrs',
+      price: '₱600',
+      status: 'Completed',
+      statusClass: 'text-emerald-700 bg-emerald-50 border-emerald-200'
     }
   ];
+
 
   const venueDistancesAndRatings = {
     kapenarra: { distKm: 1.8, rating: 4.9, reviews: 48, openNow: true, nextAvailable: '4:00 PM', priceVal: 350, indoor: false, cafe: true, lighted: true, lounge: true, parking: true, showers: true },
@@ -205,14 +249,15 @@
   function renderSearchFilterRow() {
     const container = document.getElementById('bookSearchFilterSection');
     if (!container) return;
+    // (2026-07-13) Filter pill labels without emojis; was emoji labels
     const filterPills = [
       { id: 'all', label: 'All Courts' },
       { id: 'open', label: 'Open Now' },
-      { id: 'lighted', label: '💡 Lighted' },
+      { id: 'lighted', label: 'Lighted' },
       { id: 'cheapest', label: 'Cheapest' },
       { id: 'nearest', label: 'Nearest' },
-      { id: 'cafe', label: '☕ Has Cafe' },
-      { id: 'top-rated', label: '★ Top Rated' }
+      { id: 'cafe', label: 'Has Cafe' },
+      { id: 'top-rated', label: 'Top Rated' }
     ];
 
     container.innerHTML = `
@@ -254,8 +299,9 @@
       const v = (typeof venueById === 'function') ? venueById(upcomingBooking.venueId) : null;
       const venueImg = v?.image || 'venues/kapenarra.jpg';
       const venueLogo = v?.logo || 'venues/kapenarra%20logo.jpg';
+      // (2026-07-13) Refine hero card gradient & layout; was noisy bg & uneven
       container.innerHTML = `
-        <div class="upcoming-hero-card" style="background-image:linear-gradient(145deg, rgba(5,35,22,0.92) 0%, rgba(10,50,30,0.88) 55%, rgba(2,20,12,0.96) 100%), url('${venueImg}')">
+        <div class="upcoming-hero-card" style="background-image:linear-gradient(160deg, rgba(7,38,25,0.95) 0%, rgba(5,28,18,0.96) 60%, rgba(3,18,12,0.98) 100%), url('${venueImg}')">
           <div class="upcoming-hero-topbar">
             <span class="upcoming-status-badge">
               <span class="pulse-live-dot"></span> UPCOMING BOOKING
@@ -285,21 +331,20 @@
             </div>
           </div>
 
+          <!-- (2026-07-13) 3 upcoming buttons Show QR | Directions | Invite; was Reschedule -->
           <div class="upcoming-hero-actions-container">
-            <!-- (2026-07-13) Button renamed to Show QR; was Check-in QR & Pass -->
-            <button type="button" class="upcoming-primary-checkin-btn" onclick="openBookingCheckinQr()" aria-label="Show QR receipt and pass">
-              <i data-lucide="qr-code" class="w-4 h-4"></i>
-              <span>Show QR</span>
-            </button>
-            <div class="upcoming-secondary-actions-grid">
-              <button type="button" class="upcoming-sub-action-btn" onclick="openVenueDirections('${upcomingBooking.venueId}')" aria-label="Directions to venue">
-                <i data-lucide="navigation"></i> <span>Directions</span>
+            <div class="upcoming-three-actions-grid">
+              <button type="button" class="upcoming-action-pill-primary" onclick="openBookingCheckinQr()" aria-label="Show QR receipt and pass">
+                <i data-lucide="qr-code" class="w-4 h-4"></i>
+                <span>Show QR</span>
               </button>
-              <button type="button" class="upcoming-sub-action-btn" onclick="rescheduleUpcomingBooking()" aria-label="Reschedule booking">
-                <i data-lucide="calendar-sync"></i> <span>Reschedule</span>
+              <button type="button" class="upcoming-action-pill-sub" onclick="openVenueDirections('${upcomingBooking.venueId}')" aria-label="Directions to venue">
+                <i data-lucide="navigation" class="w-4 h-4"></i>
+                <span>Directions</span>
               </button>
-              <button type="button" class="upcoming-sub-action-btn" onclick="shareBookingInvite()" aria-label="Share or invite players">
-                <i data-lucide="share-2"></i> <span>Invite</span>
+              <button type="button" class="upcoming-action-pill-sub" onclick="shareBookingInvite()" aria-label="Share or invite players">
+                <i data-lucide="share-2" class="w-4 h-4"></i>
+                <span>Invite</span>
               </button>
             </div>
           </div>
@@ -324,7 +369,7 @@
     if (window.icons) icons();
   }
 
-  // Render Section 5: Quick Actions Row (4 Icon Buttons)
+  // (2026-07-13) Re-order quick actions: Rebook Last | My Bookings | Find Players
   function renderQuickActionsRow() {
     const container = document.getElementById('bookQuickActionsSection');
     if (!container) return;
@@ -337,26 +382,19 @@
           <span class="quick-action-label">Rebook Last</span>
           <small class="quick-action-sub">Kapenarra C1</small>
         </button>
-        <button type="button" class="quick-action-card" onclick="navigateToTab('feed')" aria-label="Find open players in Play tab">
-          <div class="quick-action-icon-wrap bg-lime-50 text-emerald-900">
-            <i data-lucide="users-round"></i>
-          </div>
-          <span class="quick-action-label">Find Players</span>
-          <small class="quick-action-sub">6 Open Plays</small>
-        </button>
-        <button type="button" class="quick-action-card" onclick="navigateToTab('split')" aria-label="Split court bill">
-          <div class="quick-action-icon-wrap bg-amber-50 text-amber-900">
-            <i data-lucide="wallet"></i>
-          </div>
-          <span class="quick-action-label">Split Bill</span>
-          <small class="quick-action-sub">GCash / Maya</small>
-        </button>
         <button type="button" class="quick-action-card" onclick="openMyBookingsSheet()" aria-label="View all my bookings">
           <div class="quick-action-icon-wrap bg-slate-100 text-slate-800">
             <i data-lucide="receipt"></i>
           </div>
           <span class="quick-action-label">My Bookings</span>
           <small class="quick-action-sub">3 Recorded</small>
+        </button>
+        <button type="button" class="quick-action-card" onclick="navigateToTab('feed')" aria-label="Find open players in Play tab">
+          <div class="quick-action-icon-wrap bg-lime-50 text-emerald-900">
+            <i data-lucide="users-round"></i>
+          </div>
+          <span class="quick-action-label">Find Players</span>
+          <small class="quick-action-sub">6 Open Plays</small>
         </button>
       </div>
     `;
@@ -441,7 +479,8 @@
                 <button type="button" class="open-play-save-btn" aria-label="Save session" onclick="event.stopPropagation(); toggleSaveOpenPlay('${ev.id}', this)">
                   <i data-lucide="bookmark"></i>
                 </button>
-                <span class="open-play-tag-pill">${ev.type || 'Open play'}</span>
+                <!-- (2026-07-13) Display hour chip only; was type and hours -->
+                <span class="open-play-tag-pill">${(ev.hours || '4 hrs').replace(/\s*hrs?/i, 'hr')}</span>
               </div>
               <div class="open-play-compact-body">
                 <b class="open-play-compact-title">${ev.venue}</b>
@@ -647,11 +686,7 @@
           <div class="court-photo" style="background-image:linear-gradient(180deg,transparent 30%,rgba(2,24,16,.85)),url('${owner.image}')">
             <img src="${owner.logo}" alt="${owner.name} logo" class="venue-logo-badge">
             <span class="court-photo-courts">${owner.courts} COURTS</span>
-            <div class="court-photo-top-badges">
-              <span class="court-open-status-badge ${meta.openNow ? 'is-open' : 'is-closed'}">
-                <span class="open-status-dot"></span> ${meta.openNow ? 'OPEN' : 'CLOSED'}
-              </span>
-            </div>
+            <!-- (2026-07-13) Remove open badge on photo; was open status badge -->
             <button type="button" class="court-fav-btn ${isFav ? 'is-favorited' : ''}" onclick="event.stopPropagation(); toggleFavoriteCourt('${c.owner}', ${c.court})" aria-label="${isFav ? 'Remove from favorites' : 'Add to favorites'}">
               <i data-lucide="heart" class="${isFav ? 'fill-rose-500 text-rose-500' : 'text-white'}"></i>
             </button>
@@ -668,20 +703,20 @@
                 <span class="court-distance-text">${meta.distKm} km away</span>
               </p>
             </div>
-            <div class="court-timing-strip">
-              <span class="next-avail-tag"><i data-lucide="clock"></i> Next: ${meta.nextAvailable}</span>
-              <span class="court-features-text">${c.features}</span>
-            </div>
-            <!-- (2026-07-13) Price sitting above Book Now button; was side-by-side -->
-            <div class="court-pricing-action-block">
-              <div class="court-pricing-stacked">
+            <!-- (2026-07-13) Price on left with larger font, features on right side; was stacked below -->
+            <div class="court-price-features-row">
+              <div class="court-price-col">
                 <span class="court-price-label">STARTING AT</span>
-                <b class="court-price-val">${c.rate}</b>
+                <b class="court-price-val prominent-price">${c.rate}</b>
               </div>
-              <button type="button" class="court-book-btn" onclick="focusVenueCourt('${c.owner}', ${c.court})">
-                Book Now! <i data-lucide="arrow-up-right"></i>
-              </button>
+              <div class="court-features-col">
+                <span class="next-avail-tag"><i data-lucide="clock"></i> Next: ${meta.nextAvailable}</span>
+                <span class="court-features-text">${c.features}</span>
+              </div>
             </div>
+            <button type="button" class="court-book-btn" onclick="focusVenueCourt('${c.owner}', ${c.court})">
+              Book Now! <i data-lucide="arrow-up-right"></i>
+            </button>
           </div>
         </article>
       `;
@@ -733,10 +768,16 @@
     `;
   }
 
-  // Render Section 12: Booking History Preview
+  // (2026-07-13) Paginated recent bookings list; was slice(0, 3) static
   function renderBookingHistoryPreview() {
     const container = document.getElementById('bookHistorySection');
     if (!container) return;
+    const totalPages = Math.ceil(bookingHistoryRecords.length / historyPageSize) || 1;
+    if (historyPage > totalPages) historyPage = totalPages;
+    if (historyPage < 1) historyPage = 1;
+    const startIdx = (historyPage - 1) * historyPageSize;
+    const pageItems = bookingHistoryRecords.slice(startIdx, startIdx + historyPageSize);
+
     container.innerHTML = `
       <div class="book-section-header">
         <div>
@@ -747,31 +788,56 @@
           See all <i data-lucide="arrow-right"></i>
         </button>
       </div>
+      <!-- (2026-07-13) Improve booking card layout & pagination bar; was single row -->
       <div class="recent-bookings-list">
-        ${bookingHistoryRecords.slice(0, 3).map(b => `
+        ${pageItems.map(b => `
           <div class="history-item-card">
-            <div class="history-item-left">
-              <div class="history-item-icon">
-                <i data-lucide="calendar-check"></i>
+            <div class="history-item-top">
+              <div class="history-item-info">
+                <div class="history-item-icon">
+                  <i data-lucide="calendar-check"></i>
+                </div>
+                <div class="history-item-meta">
+                  <b class="history-item-title">${b.venueName} · ${b.courtName}</b>
+                  <div class="history-item-sub">
+                    <span>${b.date} · ${b.time}</span>
+                    <span class="hours-badge-chip">${b.hours || '2 hrs'}</span>
+                  </div>
+                </div>
               </div>
-              <div class="history-item-meta">
-                <b class="history-item-title">${b.venueName} · ${b.courtName}</b>
-                <span class="history-item-sub">${b.date} · ${b.time}</span>
-              </div>
-            </div>
-            <div class="history-item-right">
-              <span class="history-item-price">${b.price}</span>
               <span class="history-status-pill ${b.statusClass}">${b.status}</span>
+            </div>
+            <div class="history-item-bottom">
+              <div class="history-item-fee">
+                <span class="history-fee-label">Total Fee</span>
+                <span class="history-item-price">${b.price}</span>
+              </div>
               <button type="button" class="history-rebook-btn" onclick="focusVenueCourt('${b.venueId}', 1)">
-                Rebook
+                <i data-lucide="rotate-ccw"></i> Rebook Court
               </button>
             </div>
           </div>
         `).join('')}
       </div>
+      <div class="history-pagination-bar">
+        <button type="button" class="history-page-btn" onclick="changeHistoryPage(-1)" ${historyPage === 1 ? 'disabled' : ''} aria-label="Previous history page">
+          <i data-lucide="chevron-left"></i> Previous
+        </button>
+        <span class="history-page-indicator">Page ${historyPage} of ${totalPages}</span>
+        <button type="button" class="history-page-btn" onclick="changeHistoryPage(1)" ${historyPage === totalPages ? 'disabled' : ''} aria-label="Next history page">
+          Next <i data-lucide="chevron-right"></i>
+        </button>
+      </div>
     `;
-    if (window.icons) icons();
+    if (typeof icons === 'function') icons();
+    else if (window.lucide) lucide.createIcons();
   }
+
+  window.changeHistoryPage = function(delta) {
+    historyPage += delta;
+    renderBookingHistoryPreview();
+  };
+
 
   // Render Section 13: Tips / Announcements
   function renderTipsAnnouncement() {
@@ -917,8 +983,11 @@
     if (typeof notify === 'function') notify(`Selected ${hour} slot · choose court to confirm`);
   };
 
+  // (2026-07-13) Rebook last navigates directly to previous booked venue page
   window.rebookLastCourt = function() {
-    if (typeof focusVenueCourt === 'function') {
+    if (typeof openVenueBooking === 'function') {
+      openVenueBooking('kapenarra', 1);
+    } else if (typeof focusVenueCourt === 'function') {
       focusVenueCourt('kapenarra', 1);
     }
     if (typeof notify === 'function') notify('Rebooking Kapenarra Courtside · Court 1');
